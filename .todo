@@ -1,0 +1,37 @@
+# Project TODO List for Health Systems Frameworks
+
+## Immediate Priorities
+- [x] Implement interactive SVG diagram for Control Knobs Framework
+- [x] Add hover and click interactions to framework nodes
+- [x] Control Knobs Framework data structure refinement
+- [ ] Create detailed knob exploration modal/overlay
+- [ ] Develop cross-framework connection logic
+- [ ] Add tooltip definitions for gauges (Efficiency, Quality, etc.)
+- [ ] Implement consistent colored borders and card styling across pages
+- [ ] Add nested financing sub-items (revenue collection & pooling sub-cards)
+
+## In Progress
+- [x] Basic Next.js project setup
+- [x] Initial framework routing
+
+## Technical Improvements
+- [ ] Implement comprehensive testing
+- [ ] Add error handling
+- [ ] Optimize performance
+- [ ] Enhance accessibility features
+
+## Future Enhancements
+- [ ] Develop WHO Building Blocks Framework page
+- [ ] Create Lancet Commission Framework visualization
+- [ ] Implement advanced search and filter capabilities
+- [ ] Add user interaction tracking
+
+## Research and Content
+- [ ] Gather detailed descriptions for each framework
+- [ ] Develop academic citations system
+- [ ] Create comparative analysis tools
+
+## Potential Challenges
+- [ ] Complex SVG interaction design
+- [ ] Performance optimization for interactive diagrams
+- [ ] Ensuring cross-browser compatibility
