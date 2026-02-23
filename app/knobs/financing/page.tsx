@@ -1,116 +1,183 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { Settings, Star, DoorOpen, Heart, Smile, Shield } from "lucide-react";
-import MetricCard from "@/components/MetricCard";
+import { AlertTriangle } from "lucide-react";
+import ControlKnobsDiagram from "@/components/ControlKnobsDiagram";
+import { METRIC_DESCRIPTIONS } from "@/data/metricDescriptions";
 import financingData from "@/data/financingData.json";
 
-type Scenario = (typeof financingData.scenarios)[number];
-
-const INTERMEDIATE_METRICS = [
-  { key: "efficiency", label: "Efficiency", icon: Settings },
-  { key: "quality", label: "Quality", icon: Star },
-  { key: "access", label: "Access", icon: DoorOpen },
-] as const;
-
-const GOAL_METRICS = [
-  { key: "health_status", label: "Health Status", icon: Heart },
-  { key: "customer_satisfaction", label: "Customer Satisfaction", icon: Smile },
-  { key: "risk_protection", label: "Risk Protection", icon: Shield },
-] as const;
-
-function getEffect(scenario: Scenario | null, key: string): string | null {
-  if (!scenario) return null;
-  const effects = scenario.intended_effects as unknown as Record<string, string>;
-  return effects[key] ?? null;
+interface Scenario {
+  id: string;
+  name: string;
+  description: string;
+  revenue_source?: string;
+  intended_effects: Record<string, string>;
+  systemic_risks: Record<string, string>;
 }
 
-function getRisk(scenario: Scenario | null, key: string): string | null {
-  if (!scenario) return null;
-  const risks = scenario.systemic_risks as unknown as Record<string, string>;
-  return risks[key] ?? null;
+interface FinancingData {
+  description: string;
+  revenue_generation_scenarios: Scenario[];
+  risk_pooling_scenarios: Scenario[];
+}
+
+const typedData = financingData as unknown as FinancingData;
+
+function formatMetricName(key: string): string {
+  return key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function stripWarningPrefix(text: string): string {
+  if (text.startsWith("Critical Warning: ")) return text.slice(18);
+  if (text.startsWith("Warning: ")) return text.slice(9);
+  return text;
 }
 
 export default function FinancingPage() {
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [activeMetric, setActiveMetric] = useState<string | null>(null);
 
   const activeScenario =
-    financingData.scenarios.find((s) => s.id === activeId) ?? null;
+    typedData.revenue_generation_scenarios.find((s) => s.id === activeId) ??
+    typedData.risk_pooling_scenarios.find((s) => s.id === activeId) ??
+    null;
+
+  const scenarioData = activeScenario
+    ? {
+        intended_effects: activeScenario.intended_effects,
+        systemic_risks: activeScenario.systemic_risks,
+      }
+    : null;
+
+  const handleMetricClick = (key: string) => {
+    setActiveMetric(activeMetric === key ? null : key);
+    setActiveId(null);
+  };
+
+  const handleScenarioClick = (id: string) => {
+    setActiveId(activeId === id ? null : id);
+    setActiveMetric(null);
+  };
+
+  const metric = activeMetric ? METRIC_DESCRIPTIONS[activeMetric] : null;
 
   return (
     <div>
-      <Link
-        href="/"
-        className="font-blueprint text-sm text-blue-600 hover:underline mb-6 inline-block"
-      >
-        &larr; Back to Control Knobs
-      </Link>
+      <ControlKnobsDiagram
+        activeKnob="financing"
+        activeScenario={scenarioData}
+        onMetricClick={handleMetricClick}
+        activeMetric={activeMetric}
+      />
 
-      <h1 className="font-blueprint text-2xl font-bold text-slate-900 mb-8">
-        Financing: Risk Pooling Scenarios
-      </h1>
+      {/* Description & Detail Panel */}
+      <div className="mt-6 border-2 border-blue-600 bg-white p-6">
+        <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-3 uppercase tracking-wider">
+          {metric ? metric.name : activeScenario ? activeScenario.name : "Health System Financing"}
+        </h2>
+        <p className="text-sm text-slate-700 leading-relaxed">
+          {metric ? metric.description : activeScenario ? activeScenario.description : typedData.description}
+        </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Left Column — Scenario Buttons */}
-        <div className="flex flex-col gap-3">
-          {financingData.scenarios.map((scenario) => (
+        {activeScenario && !metric && (
+          <div className="mt-4 pt-4 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Intended Effects */}
+            {Object.keys(activeScenario.intended_effects).length > 0 && (
+              <div>
+                <h3 className="font-blueprint text-xs font-bold text-blue-600 uppercase tracking-wider mb-2">
+                  Intended Effects
+                </h3>
+                <ul className="space-y-2">
+                  {Object.entries(activeScenario.intended_effects).map(([key, value]) => (
+                    <li key={key} className="flex items-start gap-2">
+                      <span className="shrink-0 mt-1.5 h-2 w-2 rounded-full bg-blue-500" />
+                      <span className="text-sm text-slate-700">
+                        <span className="font-semibold text-blue-700">
+                          {formatMetricName(key)}:
+                        </span>{" "}
+                        {value}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Systemic Risks */}
+            {Object.keys(activeScenario.systemic_risks).length > 0 && (
+              <div>
+                <h3 className="font-blueprint text-xs font-bold text-amber-600 uppercase tracking-wider mb-2">
+                  Systemic Risks
+                </h3>
+                <ul className="space-y-2">
+                  {Object.entries(activeScenario.systemic_risks).map(([key, value]) => (
+                    <li key={key} className="flex items-start gap-2">
+                      <AlertTriangle className="shrink-0 mt-0.5 h-4 w-4 text-amber-500" />
+                      <span className="text-sm text-slate-700">
+                        <span className="font-semibold text-amber-700">
+                          {formatMetricName(key)}:
+                        </span>{" "}
+                        {stripWarningPrefix(value)}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Revenue Generation Scenarios */}
+      <div className="mt-6 border-2 border-green-600 bg-white p-6">
+        <h2 className="font-blueprint text-sm font-bold text-green-600 mb-4 uppercase tracking-wider">
+          Financing: Revenue Generation
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {typedData.revenue_generation_scenarios.map((scenario) => (
             <button
               key={scenario.id}
-              onClick={() =>
-                setActiveId(activeId === scenario.id ? null : scenario.id)
-              }
+              onClick={() => handleScenarioClick(scenario.id)}
               className={`text-left px-4 py-3 rounded-sm transition-colors ${
                 activeId === scenario.id
-                  ? "border-2 border-blue-600 bg-blue-50"
-                  : "border border-slate-300 bg-white"
+                  ? "border-2 border-green-600 bg-green-50"
+                  : "border border-slate-300 bg-white hover:border-green-300"
               }`}
             >
               <div className="font-medium text-sm text-slate-900">
                 {scenario.name}
               </div>
-              <div className="text-xs text-slate-500 mt-1">
-                Revenue: {scenario.revenue_source}
-              </div>
             </button>
           ))}
         </div>
+      </div>
 
-        {/* Right Column — Sticky Dashboard */}
-        <div className="md:sticky md:top-8 self-start">
-          <div className="mb-6">
-            <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-3 uppercase tracking-wide">
-              Intermediate Performance Measures
-            </h2>
-            <div className="flex flex-col gap-3">
-              {INTERMEDIATE_METRICS.map((m) => (
-                <MetricCard
-                  key={m.key}
-                  label={m.label}
-                  icon={m.icon}
-                  activeEffect={getEffect(activeScenario, m.key)}
-                  riskWarning={getRisk(activeScenario, m.key)}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-3 uppercase tracking-wide">
-              Performance Goals
-            </h2>
-            <div className="flex flex-col gap-3">
-              {GOAL_METRICS.map((m) => (
-                <MetricCard
-                  key={m.key}
-                  label={m.label}
-                  icon={m.icon}
-                  activeEffect={getEffect(activeScenario, m.key)}
-                  riskWarning={getRisk(activeScenario, m.key)}
-                />
-              ))}
-            </div>
-          </div>
+      {/* Risk Pooling Scenarios */}
+      <div className="mt-6 border-2 border-green-600 bg-white p-6">
+        <h2 className="font-blueprint text-sm font-bold text-green-600 mb-4 uppercase tracking-wider">
+          Financing: Risk Pooling Scenarios
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {typedData.risk_pooling_scenarios.map((scenario) => (
+            <button
+              key={scenario.id}
+              onClick={() => handleScenarioClick(scenario.id)}
+              className={`text-left px-4 py-3 rounded-sm transition-colors ${
+                activeId === scenario.id
+                  ? "border-2 border-green-600 bg-green-50"
+                  : "border border-slate-300 bg-white hover:border-green-300"
+              }`}
+            >
+              <div className="font-medium text-sm text-slate-900">
+                {scenario.name}
+              </div>
+              {scenario.revenue_source && (
+                <div className="text-xs text-slate-500 mt-1">
+                  Revenue: {scenario.revenue_source}
+                </div>
+              )}
+            </button>
+          ))}
         </div>
       </div>
     </div>

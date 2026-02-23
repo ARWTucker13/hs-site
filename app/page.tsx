@@ -1,69 +1,53 @@
-import { Settings, Star, DoorOpen, Heart, Smile, Shield } from "lucide-react";
-import KnobLink from "@/components/KnobLink";
-import GaugeCard from "@/components/GaugeCard";
+"use client";
+
+import { useState } from "react";
+import ControlKnobsDiagram from "@/components/ControlKnobsDiagram";
+import { METRIC_DESCRIPTIONS } from "@/data/metricDescriptions";
 
 export default function Home() {
+  const [activeMetric, setActiveMetric] = useState<string | null>(null);
+
+  const handleMetricClick = (key: string) => {
+    setActiveMetric(activeMetric === key ? null : key);
+  };
+
+  const metric = activeMetric ? METRIC_DESCRIPTIONS[activeMetric] : null;
+
   return (
     <div>
-      {/* Title in bordered box */}
-      <div className="border-2 border-blue-600 bg-white px-6 py-3 mb-10 mx-auto w-fit">
-        <h1 className="font-blueprint text-xl font-bold text-blue-600 uppercase tracking-wider">
-          The Health System Control Knobs
-        </h1>
-      </div>
+      <ControlKnobsDiagram
+        onMetricClick={handleMetricClick}
+        activeMetric={activeMetric}
+      />
 
-      <div className="grid grid-cols-[auto_60px_1fr_60px_1fr] items-stretch">
-        {/* Column 1: Control Knobs panel */}
-        <div className="border-2 border-blue-600 bg-white p-5">
-          <h2 className="font-blueprint text-xs font-bold text-blue-600 mb-5 uppercase tracking-wider">
-            Control Knobs
-          </h2>
-          <div className="flex flex-col gap-5">
-            <KnobLink href="/knobs/financing" label="Financing" />
-            <KnobLink href="/knobs/payment" label="Payment" />
-            <KnobLink href="/knobs/organization" label="Organization" />
-            <KnobLink href="/knobs/regulation" label="Regulation" />
-            <KnobLink href="/knobs/behavior" label="Behavior" />
-          </div>
-        </div>
-
-        {/* Pipe connector 1: L-shaped going right then down */}
-        <div className="relative">
-          {/* Vertical pipe running full height at left edge */}
-          <div className="absolute left-0 top-[10%] bottom-[10%] w-3 bg-blue-600" />
-          {/* Horizontal pipe going right from middle */}
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 left-3 h-3 bg-blue-600" />
-        </div>
-
-        {/* Column 2: Intermediate Performance Measures panel */}
-        <div className="border-2 border-blue-600 bg-white p-5">
-          <h2 className="font-blueprint text-xs font-bold text-blue-600 mb-5 uppercase tracking-wider text-center">
-            Intermediate<br />Performance Measures
-          </h2>
-          <div className="flex flex-col gap-5">
-            <GaugeCard label="Efficiency" icon={Settings} />
-            <GaugeCard label="Quality" icon={Star} />
-            <GaugeCard label="Access" icon={DoorOpen} />
-          </div>
-        </div>
-
-        {/* Pipe connector 2: L-shaped going right then down */}
-        <div className="relative">
-          <div className="absolute left-0 top-[10%] bottom-[10%] w-3 bg-blue-600" />
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 left-3 h-3 bg-blue-600" />
-        </div>
-
-        {/* Column 3: Performance Goals panel */}
-        <div className="border-2 border-blue-600 bg-white p-5">
-          <h2 className="font-blueprint text-xs font-bold text-blue-600 mb-5 uppercase tracking-wider text-center">
-            Performance Goals
-          </h2>
-          <div className="flex flex-col gap-5">
-            <GaugeCard label="Health Status" icon={Heart} />
-            <GaugeCard label="Customer Satisfaction" icon={Smile} />
-            <GaugeCard label="Risk Protection" icon={Shield} />
-          </div>
-        </div>
+      <div className="mt-6 border-2 border-blue-600 bg-white p-6">
+        <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-3 uppercase tracking-wider">
+          {metric ? metric.name : "The Control Knobs Framework"}
+        </h2>
+        <p className="text-sm text-slate-700 leading-relaxed">
+          {metric ? (
+            metric.description
+          ) : (
+            <>
+              Health systems can be understood through five policy control
+              knobs that governments and institutions adjust to shape system
+              performance. Based on the &ldquo;Getting Health Reform
+              Right&rdquo; framework by Roberts, Hsiao, Berman, and Reich,
+              each knob represents a major lever of health policy&mdash;financing,
+              payment, organization, regulation, and persuasion &amp;
+              behavior&mdash;whose configuration drives measurable changes in
+              intermediate performance and ultimate population health goals.
+            </>
+          )}
+        </p>
+        {!metric && (
+          <p className="text-sm text-slate-700 leading-relaxed mt-3">
+            Click any control knob on the left to explore its policy scenarios
+            and see how different configurations affect system performance.
+            Click any performance measure or goal to learn what it represents
+            and how it is measured at the population level.
+          </p>
+        )}
       </div>
     </div>
   );

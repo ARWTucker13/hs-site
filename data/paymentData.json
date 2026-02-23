@@ -1,0 +1,108 @@
+{
+  "description": "Payment mechanisms determine how healthcare providers are compensated for delivering services. The method of payment creates powerful incentives that shape provider behavior — influencing what services are offered, how many are provided, and at what level of quality. Payment design is one of the most direct levers policymakers have to align provider behavior with health system goals.",
+  "provider_payment_scenarios": [
+    {
+      "id": "fee_for_service",
+      "name": "Fee-for-Service",
+      "description": "Providers are paid a set fee for each individual service, procedure, or visit they deliver. This is the most common payment method worldwide. It gives providers maximum autonomy and directly rewards productivity, but creates strong financial incentives to increase the volume of services regardless of whether they improve health outcomes.",
+      "intended_effects": {
+        "quality": "Medium-High (Providers invest in capability to deliver more billable services)",
+        "access": "High (Strong incentive to see more patients and offer more services)"
+      },
+      "systemic_risks": {
+        "efficiency": "Critical Warning: Drives volume over value. Providers are financially incentivized to over-treat, order unnecessary tests, and perform procedures of marginal benefit — the primary driver of healthcare cost inflation.",
+        "quality": "Warning: No financial reward for outcomes or coordination. Incentivizes fragmented, episodic care rather than holistic patient management."
+      }
+    },
+    {
+      "id": "capitation",
+      "name": "Capitation",
+      "description": "Providers receive a fixed payment per enrolled patient per time period, regardless of how many services that patient uses. This shifts financial risk from payers to providers and creates incentives to keep patients healthy and minimize unnecessary utilization.",
+      "intended_effects": {
+        "efficiency": "High (Strong incentive to minimize unnecessary services and focus on prevention)",
+        "risk_protection": "Medium-High (Predictable costs for payers and patients)"
+      },
+      "systemic_risks": {
+        "quality": "Warning: Financial incentive to under-treat. Providers may skimp on necessary services, avoid complex patients, or restrict referrals to specialists to stay within budget.",
+        "access": "Warning: Risk selection. Providers may prefer to enroll healthier patients and avoid those with chronic or complex conditions."
+      }
+    },
+    {
+      "id": "salary_budget",
+      "name": "Salary / Line-item Budget",
+      "description": "Providers receive a fixed salary or facilities receive a line-item budget allocation regardless of patient volume or outcomes. Common in public systems and academic medical centers. Eliminates volume incentives entirely but also removes most financial motivation to see patients efficiently.",
+      "intended_effects": {
+        "efficiency": "Medium (No incentive to over-provide services; predictable labor costs)",
+        "quality": "Medium (Providers can focus on patient needs without financial distortion)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: No incentive for productivity. Providers may see fewer patients, maintain long wait times, or operate below capacity.",
+        "customer_satisfaction": "Warning: Patient responsiveness suffers. Without volume-linked revenue, providers have weak incentives to accommodate patient preferences or reduce waiting times."
+      }
+    },
+    {
+      "id": "case_based",
+      "name": "Case-based / DRG Payment",
+      "description": "Providers receive a fixed payment per case or episode of care, categorized by Diagnosis-Related Groups (DRGs). The payment amount is predetermined based on the diagnosis, regardless of actual resources used. This incentivizes efficient treatment within each episode while maintaining volume incentives.",
+      "intended_effects": {
+        "efficiency": "High (Strong incentive to reduce per-case costs, shorten length of stay, and eliminate wasteful in-hospital spending)",
+        "quality": "Medium (Standardized payments encourage evidence-based protocols)"
+      },
+      "systemic_risks": {
+        "quality": "Warning: Incentive to discharge patients prematurely or skimp on in-hospital services to stay under the case payment, potentially leading to higher readmission rates.",
+        "access": "Warning: Providers may up-code diagnoses to receive higher payments, or avoid admitting complex cases that exceed the standard payment amount."
+      }
+    }
+  ],
+  "demand_side_scenarios": [
+    {
+      "id": "no_cost_sharing",
+      "name": "No Cost Sharing",
+      "description": "Patients face no out-of-pocket costs at the point of service. All costs are covered by the payer — government or insurer. This maximizes financial access but removes any price signal that might discourage unnecessary utilization.",
+      "intended_effects": {
+        "access": "Very High (Zero financial barrier to seeking care)",
+        "risk_protection": "Very High (Complete protection from direct healthcare costs)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: Moral hazard. Without any price signal, patients may over-utilize services, including low-value care, driving up system costs and straining capacity."
+      }
+    },
+    {
+      "id": "copayments",
+      "name": "Co-payments",
+      "description": "Patients pay a fixed monetary amount for each service — for example, $20 per doctor visit or $50 per emergency room use. The remainder is covered by insurance or the public system. Co-payments provide a modest price signal while keeping costs predictable for patients.",
+      "intended_effects": {
+        "efficiency": "Medium (Modest deterrent to frivolous utilization while keeping out-of-pocket costs predictable)"
+      },
+      "systemic_risks": {
+        "access": "Warning: Even small co-payments can deter low-income patients from seeking necessary care, particularly for chronic disease management and preventive services.",
+        "health_status": "Warning: Patients may delay or skip needed care to avoid co-payments, worsening outcomes for manageable conditions."
+      }
+    },
+    {
+      "id": "deductibles",
+      "name": "Deductibles",
+      "description": "Patients pay the full cost of care up to a specified annual threshold before insurance coverage begins. Deductibles create the strongest cost-consciousness among demand-side mechanisms but concentrate financial burden at the beginning of an illness episode.",
+      "intended_effects": {
+        "efficiency": "Medium-High (Strong incentive to avoid low-value care and shop for lower prices below the deductible threshold)"
+      },
+      "systemic_risks": {
+        "access": "Critical Warning: High deductibles function as a barrier to initial care-seeking. Patients may avoid or delay care — including preventive and diagnostic services — particularly in the early stages of potentially serious illness.",
+        "risk_protection": "Warning: Deductibles shift significant financial risk back to individuals, especially those with unpredictable healthcare needs."
+      }
+    },
+    {
+      "id": "reference_pricing",
+      "name": "Reference Pricing",
+      "description": "The insurer sets a maximum reimbursement amount (reference price) for a service or product. Patients may choose any provider but pay the difference if the provider's price exceeds the reference price. This preserves patient choice while creating incentives for price-conscious decisions.",
+      "intended_effects": {
+        "efficiency": "High (Creates direct price competition among providers for patient volume)",
+        "quality": "Medium (Providers must compete on both price and perceived quality)"
+      },
+      "systemic_risks": {
+        "access": "Warning: Patients in areas with limited provider options may have no affordable choice below the reference price, effectively creating a financial barrier.",
+        "quality": "Warning: Aggressive price competition may drive providers to cut costs at the expense of service quality or patient experience."
+      }
+    }
+  ]
+}

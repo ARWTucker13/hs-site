@@ -1,0 +1,151 @@
+"use client";
+
+import Link from "next/link";
+import { Settings, Star, DoorOpen, Heart, Smile, Shield } from "lucide-react";
+import KnobLink, { type KnobColor } from "./KnobLink";
+import GaugeCard from "./GaugeCard";
+
+interface ScenarioData {
+  intended_effects: Record<string, string>;
+  systemic_risks: Record<string, string>;
+}
+
+interface ControlKnobsDiagramProps {
+  activeKnob?: string;
+  activeScenario?: ScenarioData | null;
+  onMetricClick?: (metricKey: string) => void;
+  activeMetric?: string | null;
+}
+
+const KNOBS: { href: string; label: string; key: string; color: KnobColor }[] = [
+  { href: "/knobs/financing", label: "Financing", key: "financing", color: "green" },
+  { href: "/knobs/payment", label: "Payment", key: "payment", color: "purple" },
+  { href: "/knobs/organization", label: "Organization", key: "organization", color: "teal" },
+  { href: "/knobs/regulation", label: "Regulation", key: "regulation", color: "rose" },
+  { href: "/knobs/behavior", label: "Behavior", key: "behavior", color: "orange" },
+];
+
+const INTERMEDIATE_METRICS = [
+  { key: "efficiency", label: "Efficiency", icon: Settings },
+  { key: "quality", label: "Quality", icon: Star },
+  { key: "access", label: "Access", icon: DoorOpen },
+];
+
+const GOAL_METRICS = [
+  { key: "health_status", label: "Health Status", icon: Heart },
+  { key: "customer_satisfaction", label: "Customer Satisfaction", icon: Smile },
+  { key: "risk_protection", label: "Risk Protection", icon: Shield },
+];
+
+function getEffect(scenario: ScenarioData | null | undefined, key: string): string | null {
+  if (!scenario) return null;
+  return scenario.intended_effects[key] ?? null;
+}
+
+function getRisk(scenario: ScenarioData | null | undefined, key: string): string | null {
+  if (!scenario) return null;
+  return scenario.systemic_risks[key] ?? null;
+}
+
+export default function ControlKnobsDiagram({
+  activeKnob,
+  activeScenario,
+  onMetricClick,
+  activeMetric,
+}: ControlKnobsDiagramProps) {
+  const hasScenario = activeScenario != null;
+
+  return (
+    <div>
+      {/* Title in bordered box */}
+      <div className="border-2 border-blue-600 bg-white px-6 py-3 mb-10 mx-auto w-fit">
+        {activeKnob ? (
+          <Link href="/" className="flex items-center gap-3 group">
+            <span className="font-blueprint text-xs font-bold text-blue-400 uppercase tracking-wider group-hover:text-blue-600 transition-colors">
+              &larr; Overview
+            </span>
+            <h1 className="font-blueprint text-xl font-bold text-blue-600 uppercase tracking-wider">
+              The Health System Control Knobs
+            </h1>
+          </Link>
+        ) : (
+          <h1 className="font-blueprint text-xl font-bold text-blue-600 uppercase tracking-wider">
+            The Health System Control Knobs
+          </h1>
+        )}
+      </div>
+
+      <div className="grid grid-cols-[auto_60px_1fr_60px_1fr] items-stretch">
+        {/* Column 1: Control Knobs panel */}
+        <div className="border-2 border-blue-600 bg-white p-5 flex flex-col">
+          <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-5 uppercase tracking-wider">
+            Control Knobs
+          </h2>
+          <div className="flex flex-col gap-5">
+            {KNOBS.map((knob) => (
+              <KnobLink
+                key={knob.key}
+                href={knob.href}
+                label={knob.label}
+                active={activeKnob === knob.key}
+                color={knob.color}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Pipe connector 1 */}
+        <div className="relative">
+          <div className="absolute left-0 top-[10%] bottom-[10%] w-3 bg-blue-600" />
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 left-3 h-3 bg-blue-600" />
+        </div>
+
+        {/* Column 2: Intermediate Performance Measures panel */}
+        <div className="border-2 border-blue-600 bg-white p-5 flex flex-col">
+          <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-5 uppercase tracking-wider text-center">
+            Intermediate<br />Performance Measures
+          </h2>
+          <div className="flex flex-col gap-3 flex-1">
+            {INTERMEDIATE_METRICS.map((m) => (
+              <GaugeCard
+                key={m.key}
+                label={m.label}
+                icon={m.icon}
+                activeEffect={hasScenario ? getEffect(activeScenario, m.key) : null}
+                riskWarning={hasScenario ? getRisk(activeScenario, m.key) : null}
+                onClick={onMetricClick ? () => onMetricClick(m.key) : undefined}
+                selected={activeMetric === m.key}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Pipe connector 2 */}
+        <div className="relative">
+          <div className="absolute left-0 top-[10%] bottom-[10%] w-3 bg-blue-600" />
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 left-3 h-3 bg-blue-600" />
+        </div>
+
+        {/* Column 3: Performance Goals panel */}
+        <div className="border-2 border-blue-600 bg-white p-5 flex flex-col">
+          <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-5 uppercase tracking-wider text-center">
+            Performance Goals
+          </h2>
+          <div className="flex flex-col gap-3 flex-1">
+            {GOAL_METRICS.map((m) => (
+              <GaugeCard
+                key={m.key}
+                label={m.label}
+                icon={m.icon}
+                activeEffect={hasScenario ? getEffect(activeScenario, m.key) : null}
+                riskWarning={hasScenario ? getRisk(activeScenario, m.key) : null}
+                onClick={onMetricClick ? () => onMetricClick(m.key) : undefined}
+                selected={activeMetric === m.key}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

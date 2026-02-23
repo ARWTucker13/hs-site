@@ -1,0 +1,111 @@
+{
+  "description": "Regulation encompasses the rules, standards, and enforcement mechanisms that governments use to shape healthcare market behavior. Effective regulation corrects market failures — information asymmetry, externalities, and natural monopolies — that prevent healthcare markets from functioning efficiently on their own. Regulatory design must balance protecting patients and ensuring quality against the costs of compliance and the risk of stifling innovation.",
+  "quality_safety_scenarios": [
+    {
+      "id": "licensure",
+      "name": "Licensure & Credentialing",
+      "description": "Government requires providers to meet minimum educational and competency standards before practicing. Medical schools must be accredited, physicians must pass examinations, and facilities must meet basic safety requirements. This is the most fundamental form of quality regulation — establishing a floor below which no provider may operate.",
+      "intended_effects": {
+        "quality": "High (Ensures minimum competency standards for all practicing providers)",
+        "risk_protection": "Medium-High (Patients are protected from unqualified practitioners)"
+      },
+      "systemic_risks": {
+        "access": "Warning: Stringent licensure requirements can restrict the supply of providers, particularly in rural and underserved areas where training programs are scarce.",
+        "efficiency": "Warning: Licensing processes can be slow, creating bottlenecks in workforce entry and limiting the system's ability to respond to surges in demand."
+      }
+    },
+    {
+      "id": "accreditation",
+      "name": "Facility Accreditation",
+      "description": "Independent bodies evaluate healthcare facilities against defined standards for infrastructure, processes, staffing, and outcomes. Accreditation may be voluntary or mandatory, and can be tied to eligibility for public funding or insurance reimbursement. It provides a structured, periodic assessment of organizational quality.",
+      "intended_effects": {
+        "quality": "High (Systematic standards drive continuous improvement in facility operations and clinical processes)",
+        "efficiency": "Medium (Standardized processes reduce variation and waste)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: Accreditation preparation and compliance consume significant administrative resources. Smaller facilities may struggle with the documentation burden.",
+        "access": "Warning: Facilities that cannot meet or afford accreditation standards may close, reducing access in areas where they are the only available provider."
+      }
+    },
+    {
+      "id": "clinical_standards",
+      "name": "Clinical Practice Standards",
+      "description": "Government or professional bodies establish evidence-based guidelines for the diagnosis and treatment of specific conditions. These may be advisory or mandatory, and can be linked to reimbursement, provider performance evaluation, or legal standards of care. They aim to reduce unwarranted variation in clinical practice.",
+      "intended_effects": {
+        "quality": "High (Evidence-based standards reduce harmful variation and promote best practices)",
+        "efficiency": "Medium-High (Standardized treatment protocols reduce unnecessary testing and procedures)"
+      },
+      "systemic_risks": {
+        "quality": "Warning: Guidelines may become outdated or may not account for individual patient complexity. Rigid adherence can lead to 'cookbook medicine' that ignores clinical judgment.",
+        "customer_satisfaction": "Warning: Patients may perceive standardized care as impersonal or feel their preferences are not considered when providers follow protocols rigidly."
+      }
+    },
+    {
+      "id": "malpractice",
+      "name": "Malpractice & Liability",
+      "description": "The legal system holds providers accountable for negligent care through malpractice litigation. Patients harmed by medical errors can seek compensation, creating financial incentives for providers to meet standards of care. This tort-based approach relies on after-the-fact accountability rather than proactive regulation.",
+      "intended_effects": {
+        "quality": "Medium-High (Fear of litigation motivates adherence to standards of care and thorough documentation)",
+        "risk_protection": "Medium (Provides a compensation mechanism for patients harmed by negligent care)"
+      },
+      "systemic_risks": {
+        "efficiency": "Critical Warning: Defensive medicine. Fear of lawsuits drives providers to order excessive tests, imaging, and consultations — not because they are clinically necessary, but to create a legal paper trail. This is a major driver of unnecessary healthcare spending.",
+        "access": "Warning: High malpractice premiums drive providers away from high-risk specialties (obstetrics, surgery) and away from high-risk patient populations, reducing access to essential services."
+      }
+    }
+  ],
+  "market_price_scenarios": [
+    {
+      "id": "rate_setting",
+      "name": "Rate Setting / Price Controls",
+      "description": "Government directly sets or constrains the prices that providers can charge or insurers can reimburse for specific services. Price controls can be applied at the facility level (hospital rate setting), the service level (fee schedules), or the product level (pharmaceutical pricing). This is the most direct mechanism for controlling healthcare cost growth.",
+      "intended_effects": {
+        "efficiency": "High (Directly constrains price inflation and controls total healthcare expenditure)",
+        "risk_protection": "High (Limits exposure to price gouging and surprise billing)"
+      },
+      "systemic_risks": {
+        "quality": "Warning: If rates are set too low, providers may reduce service quality, limit investment in new technology, or shift capacity away from price-controlled services.",
+        "access": "Warning: Below-cost reimbursement rates may cause providers to exit certain markets or stop accepting regulated payers, reducing access for affected populations."
+      }
+    },
+    {
+      "id": "certificate_of_need",
+      "name": "Certificate of Need",
+      "description": "Providers must obtain government approval before building new facilities, expanding capacity, or acquiring major equipment. This supply-side regulation aims to prevent costly duplication of healthcare resources and ensure that new capacity is directed toward population needs rather than provider profit motives.",
+      "intended_effects": {
+        "efficiency": "Medium-High (Prevents wasteful duplication of expensive facilities and equipment)",
+        "access": "Medium (Can direct new capacity toward underserved areas)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: Incumbent providers may use certificate-of-need processes to block competition, protecting market power at the expense of innovation and consumer choice.",
+        "access": "Warning: Bureaucratic approval processes can delay needed capacity expansion, leaving communities with inadequate services during periods of population growth."
+      }
+    },
+    {
+      "id": "insurance_regulation",
+      "name": "Insurance Market Regulation",
+      "description": "Government sets rules for how health insurers operate — including mandated benefits, community rating (prohibiting price discrimination by health status), guaranteed issue (requiring insurers to accept all applicants), and minimum loss ratios (requiring a minimum percentage of premiums be spent on care). These rules address fundamental market failures in health insurance.",
+      "intended_effects": {
+        "risk_protection": "High (Community rating and guaranteed issue protect vulnerable populations from exclusion)",
+        "access": "High (Mandated benefits ensure coverage of essential services)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: Mandated benefits and community rating increase premium costs, potentially pricing healthy or young individuals out of the market and reducing the overall risk pool.",
+        "risk_protection": "Warning: Overly prescriptive regulation may drive insurers out of the market, reducing competition and consumer choice in coverage options."
+      }
+    },
+    {
+      "id": "pharmaceutical_regulation",
+      "name": "Pharmaceutical Regulation",
+      "description": "Government regulates the approval, pricing, marketing, and distribution of drugs and medical devices. This includes pre-market safety review, post-market surveillance, price negotiations or controls, formulary management, and restrictions on direct-to-consumer advertising. Pharmaceutical regulation must balance access to innovation against safety, affordability, and evidence-based prescribing.",
+      "intended_effects": {
+        "quality": "High (Pre-market safety review and post-market surveillance protect patients from unsafe or ineffective products)",
+        "efficiency": "Medium-High (Price negotiations and formulary management control pharmaceutical spending)"
+      },
+      "systemic_risks": {
+        "access": "Warning: Lengthy approval processes can delay patient access to life-saving treatments. Price controls may reduce pharmaceutical company investment in research for treatments targeting smaller patient populations.",
+        "quality": "Warning: Rigid formularies may limit physician prescribing flexibility and prevent patients from accessing the most appropriate treatment for their specific condition."
+      }
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "description": "Organization refers to how the institutions that deliver healthcare are structured, owned, and governed. Organizational design determines the relationships between hospitals, clinics, physicians, and other providers — shaping whether they compete or collaborate, whether they are publicly accountable or market-driven, and how resources flow through the system. These structural choices profoundly influence efficiency, quality, and the distribution of care across populations.",
+  "delivery_structure_scenarios": [
+    {
+      "id": "public_integrated",
+      "name": "Public Integrated System",
+      "description": "The government owns hospitals, employs physicians, and manages the entire delivery chain. This model — seen in the UK's NHS and many low-income country public sectors — enables centralized planning and resource allocation but can suffer from bureaucratic rigidity and limited responsiveness to patient preferences.",
+      "intended_effects": {
+        "access": "High (Universal geographic coverage through planned facility placement)",
+        "efficiency": "Medium-High (Central coordination eliminates duplication and enables bulk purchasing)"
+      },
+      "systemic_risks": {
+        "customer_satisfaction": "Warning: Bureaucratic management often leads to long wait times, limited provider choice, and slow adoption of patient-centered innovations.",
+        "quality": "Warning: Without competitive pressure, public facilities may underinvest in staff training, equipment modernization, and service quality improvements."
+      }
+    },
+    {
+      "id": "private_market",
+      "name": "Private Competitive Market",
+      "description": "Healthcare delivery is organized through independent private providers — hospitals, clinics, and solo practitioners — competing for patients in an open market. Market forces drive innovation and responsiveness but can lead to fragmentation, duplication, and geographic concentration in profitable urban areas.",
+      "intended_effects": {
+        "quality": "High (Competition drives investment in technology, amenities, and clinical excellence to attract patients)",
+        "customer_satisfaction": "High (Providers must respond to patient preferences to maintain market share)"
+      },
+      "systemic_risks": {
+        "access": "Critical Warning: Private providers concentrate in wealthy urban areas where patients can pay. Rural, low-income, and unprofitable patient populations are systematically underserved.",
+        "efficiency": "Warning: Market fragmentation leads to duplicated infrastructure, administrative overhead from multiple billing systems, and inability to coordinate care across providers."
+      }
+    },
+    {
+      "id": "managed_competition",
+      "name": "Managed Competition",
+      "description": "Organized delivery systems (such as HMOs or accountable care organizations) compete for enrollees on the basis of price and quality, within a regulatory framework that sets rules for fair competition. This attempts to harness market incentives while preventing market failures through structured oversight.",
+      "intended_effects": {
+        "efficiency": "High (Integrated delivery systems can coordinate care, reduce waste, and negotiate favorable input prices)",
+        "quality": "Medium-High (Quality metrics and public reporting create accountability)"
+      },
+      "systemic_risks": {
+        "access": "Warning: Competing systems may restrict provider networks, limiting patient choice and creating barriers to out-of-network care.",
+        "efficiency": "Warning: Regulatory overhead from maintaining competition rules, quality measurement systems, and risk adjustment can be substantial."
+      }
+    },
+    {
+      "id": "public_private_partnership",
+      "name": "Public-Private Partnership",
+      "description": "Government and private entities share ownership, financing, or operational responsibilities for healthcare delivery. Common arrangements include private management of public hospitals, government contracting with private providers, or joint ventures for specialized services. These partnerships attempt to combine public accountability with private efficiency.",
+      "intended_effects": {
+        "efficiency": "Medium-High (Private management practices can improve operational performance of public assets)",
+        "quality": "Medium-High (Private sector brings innovation and management expertise while public oversight maintains standards)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: Complex contracting and oversight requirements can create high transaction costs. Misaligned incentives between public and private partners may lead to disputes and service disruption.",
+        "access": "Warning: Private partners may prioritize profitable services over essential but low-margin care, shifting the burden of unprofitable services back to the public sector."
+      }
+    }
+  ],
+  "facility_governance_scenarios": [
+    {
+      "id": "autonomous_public",
+      "name": "Autonomous Public Hospitals",
+      "description": "Publicly owned hospitals are granted operational autonomy — control over staffing, budgets, and service decisions — while remaining publicly accountable. This model attempts to combine the efficiency benefits of decentralized management with continued public ownership and social mission.",
+      "intended_effects": {
+        "efficiency": "Medium-High (Operational autonomy allows faster decision-making and local adaptation)",
+        "quality": "Medium (Freedom to recruit and incentivize staff based on local needs)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: Autonomy without adequate oversight can lead to financial mismanagement, corruption, or mission drift away from serving vulnerable populations.",
+        "access": "Warning: Autonomous hospitals may shift toward profitable services and patient populations, reducing availability of essential but low-revenue services."
+      }
+    },
+    {
+      "id": "private_for_profit",
+      "name": "Private For-Profit Hospitals",
+      "description": "Investor-owned hospitals operate to generate returns for shareholders. Profit motivation drives efficiency and responsiveness to paying patients but creates inherent tension with the social mission of healthcare — particularly regarding uncompensated care and investment in community health needs.",
+      "intended_effects": {
+        "efficiency": "High (Profit motive drives aggressive cost management, lean operations, and capital discipline)",
+        "customer_satisfaction": "High (Investment in patient experience to attract and retain paying customers)"
+      },
+      "systemic_risks": {
+        "access": "Critical Warning: For-profit hospitals systematically avoid unprofitable patients, close money-losing service lines, and locate away from underserved communities. Uncompensated care is minimized.",
+        "quality": "Warning: Pressure to maximize margins may lead to understaffing, shorter patient interactions, and preference for high-revenue procedures over medically optimal treatment."
+      }
+    },
+    {
+      "id": "not_for_profit",
+      "name": "Not-for-Profit / Mission-driven",
+      "description": "Hospitals and health systems organized as non-profit entities or NGOs reinvest surplus into their mission rather than distributing profits. This model is common in the United States (non-profit hospitals), faith-based organizations, and international NGOs operating in low-income settings.",
+      "intended_effects": {
+        "access": "High (Mission-driven orientation often prioritizes underserved populations and community benefit)",
+        "quality": "Medium-High (Surplus reinvested in clinical programs, education, and community health)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: Without profit discipline, non-profit hospitals may tolerate operational inefficiency, accumulate excessive reserves, or expand beyond community needs.",
+        "customer_satisfaction": "Warning: Non-profit governance can be insular and unresponsive to patient preferences, particularly when boards lack community representation."
+      }
+    },
+    {
+      "id": "decentralized_district",
+      "name": "Decentralized / District Health System",
+      "description": "Healthcare management and resource allocation are delegated to local or district-level governments. Each district operates a network of primary care centers, referral hospitals, and community health services tailored to local population needs. This model is widely promoted in low- and middle-income countries.",
+      "intended_effects": {
+        "access": "High (Local management enables tailored service delivery matched to community health priorities)",
+        "efficiency": "Medium (Local decision-making can reduce bureaucratic delays and allocate resources to local priorities)"
+      },
+      "systemic_risks": {
+        "quality": "Warning: District-level capacity varies enormously. Poorly resourced or poorly managed districts may deliver substandard care, creating geographic inequity.",
+        "efficiency": "Warning: Decentralization can fragment procurement, weaken bargaining power, and duplicate administrative functions across districts."
+      }
+    }
+  ]
+}

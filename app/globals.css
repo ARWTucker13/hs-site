@@ -18,3 +18,8 @@ body {
 .font-blueprint {
   font-family: var(--font-blueprint);
 }
+
+@keyframes indicatorPulse {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.3; }
+}

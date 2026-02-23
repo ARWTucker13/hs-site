@@ -1,9 +1,64 @@
 {
-  "scenarios": [
+  "description": "Health system financing is the process by which revenues are generated and pooled to pay for health services. Revenue generation determines where money comes from — taxes, insurance premiums, out-of-pocket payments, or external aid. Risk pooling determines how those funds are aggregated so that the financial risk of healthcare costs is shared across a population rather than borne by individuals at the moment of illness. The choice of financing mechanism fundamentally shapes who has access to care, how much financial protection people receive, and what incentives providers face.",
+  "revenue_generation_scenarios": [
+    {
+      "id": "general_taxation",
+      "name": "General Taxation",
+      "description": "Revenue is collected through income taxes, sales/VAT taxes, property taxes, and other levies. The government then allocates a portion of the general tax pool to the health sector. This is the broadest possible revenue base — every taxpayer contributes regardless of health status or utilization — but health must compete with all other public priorities for its share.",
+      "intended_effects": {
+        "efficiency": "High (Single, broad-based collection mechanism with low marginal collection costs)",
+        "access": "High (Revenue base spans the entire tax-paying population, enabling universal allocation)"
+      },
+      "systemic_risks": {
+        "quality": "Warning: Health budgets compete with defense, education, and infrastructure for allocation. Political cycles can cause unpredictable funding swings.",
+        "efficiency": "Warning: Tax revenue allocation is politically driven rather than need-driven. Bureaucratic processes can be slow to respond to changing health priorities."
+      }
+    },
+    {
+      "id": "insurance_premiums",
+      "name": "Insurance Premiums",
+      "description": "Revenue is generated through premium contributions paid by individuals, employers, or both. Premiums may be mandatory (as in Social Health Insurance) or voluntary (as in private markets). This creates an earmarked funding stream dedicated specifically to health, insulating it from general budget politics, but ties coverage to employment or the ability to pay.",
+      "intended_effects": {
+        "risk_protection": "High (Earmarked health revenue creates a dedicated funding stream insulated from general budget politics)",
+        "efficiency": "Medium-High (Direct link between contribution and entitlement creates accountability)"
+      },
+      "systemic_risks": {
+        "access": "Warning: Revenue tied to employment or ability to pay premiums. Informal workers, unemployed, and low-income populations may be excluded from the revenue base.",
+        "efficiency": "Warning: Premium collection infrastructure requires administrative investment. Multiple insurers multiply collection overhead."
+      }
+    },
+    {
+      "id": "oop_revenue",
+      "name": "Out-of-Pocket Payments",
+      "description": "Revenue is generated directly from patients at the point of service — through fees, co-pays, deductibles, or full direct payment. There is no intermediary and no collection infrastructure. While this eliminates administrative overhead, it means revenue generation and healthcare consumption are simultaneous, providing no financial buffer against unpredictable health costs.",
+      "intended_effects": {
+        "efficiency": "Medium (Zero collection overhead — revenue is generated at the moment of service delivery)"
+      },
+      "systemic_risks": {
+        "risk_protection": "Critical Warning: No cross-subsidization between healthy and sick. Revenue generation and consumption are simultaneous — there is no buffer against catastrophic costs.",
+        "access": "Critical Warning: Revenue depends entirely on individual ability to pay. Those who cannot pay generate no revenue and receive no care.",
+        "health_status": "Warning: Patients may delay or forgo care to avoid costs, reducing early intervention and worsening population health outcomes."
+      }
+    },
+    {
+      "id": "external_aid",
+      "name": "External Aid / Donor Funding",
+      "description": "Revenue comes from international organizations, bilateral aid agreements, NGOs, and global health initiatives such as the Global Fund or GAVI. This funding fills critical gaps in domestic revenue capacity, particularly in low-income countries, but is inherently dependent on external priorities and geopolitical relationships rather than local health needs.",
+      "intended_effects": {
+        "access": "Medium (Fills critical funding gaps, particularly for infectious disease programs, maternal health, and emergency response)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: Donor priorities may not align with local health system needs. Parallel reporting requirements and project-based funding create administrative fragmentation.",
+        "risk_protection": "Critical Warning: Fundamentally unsustainable as a primary revenue source. Funding can be redirected or withdrawn based on geopolitical shifts, leaving health systems without a stable financial foundation."
+      }
+    }
+  ],
+  "risk_pooling_scenarios": [
     {
       "id": "out_of_pocket",
       "name": "Out-of-Pocket (No Pooling)",
       "revenue_source": "Individual Patients",
+      "description": "Under out-of-pocket financing, individuals pay the full cost of medical care directly at the point of service. This includes paying medical bills for full services, co-pays, or health insurance deductibles before coverage by other risk pooling mechanisms. While administratively simple, it provides zero risk pooling — each person bears their own financial risk entirely.",
       "intended_effects": {
         "efficiency": "High (Zero administrative overhead for pooling)"
       },
@@ -17,6 +72,7 @@
       "id": "private_insurance",
       "name": "Private/Voluntary Insurance",
       "revenue_source": "Individual or Employer Premiums",
+      "description": "Private voluntary insurance operates through premium-based coverage purchased by individuals or provided by employers. Insurers collect premiums and pool those funds to cover members' healthcare costs. Coverage varies widely by plan. Competition between insurers can drive service innovation, but market incentives also encourage risk selection — cherry-picking healthy enrollees.",
       "intended_effects": {
         "efficiency": "Medium-High (Market competition can drive down specific service costs)",
         "quality": "High (Incentivizes premium networks and high-end capital investment)"
@@ -30,6 +86,7 @@
       "id": "social_health_insurance",
       "name": "Social Health Insurance (SHI)",
       "revenue_source": "Mandatory Payroll Contributions",
+      "description": "Social Health Insurance (SHI) is a mandatory system where employees and employers contribute a percentage of payroll to sickness funds. These funds provide a defined benefits package to all contributors. SHI achieves deep risk pooling across the formal workforce and typically ensures stable, predictable funding for provider networks. However, populations outside formal employment may fall through the gaps.",
       "intended_effects": {
         "risk_protection": "High (Deep risk pooling for the formal workforce)",
         "access": "High (Guaranteed benefits package for enrollees, often covering complex procedures like transplants)",
@@ -44,6 +101,7 @@
       "id": "single_payer",
       "name": "Single-Payer / National Health Service",
       "revenue_source": "General Taxation",
+      "description": "In a single-payer or National Health Service model, healthcare is funded through general taxation and administered by a single public entity. This achieves the broadest possible risk pool — the entire national population. The single payer has enormous bargaining power to negotiate prices with providers and pharmaceutical companies. Universal coverage is guaranteed by law, though service delivery may face capacity constraints.",
       "intended_effects": {
         "risk_protection": "Very High (Universal shield against healthcare costs)",
         "access": "Very High (Universal entry into the system)",
@@ -58,6 +116,7 @@
       "id": "cbhi",
       "name": "Community-Based Health Insurance",
       "revenue_source": "Voluntary Local Contributions",
+      "description": "Community-Based Health Insurance (CBHI) relies on voluntary contributions pooled at the local community level. It extends coverage to rural and informal-sector populations excluded from formal insurance schemes. While CBHI can improve access to basic primary care, its small risk pool makes it inherently fragile — unable to absorb the cost of catastrophic or complex medical events.",
       "intended_effects": {
         "access": "Medium (Reaches rural or informal populations ignored by private/SHI markets)"
       },
