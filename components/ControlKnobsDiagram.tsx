@@ -58,30 +58,30 @@ export default function ControlKnobsDiagram({
   return (
     <div>
       {/* Title in bordered box */}
-      <div className="border-2 border-blue-600 bg-white px-6 py-3 mb-10 mx-auto w-fit">
+      <div className="border-2 border-blue-600 bg-white px-3 py-2 mb-6 sm:px-6 sm:py-3 sm:mb-10 mx-auto w-fit">
         {activeKnob ? (
           <Link href="/" className="flex items-center gap-3 group">
             <span className="font-blueprint text-xs font-bold text-blue-400 uppercase tracking-wider group-hover:text-blue-600 transition-colors">
               &larr; Overview
             </span>
-            <h1 className="font-blueprint text-xl font-bold text-blue-600 uppercase tracking-wider">
+            <h1 className="font-blueprint text-base sm:text-xl font-bold text-blue-600 uppercase tracking-wider">
               The Health System Control Knobs
             </h1>
           </Link>
         ) : (
-          <h1 className="font-blueprint text-xl font-bold text-blue-600 uppercase tracking-wider">
+          <h1 className="font-blueprint text-base sm:text-xl font-bold text-blue-600 uppercase tracking-wider">
             The Health System Control Knobs
           </h1>
         )}
       </div>
 
-      <div className="grid grid-cols-[auto_60px_1fr_60px_1fr] items-stretch">
+      <div className="flex flex-col gap-4 lg:grid lg:grid-cols-[auto_60px_1fr_60px_1fr] lg:gap-0 lg:items-stretch">
         {/* Column 1: Control Knobs panel */}
-        <div className="border-2 border-blue-600 bg-white p-5 flex flex-col">
-          <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-5 uppercase tracking-wider">
+        <div className="border-2 border-blue-600 bg-white p-3 sm:p-5 flex flex-col">
+          <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-5 uppercase tracking-wider hidden lg:block">
             Control Knobs
           </h2>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-row flex-wrap justify-center gap-3 lg:flex-col lg:gap-5 overflow-x-auto">
             {KNOBS.map((knob) => (
               <KnobLink
                 key={knob.key}
@@ -94,14 +94,19 @@ export default function ControlKnobsDiagram({
           </div>
         </div>
 
+        {/* Mobile flow indicator */}
+        <div className="flex justify-center lg:hidden">
+          <div className="w-3 h-6 bg-blue-600 rounded-sm" />
+        </div>
+
         {/* Pipe connector 1 */}
-        <div className="relative">
+        <div className="hidden lg:block lg:relative">
           <div className="absolute left-0 top-[10%] bottom-[10%] w-3 bg-blue-600" />
           <div className="absolute right-0 top-1/2 -translate-y-1/2 left-3 h-3 bg-blue-600" />
         </div>
 
         {/* Column 2: Intermediate Performance Measures panel */}
-        <div className="border-2 border-blue-600 bg-white p-5 flex flex-col">
+        <div className="border-2 border-blue-600 bg-white p-3 sm:p-5 flex flex-col">
           <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-5 uppercase tracking-wider text-center">
             Intermediate<br />Performance Measures
           </h2>
@@ -120,14 +125,19 @@ export default function ControlKnobsDiagram({
           </div>
         </div>
 
+        {/* Mobile flow indicator */}
+        <div className="flex justify-center lg:hidden">
+          <div className="w-3 h-6 bg-blue-600 rounded-sm" />
+        </div>
+
         {/* Pipe connector 2 */}
-        <div className="relative">
+        <div className="hidden lg:block lg:relative">
           <div className="absolute left-0 top-[10%] bottom-[10%] w-3 bg-blue-600" />
           <div className="absolute right-0 top-1/2 -translate-y-1/2 left-3 h-3 bg-blue-600" />
         </div>
 
         {/* Column 3: Performance Goals panel */}
-        <div className="border-2 border-blue-600 bg-white p-5 flex flex-col">
+        <div className="border-2 border-blue-600 bg-white p-3 sm:p-5 flex flex-col">
           <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-5 uppercase tracking-wider text-center">
             Performance Goals
           </h2>

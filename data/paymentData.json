@@ -6,7 +6,7 @@
       "name": "Fee-for-Service",
       "description": "Providers are paid a set fee for each individual service, procedure, or visit they deliver. This is the most common payment method worldwide. It gives providers maximum autonomy and directly rewards productivity, but creates strong financial incentives to increase the volume of services regardless of whether they improve health outcomes.",
       "intended_effects": {
-        "quality": "Medium-High (Providers invest in capability to deliver more billable services)",
+        "quality": "Medium (Providers invest in capability to deliver more billable services, but procedure selection is driven by revenue rather than clinical appropriateness)",
         "access": "High (Strong incentive to see more patients and offer more services)"
       },
       "systemic_risks": {
@@ -50,7 +50,33 @@
       },
       "systemic_risks": {
         "quality": "Warning: Incentive to discharge patients prematurely or skimp on in-hospital services to stay under the case payment, potentially leading to higher readmission rates.",
-        "access": "Warning: Providers may up-code diagnoses to receive higher payments, or avoid admitting complex cases that exceed the standard payment amount."
+        "access": "Critical Warning: Upcoding is pervasive — hospitals systematically reclassify patients to higher-paying diagnosis codes, with an estimated $330–$425M in excess annual reimbursement. Response is strongest among for-profit hospitals. Complex cases may also be avoided when they exceed the standard payment amount."
+      }
+    },
+    {
+      "id": "global_budget",
+      "name": "Global Budget",
+      "description": "A provider or health system receives a prospectively fixed total budget to cover all services for a defined population over a set period. Unlike line-item budgets that control inputs, global budgets give providers flexibility in how they allocate resources internally while capping total expenditure. This is the primary cost containment tool in Canada, Taiwan, Germany's hospital sector, and Maryland's all-payer model.",
+      "intended_effects": {
+        "efficiency": "High (Hard expenditure ceiling directly constrains cost growth — the most effective macro-level cost containment mechanism available)",
+        "risk_protection": "Medium-High (Predictable system-wide spending protects payers and governments from uncontrolled cost inflation)"
+      },
+      "systemic_risks": {
+        "access": "Warning: Fixed budgets create incentives to limit services as the budget period progresses. Wait times may increase, particularly for elective procedures, as providers ration within the cap.",
+        "quality": "Warning: If budget levels are set too low or fail to keep pace with population needs, providers may underinvest in staffing, equipment, and new technologies. Innovation adoption may slow."
+      }
+    },
+    {
+      "id": "bundled_payment",
+      "name": "Bundled / Episode-Based Payment",
+      "description": "A single payment covers all services delivered by multiple providers across a complete episode of care — for example, from pre-operative assessment through surgery and 90-day post-discharge recovery. This extends DRG logic beyond hospital walls, creating shared financial accountability across settings and incentivizing providers to coordinate care and reduce complications.",
+      "intended_effects": {
+        "efficiency": "High (Single payment for the full episode eliminates incentives for unnecessary services at any point in the care pathway)",
+        "quality": "Medium-High (Providers share financial risk for complications and readmissions, creating incentives to get it right the first time)"
+      },
+      "systemic_risks": {
+        "quality": "Warning: Providers may cut corners on post-acute care or rehabilitation to stay within the bundle price, shifting costs to patients or downstream providers.",
+        "access": "Warning: Complex patients with multiple comorbidities may be avoided because their episodes are more expensive and less predictable than the bundled price assumes."
       }
     }
   ],
@@ -102,6 +128,19 @@
       "systemic_risks": {
         "access": "Warning: Patients in areas with limited provider options may have no affordable choice below the reference price, effectively creating a financial barrier.",
         "quality": "Warning: Aggressive price competition may drive providers to cut costs at the expense of service quality or patient experience."
+      }
+    },
+    {
+      "id": "vbid",
+      "name": "Value-Based Insurance Design",
+      "description": "Cost-sharing varies based on the clinical value of the service rather than its cost. High-value services (preventive screenings, essential chronic disease medications) have reduced or zero cost-sharing, while low-value services (elective procedures with weak evidence) carry higher cost-sharing. VBID addresses the key finding from the RAND Health Insurance Experiment: uniform cost-sharing reduces high-value and low-value care equally.",
+      "intended_effects": {
+        "efficiency": "High (Steers utilization toward high-value services and away from low-value care, improving allocative efficiency)",
+        "health_status": "Medium-High (Removing barriers to evidence-based preventive care and chronic disease management improves population health)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: Determining the 'value' of each service requires robust evidence infrastructure and continuous updating. Classification errors can misdirect utilization.",
+        "access": "Warning: Complex tiered cost-sharing structures may confuse patients, particularly those with low health literacy, reducing the intended behavioral signal."
       }
     }
   ]

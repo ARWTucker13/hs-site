@@ -75,7 +75,7 @@ export default function KnobLink({ href, label, active, color = "green" }: KnobL
   const c = C[color];
 
   return (
-    <Link href={href} className="flex items-center gap-4 group">
+    <Link href={href} className="flex flex-col items-center gap-1 lg:flex-row lg:items-center lg:gap-4 group">
       <div className="relative h-14 w-14 shrink-0">
         <div
           className={`absolute inset-0 rounded-full border-[3px] transition-colors ${
@@ -99,7 +99,7 @@ export default function KnobLink({ href, label, active, color = "green" }: KnobL
         />
       </div>
       <span
-        className={`font-blueprint text-xs font-bold uppercase tracking-wider transition-colors ${
+        className={`font-blueprint text-[10px] text-center lg:text-xs lg:text-left font-bold uppercase tracking-wider transition-colors ${
           active ? c.textActive : `text-blue-600 ${c.textHover}`
         }`}
       >

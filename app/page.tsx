@@ -41,12 +41,23 @@ export default function Home() {
           )}
         </p>
         {!metric && (
-          <p className="text-sm text-slate-700 leading-relaxed mt-3">
-            Click any control knob on the left to explore its policy scenarios
-            and see how different configurations affect system performance.
-            Click any performance measure or goal to learn what it represents
-            and how it is measured at the population level.
-          </p>
+          <>
+            <p className="text-sm text-slate-700 leading-relaxed mt-3">
+              Click any control knob on the left to explore its policy scenarios
+              and see how different configurations affect system performance.
+              Click any performance measure or goal to learn what it represents
+              and how it is measured at the population level.
+            </p>
+            <p className="text-sm text-slate-500 leading-relaxed mt-3 italic">
+              The outcome ratings shown on each knob page are informed by
+              empirical literature but are not deterministic predictions. The
+              influence of any policy change is context-specific and both
+              implementation- and path-dependent&mdash;the same reform can
+              produce markedly different results depending on institutional
+              capacity, existing market structure, political economy, and
+              sequencing with other reforms.
+            </p>
+          </>
         )}
       </div>
     </div>

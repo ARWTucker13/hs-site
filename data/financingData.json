@@ -51,6 +51,19 @@
         "efficiency": "Warning: Donor priorities may not align with local health system needs. Parallel reporting requirements and project-based funding create administrative fragmentation.",
         "risk_protection": "Critical Warning: Fundamentally unsustainable as a primary revenue source. Funding can be redirected or withdrawn based on geopolitical shifts, leaving health systems without a stable financial foundation."
       }
+    },
+    {
+      "id": "earmarked_taxes",
+      "name": "Earmarked / Sin Taxes",
+      "description": "Dedicated taxes on tobacco, alcohol, sugar-sweetened beverages, or other health-harming products generate revenue specifically earmarked for the health sector. These Pigouvian taxes serve a dual purpose: raising health funding while simultaneously reducing consumption of harmful goods. They are a WHO-recommended financing instrument, particularly for low- and middle-income countries seeking to expand fiscal space for health.",
+      "intended_effects": {
+        "efficiency": "Medium-High (Directly links revenue generation to public health goals — the tax itself reduces the disease burden it funds treatment for)",
+        "health_status": "Medium-High (Reduced consumption of taxed products lowers incidence of cancer, cardiovascular disease, diabetes, and liver disease)"
+      },
+      "systemic_risks": {
+        "risk_protection": "Warning: Revenue is inherently self-limiting — successful behavior change reduces the tax base over time, creating long-term fiscal instability if health spending depends on it.",
+        "access": "Warning: Excise taxes are regressive, disproportionately burdening low-income populations who spend a larger share of income on taxed goods."
+      }
     }
   ],
   "risk_pooling_scenarios": [
@@ -122,6 +135,34 @@
       },
       "systemic_risks": {
         "risk_protection": "Critical Warning: Shallow pooling. The fund is too small to absorb catastrophic shocks. It can cover primary care, but cannot finance complex interventions like organ procurement or complex surgeries."
+      }
+    },
+    {
+      "id": "risk_adjustment",
+      "name": "Risk Adjustment / Risk Equalization",
+      "revenue_source": "Redistributed Pool Funds",
+      "description": "Risk adjustment is a technical mechanism that redistributes pooled funds across insurers or providers to compensate for differences in enrollee health risk. Without risk adjustment, any system with multiple competing insurers devolves into risk selection — insurers profit by enrolling healthy people and avoiding the sick. Risk adjustment is essential infrastructure for managed competition, Social Health Insurance with multiple sickness funds, and programs like Medicare Advantage.",
+      "intended_effects": {
+        "risk_protection": "High (Neutralizes the financial incentive for insurers to avoid high-risk enrollees, protecting the sickest populations from exclusion)",
+        "access": "High (Ensures that insurers or providers serving sicker populations receive adequate funding to deliver appropriate care)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: Risk adjustment formulas are technically complex and imperfect. Under-adjustment leaves insurers with incentives to select; over-adjustment can reward inefficiency. Gaming through diagnostic upcoding is well-documented in Medicare Advantage.",
+        "quality": "Warning: If risk adjustment is based on diagnoses, providers may be incentivized to document more conditions rather than treat them — shifting effort from care improvement to coding optimization."
+      }
+    },
+    {
+      "id": "medical_savings",
+      "name": "Medical Savings Accounts",
+      "revenue_source": "Individual Pre-funded Accounts",
+      "description": "Individuals contribute to personal health savings accounts — often with tax advantages — to pay for healthcare expenses. Singapore's Medisave is the canonical national model; the U.S. Health Savings Account (HSA) system is the largest voluntary implementation. MSAs represent a fundamentally different financing philosophy: individual prefunding and personal responsibility rather than cross-subsidization across a risk pool.",
+      "intended_effects": {
+        "efficiency": "High (Account holders face the full marginal cost of care, creating strong incentives to avoid unnecessary utilization and shop for value)",
+        "risk_protection": "Medium (Accumulated savings provide a buffer against predictable, moderate health expenses)"
+      },
+      "systemic_risks": {
+        "risk_protection": "Critical Warning: Individual accounts cannot pool risk across people. Catastrophic illness can exhaust any individual's savings — MSAs must be paired with catastrophic insurance to prevent financial ruin. Young and healthy individuals accumulate balances while chronically ill individuals deplete theirs.",
+        "access": "Warning: MSAs favor higher-income individuals who can afford to contribute and benefit from tax advantages. Low-income populations may accumulate insufficient balances, effectively recreating out-of-pocket financing."
       }
     }
   ]

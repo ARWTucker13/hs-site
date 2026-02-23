@@ -32,7 +32,7 @@
       "name": "Peer Review & Clinical Audit",
       "description": "Systematic review of clinical decisions and outcomes by professional peers, using data feedback to identify outlier practice patterns. Clinical audit cycles — measure, compare to standards, implement changes, re-measure — create accountability through professional norms rather than external regulation.",
       "intended_effects": {
-        "quality": "High (Data-driven feedback identifies and corrects substandard practice patterns)",
+        "quality": "Medium-High (Data-driven feedback identifies and corrects substandard practice patterns, though systematic reviews show a median 4.3% absolute improvement)",
         "efficiency": "Medium (Identifying outlier utilization patterns can reduce unnecessary resource use)"
       },
       "systemic_risks": {
@@ -45,12 +45,25 @@
       "name": "Pay-for-Performance",
       "description": "Financial bonuses or penalties are tied to measurable quality and efficiency metrics — such as patient outcomes, adherence to guidelines, patient satisfaction scores, or readmission rates. P4P operates at the intersection of payment and behavior change, using financial incentives to reinforce desired clinical behaviors.",
       "intended_effects": {
-        "quality": "High (Direct financial incentives for measurable quality improvement)",
+        "quality": "Medium-High (Financial incentives produce short-term gains on incentivized metrics, but improvement plateaus within 2 years and unincentivized quality dimensions may decline)",
         "efficiency": "Medium-High (Rewards for reducing waste and improving outcomes alignment)"
       },
       "systemic_risks": {
-        "quality": "Warning: Providers may 'teach to the test' — focusing on measured metrics at the expense of unmeasured aspects of care. Gaming, up-coding, and patient selection to improve scores are well-documented responses.",
+        "quality": "Warning: Providers may 'teach to the test' — focusing on measured metrics at the expense of unmeasured aspects of care. Campbell et al. (2009) found quality gains plateaued within 2 years and unincentivized quality declined. Gaming, up-coding, and patient selection to improve scores are well-documented responses.",
         "access": "Warning: Providers may avoid caring for complex, high-risk patients whose outcomes are harder to optimize, worsening access for the sickest and most vulnerable populations."
+      }
+    },
+    {
+      "id": "shared_decision_making",
+      "name": "Shared Decision-Making",
+      "description": "Structured clinical processes in which providers and patients jointly make treatment decisions, incorporating both clinical evidence and patient values and preferences. Decision aids — written materials, videos, or interactive tools — present treatment options with their risks and benefits in accessible formats. SDM directly addresses the information asymmetry that is a fundamental market failure in healthcare and is mandated or incentivized in several health systems for preference-sensitive procedures.",
+      "intended_effects": {
+        "quality": "Medium-High (Decisions better aligned with patient values reduce unwanted treatments and improve patient-reported outcomes)",
+        "efficiency": "Medium-High (Informed patients consistently choose less invasive, lower-cost options for preference-sensitive conditions — reducing unnecessary surgeries by 20–30% in trials)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: SDM consultations require more time per patient encounter. In high-volume settings, the additional time investment may reduce throughput and create longer wait times.",
+        "access": "Warning: Decision aids may not be available in all languages or at appropriate literacy levels. Patients with cognitive impairments, low health literacy, or cultural barriers to questioning physicians may not benefit equally."
       }
     }
   ],
@@ -87,7 +100,7 @@
       "description": "Financial incentives are provided directly to patients or families conditional on engaging in health-promoting behaviors — such as attending prenatal visits, completing vaccination schedules, or participating in screening programs. This approach addresses the demand-side barriers that prevent utilization of available services.",
       "intended_effects": {
         "access": "High (Directly removes financial barriers to service utilization)",
-        "health_status": "Medium-High (Incentivized preventive care and early treatment improve health outcomes)"
+        "health_status": "High (Incentivized preventive care and early treatment produce large health gains — 23% illness reduction and 17–53% child mortality reductions at scale)"
       },
       "systemic_risks": {
         "efficiency": "Warning: Administrative costs of verifying compliance, distributing payments, and preventing fraud can be substantial relative to the health impact achieved.",

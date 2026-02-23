@@ -45,12 +45,25 @@
       "name": "Malpractice & Liability",
       "description": "The legal system holds providers accountable for negligent care through malpractice litigation. Patients harmed by medical errors can seek compensation, creating financial incentives for providers to meet standards of care. This tort-based approach relies on after-the-fact accountability rather than proactive regulation.",
       "intended_effects": {
-        "quality": "Medium-High (Fear of litigation motivates adherence to standards of care and thorough documentation)",
+        "quality": "Medium (Net quality effect is ambiguous — tort reform design matters: some reforms improve outcomes while others worsen them, and the overall impact of malpractice liability on quality is not reliably positive)",
         "risk_protection": "Medium (Provides a compensation mechanism for patients harmed by negligent care)"
       },
       "systemic_risks": {
         "efficiency": "Critical Warning: Defensive medicine. Fear of lawsuits drives providers to order excessive tests, imaging, and consultations — not because they are clinically necessary, but to create a legal paper trail. This is a major driver of unnecessary healthcare spending.",
         "access": "Warning: High malpractice premiums drive providers away from high-risk specialties (obstetrics, surgery) and away from high-risk patient populations, reducing access to essential services."
+      }
+    },
+    {
+      "id": "scope_of_practice",
+      "name": "Scope-of-Practice Regulation",
+      "description": "Laws define which services specific health professionals — nurse practitioners, physician assistants, midwives, pharmacists, community health workers — may legally provide. Scope-of-practice regulation directly determines workforce capacity, access to care in underserved areas, and the cost-efficiency of service delivery. It is a major policy lever in both high-income countries debating NP independence and low- and middle-income countries pursuing task-shifting strategies.",
+      "intended_effects": {
+        "quality": "Medium-High (Ensures providers practice within their demonstrated competency, reducing the risk of harm from undertrained practitioners)",
+        "risk_protection": "Medium (Clear scope boundaries provide legal accountability and patient recourse)"
+      },
+      "systemic_risks": {
+        "access": "Critical Warning: Overly restrictive scope-of-practice laws create artificial workforce shortages. In areas with few physicians, preventing NPs or midwives from practicing independently leaves populations without any care at all.",
+        "efficiency": "Warning: When low-cost providers are legally prevented from delivering services they are competent to provide, the system forces patients to higher-cost providers for routine care — inflating costs without improving outcomes."
       }
     }
   ],
@@ -105,6 +118,32 @@
       "systemic_risks": {
         "access": "Warning: Lengthy approval processes can delay patient access to life-saving treatments. Price controls may reduce pharmaceutical company investment in research for treatments targeting smaller patient populations.",
         "quality": "Warning: Rigid formularies may limit physician prescribing flexibility and prevent patients from accessing the most appropriate treatment for their specific condition."
+      }
+    },
+    {
+      "id": "hta",
+      "name": "Health Technology Assessment / Cost-Effectiveness Thresholds",
+      "description": "Systematic evaluation of the clinical effectiveness, cost-effectiveness, and budget impact of health technologies — drugs, devices, procedures, and diagnostics — to inform coverage, pricing, and reimbursement decisions. HTA agencies such as NICE (England), PBAC (Australia), IQWiG (Germany), and HITAP (Thailand) serve as gateway regulators, determining which interventions enter the benefits package and at what price. This is the primary mechanism by which countries manage the tension between innovation adoption and affordability.",
+      "intended_effects": {
+        "efficiency": "High (Ensures public spending is directed toward interventions with the greatest health gain per dollar — the foundation of allocative efficiency)",
+        "quality": "Medium-High (Evidence-based coverage decisions promote adoption of effective technologies and discourage use of those with weak or negative evidence)"
+      },
+      "systemic_risks": {
+        "access": "Warning: Cost-effectiveness thresholds may exclude treatments that are clinically effective but expensive, creating a gap between what medicine can do and what the system will pay for. Rare disease treatments are especially vulnerable.",
+        "customer_satisfaction": "Warning: Patients and clinicians may view HTA-driven coverage denials as rationing, particularly when treatments are available in other countries. Political pressure can undermine evidence-based decisions."
+      }
+    },
+    {
+      "id": "antitrust",
+      "name": "Antitrust / Competition Regulation",
+      "description": "Rules prevent anti-competitive consolidation, price-fixing, and monopolistic behavior among healthcare providers and insurers. Hospital mergers, physician group acquisitions, and insurer consolidation are reviewed for their impact on market power and consumer welfare. Antitrust regulation addresses the well-documented relationship between market concentration and higher prices — distinct from Certificate of Need, which regulates market entry rather than post-entry market power.",
+      "intended_effects": {
+        "efficiency": "High (Prevents the price increases associated with provider and insurer market power — concentrated markets consistently produce higher prices without corresponding quality gains)",
+        "access": "Medium (Competitive markets maintain broader provider networks and more consumer choice)"
+      },
+      "systemic_risks": {
+        "quality": "Warning: Blocking mergers may prevent the scale efficiencies and care coordination that integrated systems can achieve. The trade-off between competition and integration is not always clear.",
+        "efficiency": "Warning: Antitrust enforcement in healthcare is technically complex. Defining relevant geographic and product markets, and measuring competitive effects, requires specialized expertise that regulatory agencies may lack."
       }
     }
   ]

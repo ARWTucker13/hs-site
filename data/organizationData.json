@@ -52,6 +52,32 @@
         "efficiency": "Warning: Complex contracting and oversight requirements can create high transaction costs. Misaligned incentives between public and private partners may lead to disputes and service disruption.",
         "access": "Warning: Private partners may prioritize profitable services over essential but low-margin care, shifting the burden of unprofitable services back to the public sector."
       }
+    },
+    {
+      "id": "primary_care_gatekeeping",
+      "name": "Primary Care / Gatekeeping Model",
+      "description": "The health system is structured around a strong primary care tier that serves as the first point of contact and coordinates referrals to specialist and hospital care. Patients register with a primary care provider who manages their overall care, filters demand for specialist services, and ensures continuity. This model — seen in the UK GP system, Danish general practice, and Thailand's Universal Coverage Scheme — is foundational to achieving both efficiency and equity through structured access.",
+      "intended_effects": {
+        "efficiency": "High (Gatekeeping reduces unnecessary specialist visits, emergency department use, and hospitalizations by resolving most health needs at the lowest-cost level of care)",
+        "access": "High (Universal registration ensures every person has a defined entry point into the system and a provider responsible for their overall care)"
+      },
+      "systemic_risks": {
+        "customer_satisfaction": "Warning: Patients may resent being unable to access specialists directly, perceiving the gatekeeper as a barrier rather than a coordinator — particularly for conditions they believe require specialist care.",
+        "quality": "Warning: If primary care providers are under-resourced or poorly trained, the gatekeeping function becomes a bottleneck that delays appropriate specialist referrals and worsens outcomes for complex conditions."
+      }
+    },
+    {
+      "id": "vertical_integration",
+      "name": "Vertical Integration / Integrated Delivery Network",
+      "description": "A single organization combines hospitals, physician practices, post-acute care, and sometimes insurance functions under unified ownership or governance. Examples include Kaiser Permanente, Geisinger, and Intermountain Health. Vertical integration is the structural mechanism that enables care coordination, population health management, and bundled payment models — internalizing the coordination benefits that fragmented systems struggle to achieve.",
+      "intended_effects": {
+        "quality": "High (Unified governance enables seamless care coordination, shared medical records, and aligned clinical protocols across all settings)",
+        "efficiency": "High (Internalized referrals, shared infrastructure, and elimination of inter-organizational billing reduce administrative waste and duplication)"
+      },
+      "systemic_risks": {
+        "access": "Warning: Integrated networks may create closed systems that limit patient choice and restrict access to out-of-network providers. In rural areas, a single dominant IDN may become a de facto monopoly.",
+        "efficiency": "Warning: Large integrated systems can leverage market power to negotiate higher prices from payers, potentially increasing costs even as internal efficiency improves. The competition-integration trade-off is a central tension in organizational design."
+      }
     }
   ],
   "facility_governance_scenarios": [
