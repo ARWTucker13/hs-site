@@ -1,0 +1,69 @@
+{
+  "scenarios": [
+    {
+      "id": "out_of_pocket",
+      "name": "Out-of-Pocket (No Pooling)",
+      "revenue_source": "Individual Patients",
+      "intended_effects": {
+        "efficiency": "High (Zero administrative overhead for pooling)"
+      },
+      "systemic_risks": {
+        "risk_protection": "Critical Warning: Catastrophic expenditure is guaranteed for major events. In the context of organ transplantation, the $400k+ cost entirely precludes access for 99% of the population.",
+        "access": "Critical Warning: Severe financial barriers. Only the wealthiest individuals can secure necessary procedures or lifelong anti-rejection medications.",
+        "health_status": "Warning: High mortality for treatable chronic or end-stage diseases."
+      }
+    },
+    {
+      "id": "private_insurance",
+      "name": "Private/Voluntary Insurance",
+      "revenue_source": "Individual or Employer Premiums",
+      "intended_effects": {
+        "efficiency": "Medium-High (Market competition can drive down specific service costs)",
+        "quality": "High (Incentivizes premium networks and high-end capital investment)"
+      },
+      "systemic_risks": {
+        "access": "Warning: Market exclusion. Insurers are incentivized to exclude high-risk pools. Patients with end-stage renal disease may face uninsurable premiums or denial of coverage for transplant waitlists.",
+        "risk_protection": "Warning: Variable. Dependent on premium tiers, deductibles, and lifetime maximums."
+      }
+    },
+    {
+      "id": "social_health_insurance",
+      "name": "Social Health Insurance (SHI)",
+      "revenue_source": "Mandatory Payroll Contributions",
+      "intended_effects": {
+        "risk_protection": "High (Deep risk pooling for the formal workforce)",
+        "access": "High (Guaranteed benefits package for enrollees, often covering complex procedures like transplants)",
+        "quality": "High (Stable funding stream for provider networks)"
+      },
+      "systemic_risks": {
+        "efficiency": "Warning: Fragmentation. Multiple sickness funds can lead to duplicated administrative costs.",
+        "access": "Warning: The 'Informal Sector' gap. Unemployed or informal workers are often left in underfunded safety nets."
+      }
+    },
+    {
+      "id": "single_payer",
+      "name": "Single-Payer / National Health Service",
+      "revenue_source": "General Taxation",
+      "intended_effects": {
+        "risk_protection": "Very High (Universal shield against healthcare costs)",
+        "access": "Very High (Universal entry into the system)",
+        "efficiency": "High (Monopsony purchasing power for drugs and services, single administrative pipeline)"
+      },
+      "systemic_risks": {
+        "quality": "Warning: Wait times and rationing. Global budgets require strict resource allocation. Organ transplant networks may face severe organ shortages or capital underinvestment in surgical centers.",
+        "efficiency": "Warning: Lack of competition can lead to poor customer service and slow adoption of novel medical technologies."
+      }
+    },
+    {
+      "id": "cbhi",
+      "name": "Community-Based Health Insurance",
+      "revenue_source": "Voluntary Local Contributions",
+      "intended_effects": {
+        "access": "Medium (Reaches rural or informal populations ignored by private/SHI markets)"
+      },
+      "systemic_risks": {
+        "risk_protection": "Critical Warning: Shallow pooling. The fund is too small to absorb catastrophic shocks. It can cover primary care, but cannot finance complex interventions like organ procurement or complex surgeries."
+      }
+    }
+  ]
+}
