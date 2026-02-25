@@ -1,127 +1,220 @@
 "use client";
 
 import { type LucideIcon, AlertTriangle } from "lucide-react";
+import { parseEffectLevel, parseRiskLevel } from "@/lib/knobUtils";
 
 interface GaugeCardProps {
   label: string;
   icon: LucideIcon;
   activeEffect?: string | null;
   riskWarning?: string | null;
+  secondActiveEffect?: string | null;
+  secondRiskWarning?: string | null;
+  primaryLabel?: string;
+  secondaryLabel?: string;
   onClick?: () => void;
   selected?: boolean;
 }
 
-function parseEffectLevel(effect: string | null | undefined): number {
-  if (!effect) return 0;
-  if (effect.startsWith("Very High")) return 4;
-  if (effect.startsWith("Medium-High")) return 2;
-  if (effect.startsWith("Medium")) return 1;
-  if (effect.startsWith("High")) return 3;
-  return 0;
-}
-
-function parseRiskLevel(risk: string | null | undefined): number {
-  if (!risk) return 0;
-  if (risk.startsWith("Critical Warning")) return -3;
-  if (risk.startsWith("Warning")) return -2;
-  return 0;
-}
-
 const SEGMENT_COUNT = 20;
+
+function computeIndicator(effectLevel: number, riskLevel: number) {
+  const net = effectLevel + riskLevel;
+  const clamped = Math.max(-4, Math.min(4, net));
+  const barOffset = (clamped / 4) * 40;
+  const fillPercent = 50 + barOffset;
+  const filledSegments = Math.round((fillPercent / 100) * SEGMENT_COUNT);
+  const indicatorPercent = (filledSegments / SEGMENT_COUNT) * 100;
+  return { net, filledSegments, indicatorPercent };
+}
 
 export default function GaugeCard({
   label,
   icon: Icon,
   activeEffect,
   riskWarning,
+  secondActiveEffect,
+  secondRiskWarning,
+  primaryLabel,
+  secondaryLabel,
   onClick,
   selected,
 }: GaugeCardProps) {
   const effectLevel = parseEffectLevel(activeEffect);
   const riskLevel = parseRiskLevel(riskWarning);
-  const net = effectLevel + riskLevel;
   const isActive = !!activeEffect || !!riskWarning;
+  const primary = computeIndicator(effectLevel, riskLevel);
 
-  const clampedNet = Math.max(-4, Math.min(4, net));
-  const barOffset = (clampedNet / 4) * 40;
+  const secondEffectLevel = parseEffectLevel(secondActiveEffect);
+  const secondRiskLevel = parseRiskLevel(secondRiskWarning);
+  const isSecondActive = !!secondActiveEffect || !!secondRiskWarning;
+  const secondary = computeIndicator(secondEffectLevel, secondRiskLevel);
 
-  const fillPercent = 50 + barOffset;
-  const filledSegments = Math.round((fillPercent / 100) * SEGMENT_COUNT);
-  const indicatorPercent = (filledSegments / SEGMENT_COUNT) * 100;
+  // Dual bar mode when second scenario props are explicitly provided (even as null)
+  const isDualMode = secondActiveEffect !== undefined;
 
-  let segmentColor: string;
+  let primaryColor: string;
   if (!isActive) {
-    segmentColor = "#93c5fd";
-  } else if (net >= 0) {
-    segmentColor = "#2563eb";
+    primaryColor = "#93c5fd";
+  } else if (primary.net >= 0) {
+    primaryColor = "#2563eb";
   } else {
-    segmentColor = "#d97706";
+    primaryColor = "#d97706";
+  }
+
+  let secondColor: string;
+  if (!isSecondActive) {
+    secondColor = "#a7f3d0";
+  } else if (secondary.net >= 0) {
+    secondColor = "#10b981";
+  } else {
+    secondColor = "#d97706";
   }
 
   let borderBg: string;
   if (selected) {
     borderBg = "border-blue-800 bg-blue-100 ring-2 ring-blue-300";
-  } else if (isActive) {
+  } else if (isActive || isSecondActive) {
     borderBg = "border-blue-600 bg-blue-50";
   } else {
     borderBg = "border-blue-600 bg-white";
   }
 
+  const hasAnyRisk = !!riskWarning || !!secondRiskWarning;
+
   const content = (
     <>
-      {/* Top row: icon + label + warning triangle (always reserved) */}
+      {/* Top row: icon + label + warning triangle */}
       <div className="flex items-center">
         <Icon className="h-5 w-5 text-blue-600 shrink-0" />
         <span className="ml-2 font-blueprint text-xs font-bold text-blue-600 uppercase tracking-wider leading-tight">
           {label}
         </span>
-        {/* Always render warning area to reserve space; invisible when no risk */}
-        <div className={`ml-auto ${riskWarning ? "" : "invisible"}`}>
+        <div className={`ml-auto ${hasAnyRisk ? "" : "invisible"}`}>
           <AlertTriangle className="h-5 w-5 text-yellow-500" />
         </div>
       </div>
 
-      {/* Retro segmented bar */}
-      <div className="relative w-full">
-        <div className="flex gap-[2px]">
-          {Array.from({ length: SEGMENT_COUNT }, (_, i) => {
-            const filled = i < filledSegments;
-            return (
+      {isDualMode ? (
+        /* Dual bar mode for compare */
+        <div className="w-full space-y-1.5">
+          {/* A bar */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] font-bold text-blue-600 w-9 shrink-0 text-right truncate" title={primaryLabel}>{primaryLabel || "A"}</span>
+            <div className="relative flex-1">
+              <div className="flex gap-[2px]">
+                {Array.from({ length: SEGMENT_COUNT }, (_, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 h-2.5 rounded-[1px]"
+                    style={{
+                      backgroundColor: i < primary.filledSegments ? primaryColor : "#e2e8f0",
+                      transition: "background-color 0.3s ease-out",
+                    }}
+                  />
+                ))}
+              </div>
+              <div
+                className="absolute top-0 bottom-0 bg-slate-400"
+                style={{ left: "50%", width: "1px" }}
+              />
+              {isActive && (
+                <div
+                  style={{
+                    position: "absolute",
+                    left: `${primary.indicatorPercent}%`,
+                    top: "-3px",
+                    width: "3px",
+                    height: "16px",
+                    backgroundColor: primaryColor,
+                    transform: "translateX(-1.5px)",
+                    borderRadius: "1px",
+                    zIndex: 10,
+                    transition: "left 0.3s ease-out",
+                    animation: "indicatorPulse 2s ease-in-out infinite",
+                  }}
+                />
+              )}
+            </div>
+          </div>
+          {/* B bar */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] font-bold text-emerald-600 w-9 shrink-0 text-right truncate" title={secondaryLabel}>{secondaryLabel || "B"}</span>
+            <div className="relative flex-1">
+              <div className="flex gap-[2px]">
+                {Array.from({ length: SEGMENT_COUNT }, (_, i) => (
+                  <div
+                    key={i}
+                    className="flex-1 h-2.5 rounded-[1px]"
+                    style={{
+                      backgroundColor: i < secondary.filledSegments ? secondColor : "#e2e8f0",
+                      transition: "background-color 0.3s ease-out",
+                    }}
+                  />
+                ))}
+              </div>
+              <div
+                className="absolute top-0 bottom-0 bg-slate-400"
+                style={{ left: "50%", width: "1px" }}
+              />
+              {isSecondActive && (
+                <div
+                  style={{
+                    position: "absolute",
+                    left: `${secondary.indicatorPercent}%`,
+                    top: "-3px",
+                    width: "3px",
+                    height: "16px",
+                    backgroundColor: secondColor,
+                    transform: "translateX(-1.5px)",
+                    borderRadius: "1px",
+                    zIndex: 10,
+                    transition: "left 0.3s ease-out",
+                    animation: "indicatorPulse 2s ease-in-out infinite",
+                  }}
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Single bar mode */
+        <div className="relative w-full">
+          <div className="flex gap-[2px]">
+            {Array.from({ length: SEGMENT_COUNT }, (_, i) => (
               <div
                 key={i}
                 className="flex-1 h-3 rounded-[1px]"
                 style={{
-                  backgroundColor: filled ? segmentColor : "#e2e8f0",
+                  backgroundColor: i < primary.filledSegments ? primaryColor : "#e2e8f0",
                   transition: "background-color 0.3s ease-out",
                 }}
               />
-            );
-          })}
-        </div>
-        {/* Center marker */}
-        <div
-          className="absolute top-0 bottom-0 bg-slate-400"
-          style={{ left: "50%", width: "1px" }}
-        />
-        {/* Pulsing fill-boundary indicator */}
-        {isActive && (
+            ))}
+          </div>
           <div
-            style={{
-              position: "absolute",
-              left: `${indicatorPercent}%`,
-              top: "-4px",
-              width: "3px",
-              height: "20px",
-              backgroundColor: segmentColor,
-              transform: "translateX(-1.5px)",
-              borderRadius: "1px",
-              zIndex: 10,
-              transition: "left 0.3s ease-out",
-              animation: "indicatorPulse 2s ease-in-out infinite",
-            }}
+            className="absolute top-0 bottom-0 bg-slate-400"
+            style={{ left: "50%", width: "1px" }}
           />
-        )}
-      </div>
+          {isActive && (
+            <div
+              style={{
+                position: "absolute",
+                left: `${primary.indicatorPercent}%`,
+                top: "-4px",
+                width: "3px",
+                height: "20px",
+                backgroundColor: primaryColor,
+                transform: "translateX(-1.5px)",
+                borderRadius: "1px",
+                zIndex: 10,
+                transition: "left 0.3s ease-out",
+                animation: "indicatorPulse 2s ease-in-out infinite",
+              }}
+            />
+          )}
+        </div>
+      )}
     </>
   );
 

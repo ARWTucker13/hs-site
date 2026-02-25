@@ -13,6 +13,9 @@ interface ScenarioData {
 interface ControlKnobsDiagramProps {
   activeKnob?: string;
   activeScenario?: ScenarioData | null;
+  secondScenario?: ScenarioData | null;
+  primaryLabel?: string;
+  secondaryLabel?: string;
   onMetricClick?: (metricKey: string) => void;
   activeMetric?: string | null;
 }
@@ -50,10 +53,14 @@ function getRisk(scenario: ScenarioData | null | undefined, key: string): string
 export default function ControlKnobsDiagram({
   activeKnob,
   activeScenario,
+  secondScenario,
+  primaryLabel,
+  secondaryLabel,
   onMetricClick,
   activeMetric,
 }: ControlKnobsDiagramProps) {
   const hasScenario = activeScenario != null;
+  const hasSecondScenario = secondScenario != null;
 
   return (
     <div>
@@ -118,6 +125,12 @@ export default function ControlKnobsDiagram({
                 icon={m.icon}
                 activeEffect={hasScenario ? getEffect(activeScenario, m.key) : null}
                 riskWarning={hasScenario ? getRisk(activeScenario, m.key) : null}
+                {...(hasSecondScenario ? {
+                  secondActiveEffect: getEffect(secondScenario, m.key),
+                  secondRiskWarning: getRisk(secondScenario, m.key),
+                  primaryLabel,
+                  secondaryLabel,
+                } : {})}
                 onClick={onMetricClick ? () => onMetricClick(m.key) : undefined}
                 selected={activeMetric === m.key}
               />
@@ -149,6 +162,12 @@ export default function ControlKnobsDiagram({
                 icon={m.icon}
                 activeEffect={hasScenario ? getEffect(activeScenario, m.key) : null}
                 riskWarning={hasScenario ? getRisk(activeScenario, m.key) : null}
+                {...(hasSecondScenario ? {
+                  secondActiveEffect: getEffect(secondScenario, m.key),
+                  secondRiskWarning: getRisk(secondScenario, m.key),
+                  primaryLabel,
+                  secondaryLabel,
+                } : {})}
                 onClick={onMetricClick ? () => onMetricClick(m.key) : undefined}
                 selected={activeMetric === m.key}
               />

@@ -11,6 +11,8 @@ import {
   type LiteraturePaper,
   formatMetricName,
   stripWarningPrefix,
+  parseEffectLevel,
+  abbreviateScenario,
 } from "@/lib/knobUtils";
 
 const COLOR_CLASSES: Record<
@@ -57,25 +59,70 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [activeMetric, setActiveMetric] = useState<string | null>(null);
   const [showLiterature, setShowLiterature] = useState(false);
+  const [compareMode, setCompareMode] = useState(false);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
 
   const allScenarios = config.sections.flatMap((s) => s.scenarios);
   const activeScenario = allScenarios.find((s) => s.id === activeId) ?? null;
 
-  const scenarioData = activeScenario
-    ? {
-        intended_effects: activeScenario.intended_effects,
-        systemic_risks: activeScenario.systemic_risks,
-      }
+  const compareScenarioA = compareMode
+    ? allScenarios.find((s) => s.id === compareIds[0]) ?? null
+    : null;
+  const compareScenarioB = compareMode
+    ? allScenarios.find((s) => s.id === compareIds[1]) ?? null
     : null;
 
+  const scenarioData = compareMode
+    ? compareScenarioA
+      ? {
+          intended_effects: compareScenarioA.intended_effects,
+          systemic_risks: compareScenarioA.systemic_risks,
+        }
+      : null
+    : activeScenario
+      ? {
+          intended_effects: activeScenario.intended_effects,
+          systemic_risks: activeScenario.systemic_risks,
+        }
+      : null;
+
+  const secondScenarioData =
+    compareMode && compareScenarioB
+      ? {
+          intended_effects: compareScenarioB.intended_effects,
+          systemic_risks: compareScenarioB.systemic_risks,
+        }
+      : null;
+
   const handleMetricClick = (key: string) => {
+    if (compareMode) return;
     setActiveMetric(activeMetric === key ? null : key);
     setActiveId(null);
   };
 
   const handleScenarioClick = (id: string) => {
-    setActiveId(activeId === id ? null : id);
-    setActiveMetric(null);
+    if (compareMode) {
+      setCompareIds((prev) => {
+        if (prev.includes(id)) return prev.filter((x) => x !== id);
+        if (prev.length < 2) return [...prev, id];
+        return [prev[0], id];
+      });
+      setActiveMetric(null);
+    } else {
+      setActiveId(activeId === id ? null : id);
+      setActiveMetric(null);
+    }
+  };
+
+  const toggleCompareMode = () => {
+    if (compareMode) {
+      setCompareMode(false);
+      setCompareIds([]);
+    } else {
+      setCompareMode(true);
+      setActiveId(null);
+      setActiveMetric(null);
+    }
   };
 
   const metric = activeMetric ? METRIC_DESCRIPTIONS[activeMetric] : null;
@@ -90,81 +137,309 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
     )
     .sort((a, b) => a.year - b.year);
 
+  // Union of all effect/risk metric keys for comparison
+  const allEffectKeys =
+    compareScenarioA && compareScenarioB
+      ? [
+          ...new Set([
+            ...Object.keys(compareScenarioA.intended_effects),
+            ...Object.keys(compareScenarioB.intended_effects),
+          ]),
+        ]
+      : [];
+
+  const allRiskKeys =
+    compareScenarioA && compareScenarioB
+      ? [
+          ...new Set([
+            ...Object.keys(compareScenarioA.systemic_risks),
+            ...Object.keys(compareScenarioB.systemic_risks),
+          ]),
+        ]
+      : [];
+
   return (
     <div>
       <ControlKnobsDiagram
         activeKnob={config.activeKnob}
         activeScenario={scenarioData}
-        onMetricClick={handleMetricClick}
+        secondScenario={secondScenarioData}
+        primaryLabel={compareScenarioA ? abbreviateScenario(compareScenarioA.name) : undefined}
+        secondaryLabel={compareScenarioB ? abbreviateScenario(compareScenarioB.name) : undefined}
+        onMetricClick={compareMode ? undefined : handleMetricClick}
         activeMetric={activeMetric}
       />
 
       {/* Description & Detail Panel */}
       <div className="mt-6 border-2 border-blue-600 bg-white p-4 sm:p-6">
-        <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-3 uppercase tracking-wider">
-          {metric
-            ? metric.name
-            : activeScenario
-              ? activeScenario.name
-              : config.defaultTitle}
-        </h2>
-        <p className="text-sm text-slate-700 leading-relaxed">
-          {metric
-            ? metric.description
-            : activeScenario
-              ? activeScenario.description
-              : config.description}
-        </p>
+        {compareMode ? (
+          compareScenarioA && compareScenarioB ? (
+            /* Full comparison view */
+            <div>
+              <h2 className="font-blueprint text-lg font-bold text-blue-600 mb-5 uppercase tracking-wider">
+                Scenario Comparison
+              </h2>
 
-        {activeScenario && !metric && (
-          <div className="mt-4 pt-4 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {Object.keys(activeScenario.intended_effects).length > 0 && (
-              <div>
-                <h3 className="font-blueprint text-xs font-bold text-blue-600 uppercase tracking-wider mb-2">
-                  Intended Effects
-                </h3>
-                <ul className="space-y-2">
-                  {Object.entries(activeScenario.intended_effects).map(
-                    ([key, value]) => (
-                      <li key={key} className="flex items-start gap-2">
-                        <span className="shrink-0 mt-1.5 h-2 w-2 rounded-full bg-blue-500" />
-                        <span className="text-sm text-slate-700">
-                          <span className="font-semibold text-blue-700">
-                            {formatMetricName(key)}:
-                          </span>{" "}
-                          {value}
-                        </span>
-                      </li>
-                    ),
-                  )}
-                </ul>
+              {/* Descriptions side by side with colored borders */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+                <div className="border-l-4 border-blue-600 bg-blue-50/50 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="inline-flex items-center justify-center h-6 w-6 text-xs font-bold text-white bg-blue-600 rounded">
+                      A
+                    </span>
+                    <h3 className="font-blueprint text-base font-bold text-blue-600 uppercase tracking-wider">
+                      {compareScenarioA.name}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-slate-700 leading-relaxed">
+                    {compareScenarioA.description}
+                  </p>
+                </div>
+                <div className="border-l-4 border-emerald-600 bg-emerald-50/50 p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="inline-flex items-center justify-center h-6 w-6 text-xs font-bold text-white bg-emerald-600 rounded">
+                      B
+                    </span>
+                    <h3 className="font-blueprint text-base font-bold text-emerald-600 uppercase tracking-wider">
+                      {compareScenarioB.name}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-slate-700 leading-relaxed">
+                    {compareScenarioB.description}
+                  </p>
+                </div>
+              </div>
+
+              {/* Divider bar */}
+              <div className="my-5 h-0.5 bg-gradient-to-r from-blue-600 via-slate-300 to-emerald-600" />
+
+              {/* Intended Effects Comparison */}
+              {allEffectKeys.length > 0 && (
+                <div className="pb-4">
+                  <h3 className="font-blueprint text-sm font-bold text-blue-600 uppercase tracking-wider mb-3">
+                    Intended Effects
+                  </h3>
+                  <div className="space-y-2">
+                    {allEffectKeys.map((key) => {
+                      const aVal =
+                        compareScenarioA.intended_effects[key] ?? null;
+                      const bVal =
+                        compareScenarioB.intended_effects[key] ?? null;
+                      const diff = Math.abs(
+                        parseEffectLevel(aVal) - parseEffectLevel(bVal)
+                      );
+                      const isDivergent = diff >= 2;
+                      return (
+                        <div
+                          key={key}
+                          className={`py-2.5 px-3 rounded border ${
+                            isDivergent
+                              ? "bg-amber-50 border-amber-300"
+                              : "bg-slate-50/50 border-slate-200"
+                          }`}
+                        >
+                          <div className="font-semibold text-sm text-slate-900 mb-1.5">
+                            {formatMetricName(key)}
+                            {isDivergent && (
+                              <span className="ml-2 text-xs font-bold text-amber-700 bg-amber-200 px-1.5 py-0.5 rounded">
+                                Divergent
+                              </span>
+                            )}
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
+                            <div className="text-sm text-slate-700 border-l-2 border-blue-400 pl-2">
+                              <span className="font-semibold text-blue-600">
+                                A:
+                              </span>{" "}
+                              {aVal || <span className="text-slate-400">No effect</span>}
+                            </div>
+                            <div className="text-sm text-slate-700 border-l-2 border-emerald-400 pl-2">
+                              <span className="font-semibold text-emerald-600">
+                                B:
+                              </span>{" "}
+                              {bVal || <span className="text-slate-400">No effect</span>}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Systemic Risks Comparison */}
+              {allRiskKeys.length > 0 && (
+                <div className="pt-4 border-t border-slate-200">
+                  <h3 className="font-blueprint text-sm font-bold text-amber-600 uppercase tracking-wider mb-3">
+                    Systemic Risks
+                  </h3>
+                  <div className="space-y-2">
+                    {allRiskKeys.map((key) => {
+                      const aVal =
+                        compareScenarioA.systemic_risks[key] ?? null;
+                      const bVal =
+                        compareScenarioB.systemic_risks[key] ?? null;
+                      return (
+                        <div
+                          key={key}
+                          className="py-2.5 px-3 rounded border bg-slate-50/50 border-slate-200"
+                        >
+                          <div className="font-semibold text-sm text-slate-900 mb-1.5">
+                            {formatMetricName(key)}
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
+                            <div className="flex items-start gap-1.5 text-sm text-slate-700 border-l-2 border-blue-400 pl-2">
+                              <span className="font-semibold text-blue-600 shrink-0">
+                                A:
+                              </span>
+                              {aVal ? (
+                                <span className="flex items-start gap-1">
+                                  <AlertTriangle className="h-3.5 w-3.5 text-amber-500 shrink-0 mt-0.5" />
+                                  <span>{stripWarningPrefix(aVal)}</span>
+                                </span>
+                              ) : (
+                                <span className="text-slate-400">
+                                  No risk identified
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-start gap-1.5 text-sm text-slate-700 border-l-2 border-emerald-400 pl-2">
+                              <span className="font-semibold text-emerald-600 shrink-0">
+                                B:
+                              </span>
+                              {bVal ? (
+                                <span className="flex items-start gap-1">
+                                  <AlertTriangle className="h-3.5 w-3.5 text-amber-500 shrink-0 mt-0.5" />
+                                  <span>{stripWarningPrefix(bVal)}</span>
+                                </span>
+                              ) : (
+                                <span className="text-slate-400">
+                                  No risk identified
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            /* Prompt to select scenarios */
+            <div>
+              <h2 className="font-blueprint text-lg font-bold text-blue-600 mb-3 uppercase tracking-wider">
+                Compare Scenarios
+              </h2>
+              {compareScenarioA ? (
+                <div>
+                  <p className="text-sm text-slate-500 mb-3">
+                    Select a second scenario to compare.
+                  </p>
+                  <div className="border-l-4 border-blue-600 bg-blue-50/50 p-3">
+                    <span className="inline-flex items-center justify-center h-6 w-6 text-xs font-bold text-white bg-blue-600 rounded mr-2">
+                      A
+                    </span>
+                    <span className="font-medium text-sm text-slate-900">
+                      {compareScenarioA.name}
+                    </span>
+                    <p className="text-sm text-slate-700 mt-1 leading-relaxed">
+                      {compareScenarioA.description}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-sm text-slate-500">
+                  Select two scenarios below to compare their effects and risks
+                  side by side.
+                </p>
+              )}
+            </div>
+          )
+        ) : (
+          /* Normal mode panel */
+          <>
+            <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-3 uppercase tracking-wider">
+              {metric
+                ? metric.name
+                : activeScenario
+                  ? activeScenario.name
+                  : config.defaultTitle}
+            </h2>
+            <p className="text-sm text-slate-700 leading-relaxed">
+              {metric
+                ? metric.description
+                : activeScenario
+                  ? activeScenario.description
+                  : config.description}
+            </p>
+
+            {activeScenario && !metric && (
+              <div className="mt-4 pt-4 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+                {Object.keys(activeScenario.intended_effects).length > 0 && (
+                  <div>
+                    <h3 className="font-blueprint text-xs font-bold text-blue-600 uppercase tracking-wider mb-2">
+                      Intended Effects
+                    </h3>
+                    <ul className="space-y-2">
+                      {Object.entries(activeScenario.intended_effects).map(
+                        ([key, value]) => (
+                          <li key={key} className="flex items-start gap-2">
+                            <span className="shrink-0 mt-1.5 h-2 w-2 rounded-full bg-blue-500" />
+                            <span className="text-sm text-slate-700">
+                              <span className="font-semibold text-blue-700">
+                                {formatMetricName(key)}:
+                              </span>{" "}
+                              {value}
+                            </span>
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                )}
+
+                {Object.keys(activeScenario.systemic_risks).length > 0 && (
+                  <div>
+                    <h3 className="font-blueprint text-xs font-bold text-amber-600 uppercase tracking-wider mb-2">
+                      Systemic Risks
+                    </h3>
+                    <ul className="space-y-2">
+                      {Object.entries(activeScenario.systemic_risks).map(
+                        ([key, value]) => (
+                          <li key={key} className="flex items-start gap-2">
+                            <AlertTriangle className="shrink-0 mt-0.5 h-4 w-4 text-amber-500" />
+                            <span className="text-sm text-slate-700">
+                              <span className="font-semibold text-amber-700">
+                                {formatMetricName(key)}:
+                              </span>{" "}
+                              {stripWarningPrefix(value)}
+                            </span>
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
-
-            {Object.keys(activeScenario.systemic_risks).length > 0 && (
-              <div>
-                <h3 className="font-blueprint text-xs font-bold text-amber-600 uppercase tracking-wider mb-2">
-                  Systemic Risks
-                </h3>
-                <ul className="space-y-2">
-                  {Object.entries(activeScenario.systemic_risks).map(
-                    ([key, value]) => (
-                      <li key={key} className="flex items-start gap-2">
-                        <AlertTriangle className="shrink-0 mt-0.5 h-4 w-4 text-amber-500" />
-                        <span className="text-sm text-slate-700">
-                          <span className="font-semibold text-amber-700">
-                            {formatMetricName(key)}:
-                          </span>{" "}
-                          {stripWarningPrefix(value)}
-                        </span>
-                      </li>
-                    ),
-                  )}
-                </ul>
-              </div>
-            )}
-          </div>
+          </>
         )}
+      </div>
+
+      {/* Compare Toggle */}
+      <div className="mt-4 flex justify-end">
+        <button
+          onClick={toggleCompareMode}
+          className={`font-blueprint text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-sm transition-colors ${
+            compareMode
+              ? "bg-blue-600 text-white hover:bg-blue-700"
+              : "border border-blue-600 text-blue-600 hover:bg-blue-50"
+          }`}
+        >
+          {compareMode ? "Exit Compare" : "Compare Scenarios"}
+        </button>
       </div>
 
       {/* Scenario Sections */}
@@ -185,30 +460,58 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
                 : "lg:grid-cols-4"
             }`}
           >
-            {section.scenarios.map((scenario) => (
-              <button
-                key={scenario.id}
-                onClick={() => handleScenarioClick(scenario.id)}
-                className={`text-left px-4 py-3 rounded-sm transition-colors ${
-                  activeId === scenario.id
-                    ? `border-2 ${cc.border} ${cc.bg}`
-                    : `border border-slate-300 bg-white ${cc.hoverBorder}`
-                }`}
-              >
-                <div className="font-medium text-sm text-slate-900">
-                  {scenario.name}
-                </div>
-                {section.extraFields?.map((field) => {
-                  const val = scenario[field];
-                  if (!val) return null;
-                  return (
-                    <div key={field} className="text-xs text-slate-500 mt-1">
-                      {formatMetricName(field)}: {String(val)}
-                    </div>
-                  );
-                })}
-              </button>
-            ))}
+            {section.scenarios.map((scenario) => {
+              const compareIndex = compareMode
+                ? compareIds.indexOf(scenario.id)
+                : -1;
+              const isActiveNormal =
+                !compareMode && activeId === scenario.id;
+              const isSelectedCompare = compareIndex >= 0;
+
+              return (
+                <button
+                  key={scenario.id}
+                  onClick={() => handleScenarioClick(scenario.id)}
+                  className={`relative text-left px-4 py-3 rounded-sm transition-colors ${
+                    isActiveNormal
+                      ? `border-2 ${cc.border} ${cc.bg}`
+                      : isSelectedCompare
+                        ? `border-2 ${
+                            compareIndex === 0
+                              ? "border-blue-600 bg-blue-50"
+                              : "border-emerald-600 bg-emerald-50"
+                          }`
+                        : compareMode
+                          ? `border border-dashed border-slate-300 bg-white ${cc.hoverBorder}`
+                          : `border border-slate-300 bg-white ${cc.hoverBorder}`
+                  }`}
+                >
+                  {isSelectedCompare && (
+                    <span
+                      className={`absolute top-1.5 right-1.5 inline-flex items-center justify-center h-5 w-5 text-xs font-bold text-white rounded ${
+                        compareIndex === 0
+                          ? "bg-blue-600"
+                          : "bg-emerald-600"
+                      }`}
+                    >
+                      {compareIndex === 0 ? "A" : "B"}
+                    </span>
+                  )}
+                  <div className="font-medium text-sm text-slate-900">
+                    {scenario.name}
+                  </div>
+                  {section.extraFields?.map((field) => {
+                    const val = scenario[field];
+                    if (!val) return null;
+                    return (
+                      <div key={field} className="text-xs text-slate-500 mt-1">
+                        {formatMetricName(field)}: {String(val)}
+                      </div>
+                    );
+                  })}
+                </button>
+              );
+            })}
           </div>
         </div>
       ))}
