@@ -38,7 +38,8 @@
         "risk_protection": "Critical Warning: No cross-subsidization between healthy and sick. Revenue generation and consumption are simultaneous — there is no buffer against catastrophic costs.",
         "access": "Critical Warning: Revenue depends entirely on individual ability to pay. Those who cannot pay generate no revenue and receive no care.",
         "health_status": "Warning: Patients may delay or forgo care to avoid costs, reducing early intervention and worsening population health outcomes."
-      }
+      },
+      "literature_ids": ["xu_2003", "manning_1987"]
     },
     {
       "id": "external_aid",
@@ -63,6 +64,11 @@
       "systemic_risks": {
         "risk_protection": "Warning: Revenue is inherently self-limiting — successful behavior change reduces the tax base over time, creating long-term fiscal instability if health spending depends on it.",
         "access": "Warning: Excise taxes are regressive, disproportionately burdening low-income populations who spend a larger share of income on taxed goods."
+      },
+      "literature_ids": ["chaloupka_2002"],
+      "interactions": {
+        "Behavior": "Sin taxes operate the Behavior knob through price signals — the -0.4 to -0.8 demand elasticity means the financing mechanism itself directly reduces harmful consumption",
+        "Regulation": "Effective sin tax implementation requires regulatory enforcement against smuggling, illicit trade, and industry pricing strategies that undermine the tax signal"
       }
     }
   ],
@@ -79,7 +85,8 @@
         "risk_protection": "Critical Warning: Catastrophic expenditure is guaranteed for major events. In the context of organ transplantation, the $400k+ cost entirely precludes access for 99% of the population.",
         "access": "Critical Warning: Severe financial barriers. Only the wealthiest individuals can secure necessary procedures or lifelong anti-rejection medications.",
         "health_status": "Warning: High mortality for treatable chronic or end-stage diseases."
-      }
+      },
+      "literature_ids": ["xu_2003", "manning_1987"]
     },
     {
       "id": "private_insurance",
@@ -93,7 +100,8 @@
       "systemic_risks": {
         "access": "Warning: Market exclusion. Insurers are incentivized to exclude high-risk pools. Patients with end-stage renal disease may face uninsurable premiums or denial of coverage for transplant waitlists.",
         "risk_protection": "Warning: Variable. Dependent on premium tiers, deductibles, and lifetime maximums."
-      }
+      },
+      "literature_ids": ["brown_2014"]
     },
     {
       "id": "social_health_insurance",
@@ -123,6 +131,11 @@
       "systemic_risks": {
         "quality": "Warning: Wait times and rationing. Global budgets require strict resource allocation. Organ transplant networks may face severe organ shortages or capital underinvestment in surgical centers.",
         "efficiency": "Warning: Lack of competition can lead to poor customer service and slow adoption of novel medical technologies."
+      },
+      "literature_ids": ["lu_hsiao_2003"],
+      "interactions": {
+        "Payment": "Single-payer systems use monopsony bargaining power to set provider payment rates — Taiwan's NHI achieved sub-2% admin costs through unified payment administration",
+        "Organization": "The single payer can direct organizational structure (facility placement, workforce planning) through purchasing decisions, but may also create bureaucratic rigidity"
       }
     },
     {
@@ -149,6 +162,11 @@
       "systemic_risks": {
         "efficiency": "Warning: Risk adjustment formulas are technically complex and imperfect. Under-adjustment leaves insurers with incentives to select; over-adjustment can reward inefficiency. Gaming through diagnostic upcoding is well-documented in Medicare Advantage.",
         "quality": "Warning: If risk adjustment is based on diagnoses, providers may be incentivized to document more conditions rather than treat them — shifting effort from care improvement to coding optimization."
+      },
+      "literature_ids": ["brown_2014"],
+      "interactions": {
+        "Payment": "Risk adjustment determines the effective payment level each insurer receives per enrollee — it is the bridge between financing pools and provider payment adequacy",
+        "Regulation": "Gaming through diagnostic upcoding requires regulatory monitoring. Brown et al. (2014) found MA risk scores 6-16% higher than FFS, requiring ongoing audit and formula refinement"
       }
     },
     {
@@ -163,6 +181,11 @@
       "systemic_risks": {
         "risk_protection": "Critical Warning: Individual accounts cannot pool risk across people. Catastrophic illness can exhaust any individual's savings — MSAs must be paired with catastrophic insurance to prevent financial ruin. Young and healthy individuals accumulate balances while chronically ill individuals deplete theirs.",
         "access": "Warning: MSAs favor higher-income individuals who can afford to contribute and benefit from tax advantages. Low-income populations may accumulate insufficient balances, effectively recreating out-of-pocket financing."
+      },
+      "literature_ids": ["hsiao_1995"],
+      "interactions": {
+        "Behavior": "MSAs make patients bear the full marginal cost of care, creating strong cost-consciousness. Singapore's experience shows this behavioral effect requires complementary public education to prevent under-utilization of necessary care",
+        "Regulation": "Singapore's success depends on tight government regulation of hospital supply and pricing — MSAs function within a regulated market, not a free one. Without price regulation, MSA holders face the same information asymmetries as any consumer"
       }
     }
   ]

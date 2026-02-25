@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { AlertTriangle, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { AlertTriangle, BookOpen, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
+import Tooltip from "@/components/Tooltip";
 import ControlKnobsDiagram from "@/components/ControlKnobsDiagram";
 import { METRIC_DESCRIPTIONS } from "@/data/metricDescriptions";
 import literatureData from "@/data/literature.json";
@@ -129,13 +131,45 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
   const cc = COLOR_CLASSES[config.color];
 
   const knobName = config.activeKnob.toLowerCase();
-  const matchingPapers = (literatureData as LiteraturePaper[])
+  const allPapers = literatureData as LiteraturePaper[];
+  const matchingPapers = allPapers
     .filter((paper) =>
       paper.control_knob
         .split(" / ")
         .some((k) => k.toLowerCase() === knobName)
     )
     .sort((a, b) => a.year - b.year);
+
+  // Map knob display names to URL keys for linking
+  const KNOB_KEY_MAP: Record<string, string> = {
+    "Financing": "financing",
+    "Payment": "payment",
+    "Organization": "organization",
+    "Regulation": "regulation",
+    "Behavior": "behavior",
+  };
+
+  // Pill colors per knob for interaction chips
+  const KNOB_PILL: Record<string, string> = {
+    "Financing": "bg-green-100 text-green-700 border-green-300",
+    "Payment": "bg-purple-100 text-purple-700 border-purple-300",
+    "Organization": "bg-teal-100 text-teal-700 border-teal-300",
+    "Regulation": "bg-rose-100 text-rose-700 border-rose-300",
+    "Behavior": "bg-orange-100 text-orange-700 border-orange-300",
+  };
+
+  // Extract interacting knob keys from the active scenario
+  const activeInteractions = !compareMode && activeScenario?.interactions
+    ? activeScenario.interactions
+    : null;
+  const interactingKnobs = activeInteractions
+    ? Object.keys(activeInteractions).map((k) => KNOB_KEY_MAP[k]).filter(Boolean)
+    : [];
+
+  // Literature IDs for the selected scenario
+  const activeScenarioLitIds = !compareMode && activeScenario?.literature_ids
+    ? activeScenario.literature_ids
+    : [];
 
   // Union of all effect/risk metric keys for comparison
   const allEffectKeys =
@@ -168,6 +202,7 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
         secondaryLabel={compareScenarioB ? abbreviateScenario(compareScenarioB.name) : undefined}
         onMetricClick={compareMode ? undefined : handleMetricClick}
         activeMetric={activeMetric}
+        interactingKnobs={interactingKnobs.length > 0 ? interactingKnobs : undefined}
       />
 
       {/* Description & Detail Panel */}
@@ -376,53 +411,73 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
             </p>
 
             {activeScenario && !metric && (
-              <div className="mt-4 pt-4 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">
-                {Object.keys(activeScenario.intended_effects).length > 0 && (
-                  <div>
-                    <h3 className="font-blueprint text-xs font-bold text-blue-600 uppercase tracking-wider mb-2">
-                      Intended Effects
-                    </h3>
-                    <ul className="space-y-2">
-                      {Object.entries(activeScenario.intended_effects).map(
-                        ([key, value]) => (
-                          <li key={key} className="flex items-start gap-2">
-                            <span className="shrink-0 mt-1.5 h-2 w-2 rounded-full bg-blue-500" />
-                            <span className="text-sm text-slate-700">
-                              <span className="font-semibold text-blue-700">
-                                {formatMetricName(key)}:
-                              </span>{" "}
-                              {value}
-                            </span>
-                          </li>
-                        ),
-                      )}
-                    </ul>
+              <>
+                {activeInteractions && Object.keys(activeInteractions).length > 0 && (
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <span className="font-blueprint text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      Interacts with
+                    </span>
+                    {Object.entries(activeInteractions).map(([knobDisplayName, explanation]) => (
+                      <Tooltip key={knobDisplayName} text={explanation}>
+                        <Link
+                          href={`/knobs/${KNOB_KEY_MAP[knobDisplayName] ?? knobDisplayName.toLowerCase()}`}
+                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-xs font-semibold transition-colors hover:opacity-80 ${KNOB_PILL[knobDisplayName] ?? "bg-slate-100 text-slate-700 border-slate-300"}`}
+                        >
+                          {knobDisplayName}
+                        </Link>
+                      </Tooltip>
+                    ))}
                   </div>
                 )}
 
-                {Object.keys(activeScenario.systemic_risks).length > 0 && (
-                  <div>
-                    <h3 className="font-blueprint text-xs font-bold text-amber-600 uppercase tracking-wider mb-2">
-                      Systemic Risks
-                    </h3>
-                    <ul className="space-y-2">
-                      {Object.entries(activeScenario.systemic_risks).map(
-                        ([key, value]) => (
-                          <li key={key} className="flex items-start gap-2">
-                            <AlertTriangle className="shrink-0 mt-0.5 h-4 w-4 text-amber-500" />
-                            <span className="text-sm text-slate-700">
-                              <span className="font-semibold text-amber-700">
-                                {formatMetricName(key)}:
-                              </span>{" "}
-                              {stripWarningPrefix(value)}
-                            </span>
-                          </li>
-                        ),
-                      )}
-                    </ul>
-                  </div>
-                )}
-              </div>
+                <div className="mt-4 pt-4 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {Object.keys(activeScenario.intended_effects).length > 0 && (
+                    <div>
+                      <h3 className="font-blueprint text-xs font-bold text-blue-600 uppercase tracking-wider mb-2">
+                        Intended Effects
+                      </h3>
+                      <ul className="space-y-2">
+                        {Object.entries(activeScenario.intended_effects).map(
+                          ([key, value]) => (
+                            <li key={key} className="flex items-start gap-2">
+                              <span className="shrink-0 mt-1.5 h-2 w-2 rounded-full bg-blue-500" />
+                              <span className="text-sm text-slate-700">
+                                <span className="font-semibold text-blue-700">
+                                  {formatMetricName(key)}:
+                                </span>{" "}
+                                {value}
+                              </span>
+                            </li>
+                          ),
+                        )}
+                      </ul>
+                    </div>
+                  )}
+
+                  {Object.keys(activeScenario.systemic_risks).length > 0 && (
+                    <div>
+                      <h3 className="font-blueprint text-xs font-bold text-amber-600 uppercase tracking-wider mb-2">
+                        Systemic Risks
+                      </h3>
+                      <ul className="space-y-2">
+                        {Object.entries(activeScenario.systemic_risks).map(
+                          ([key, value]) => (
+                            <li key={key} className="flex items-start gap-2">
+                              <AlertTriangle className="shrink-0 mt-0.5 h-4 w-4 text-amber-500" />
+                              <span className="text-sm text-slate-700">
+                                <span className="font-semibold text-amber-700">
+                                  {formatMetricName(key)}:
+                                </span>{" "}
+                                {stripWarningPrefix(value)}
+                              </span>
+                            </li>
+                          ),
+                        )}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </>
             )}
           </>
         )}
@@ -500,6 +555,12 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
                   <div className="font-medium text-sm text-slate-900">
                     {scenario.name}
                   </div>
+                  {scenario.literature_ids && scenario.literature_ids.length > 0 && (
+                    <div className="flex items-center gap-1 mt-1 text-xs text-blue-600">
+                      <BookOpen className="h-3 w-3" />
+                      <span>{scenario.literature_ids.length} {scenario.literature_ids.length === 1 ? "paper" : "papers"}</span>
+                    </div>
+                  )}
                   {section.extraFields?.map((field) => {
                     const val = scenario[field];
                     if (!val) return null;
@@ -517,66 +578,94 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
       ))}
 
       {/* Empirical Evidence Section */}
-      {matchingPapers.length > 0 && (
-        <div className="mt-6 border-2 border-blue-600 bg-white p-4 sm:p-6">
-          <div className="flex items-center justify-between">
+      {(matchingPapers.length > 0 || activeScenarioLitIds.length > 0) && (() => {
+        // Linked papers come from the FULL paper set so cross-knob references work
+        const linkedPapers = activeScenarioLitIds.length > 0
+          ? allPapers.filter((p) => activeScenarioLitIds.includes(p.id))
+          : [];
+        const linkedIds = new Set(linkedPapers.map((p) => p.id));
+        const otherPapers = matchingPapers.filter((p) => !linkedIds.has(p.id));
+
+        const renderPaper = (paper: LiteraturePaper, highlight?: boolean) => {
+          const scholarUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(paper.title)}`;
+          return (
+            <div
+              key={paper.id}
+              className={`border rounded-sm p-4 ${
+                highlight ? "border-blue-400 bg-blue-50/50" : "border-slate-200"
+              }`}
+            >
+              <a
+                href={scholarUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-semibold text-blue-700 hover:text-blue-900 hover:underline inline-flex items-center gap-1"
+              >
+                {paper.title}
+                <ExternalLink className="h-3 w-3 shrink-0" />
+              </a>
+              <div className="text-xs text-slate-500 mt-1">
+                {paper.authors} ({paper.year}) &middot; {paper.journal} &middot; {paper.country}
+              </div>
+              <div className="mt-2">
+                <span className="inline-block text-xs font-medium bg-blue-100 text-blue-700 px-2 py-0.5 rounded">
+                  {paper.methodology}
+                </span>
+              </div>
+              <p className="text-sm text-slate-700 mt-2 leading-relaxed">
+                {paper.finding}
+              </p>
+            </div>
+          );
+        };
+
+        return (
+          <div className="mt-6 border-2 border-blue-600 bg-white p-4 sm:p-6">
             <h2 className="font-blueprint text-sm font-bold text-blue-600 uppercase tracking-wider">
               Empirical Evidence
             </h2>
-            <button
-              onClick={() => setShowLiterature(!showLiterature)}
-              className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 transition-colors"
-            >
-              {showLiterature ? (
-                <>
-                  <span>Hide {matchingPapers.length} {matchingPapers.length === 1 ? "paper" : "papers"}</span>
-                  <ChevronUp className="h-4 w-4" />
-                </>
-              ) : (
-                <>
-                  <span>Show {matchingPapers.length} {matchingPapers.length === 1 ? "paper" : "papers"}</span>
-                  <ChevronDown className="h-4 w-4" />
-                </>
-              )}
-            </button>
-          </div>
 
-          {showLiterature && (
-            <div className="mt-4 space-y-3">
-              {matchingPapers.map((paper) => {
-                const scholarUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(paper.title)}`;
-                return (
-                  <div
-                    key={paper.id}
-                    className="border border-slate-200 rounded-sm p-4"
-                  >
-                    <a
-                      href={scholarUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm font-semibold text-blue-700 hover:text-blue-900 hover:underline inline-flex items-center gap-1"
-                    >
-                      {paper.title}
-                      <ExternalLink className="h-3 w-3 shrink-0" />
-                    </a>
-                    <div className="text-xs text-slate-500 mt-1">
-                      {paper.authors} ({paper.year}) &middot; {paper.journal} &middot; {paper.country}
-                    </div>
-                    <div className="mt-2">
-                      <span className="inline-block text-xs font-medium bg-blue-100 text-blue-700 px-2 py-0.5 rounded">
-                        {paper.methodology}
+            {/* Linked papers for selected scenario — always shown */}
+            {linkedPapers.length > 0 && (
+              <div className="mt-4 space-y-3">
+                {linkedPapers.map((paper) => renderPaper(paper, true))}
+              </div>
+            )}
+
+            {/* Remaining papers — collapsible */}
+            {otherPapers.length > 0 && (
+              <div className={linkedPapers.length > 0 ? "mt-4 pt-4 border-t border-slate-200" : "mt-3"}>
+                <button
+                  onClick={() => setShowLiterature(!showLiterature)}
+                  className="flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                >
+                  {showLiterature ? (
+                    <>
+                      <span>Hide {otherPapers.length} more {otherPapers.length === 1 ? "paper" : "papers"}</span>
+                      <ChevronUp className="h-4 w-4" />
+                    </>
+                  ) : (
+                    <>
+                      <span>
+                        {linkedPapers.length > 0
+                          ? `Show ${otherPapers.length} more ${otherPapers.length === 1 ? "paper" : "papers"}`
+                          : `Show ${otherPapers.length} ${otherPapers.length === 1 ? "paper" : "papers"}`
+                        }
                       </span>
-                    </div>
-                    <p className="text-sm text-slate-700 mt-2 leading-relaxed">
-                      {paper.finding}
-                    </p>
+                      <ChevronDown className="h-4 w-4" />
+                    </>
+                  )}
+                </button>
+                {showLiterature && (
+                  <div className="mt-3 space-y-3">
+                    {otherPapers.map((paper) => renderPaper(paper))}
                   </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      )}
+                )}
+              </div>
+            )}
+          </div>
+        );
+      })()}
     </div>
   );
 }

@@ -18,6 +18,7 @@ interface ControlKnobsDiagramProps {
   secondaryLabel?: string;
   onMetricClick?: (metricKey: string) => void;
   activeMetric?: string | null;
+  interactingKnobs?: string[];
 }
 
 const KNOBS: { href: string; label: string; key: string; color: KnobColor }[] = [
@@ -58,6 +59,7 @@ export default function ControlKnobsDiagram({
   secondaryLabel,
   onMetricClick,
   activeMetric,
+  interactingKnobs,
 }: ControlKnobsDiagramProps) {
   const hasScenario = activeScenario != null;
   const hasSecondScenario = secondScenario != null;
@@ -95,6 +97,7 @@ export default function ControlKnobsDiagram({
                 href={knob.href}
                 label={knob.label}
                 active={activeKnob === knob.key}
+                interacting={interactingKnobs?.includes(knob.key)}
                 color={knob.color}
               />
             ))}

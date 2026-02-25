@@ -20,6 +20,8 @@ export interface Scenario {
   description: string;
   intended_effects: Record<string, string>;
   systemic_risks: Record<string, string>;
+  literature_ids?: string[];
+  interactions?: Record<string, string>;
   [key: string]: unknown;
 }
 

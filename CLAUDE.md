@@ -43,7 +43,7 @@ data/
   organizationData.json       # 10 scenarios (6 delivery structure, 4 facility governance)
   regulationData.json         # 10 scenarios (5 quality/safety, 5 market/price)
   behaviorData.json           # 9 scenarios (5 provider behavior, 4 patient behavior)
-  literature.json             # 19 empirical papers with country, methodology, findings
+  literature.json             # 30 empirical papers with country, methodology, findings
   metricDescriptions.ts       # Definitions for the 6 outcome metrics
 
 lib/
@@ -52,9 +52,10 @@ lib/
 
 ### Key Patterns
 - **Knob pages are data-driven**: Each page imports its JSON, casts to typed arrays, builds a `KnobPageConfig`, and passes it to `KnobPageLayout`. To add a scenario, just add to the JSON array.
-- **Scenario structure**: Every scenario has `id`, `name`, `description`, `intended_effects` (metric → "Level (explanation)"), and `systemic_risks` (metric → "Warning: explanation" or "Critical Warning: explanation").
+- **Scenario structure**: Every scenario has `id`, `name`, `description`, `intended_effects` (metric → "Level (explanation)"), `systemic_risks` (metric → "Warning: explanation" or "Critical Warning: explanation"), optional `literature_ids` (array of paper IDs from literature.json), and optional `interactions` (Record<knob display name → explanation string>).
 - **Effect level vocabulary**: Very High > High > Medium-High > Medium > Medium-Low > Low. The `GaugeCard` component parses these into progress bar widths.
-- **Literature matching**: Papers match knob pages via the `control_knob` field (slash-separated, e.g. "Payment / Regulation" matches both pages). Filtering is case-insensitive split on " / ".
+- **Literature matching**: Two-tier system. Papers match knob pages via the `control_knob` field (slash-separated, e.g. "Payment / Regulation" matches both pages) for the collapsible "show more papers" section. When a scenario is selected, its `literature_ids` pull papers from the full set (cross-knob references work) and display them inline above the toggle.
+- **Cross-knob interactions**: Scenarios with `interactions` show colored pill chips (using each target knob's color) with tooltip explanations. The diagram highlights interacting knobs with pulsing ring indicators.
 - **Color system**: Each knob has a named color (green/purple/teal/rose/orange) defined in `KnobPageLayout.tsx`'s `COLOR_CLASSES`.
 
 ### Data Integrity Rules
@@ -69,11 +70,16 @@ npm run build        # Production build — use this to verify before committing
 npm run lint         # ESLint check
 ```
 
-## Current Feature Set (as of 2026-02-23)
+## Current Feature Set (as of 2026-02-25)
 - Interactive SVG diagram with 5 clickable knobs and 6 clickable outcome metrics
 - 50 policy scenarios across 5 knob pages with intended effects and systemic risks
 - Progress bar visualizations showing effect levels when a scenario is selected
-- 19 empirical papers with collapsible "Empirical Evidence" sections on each knob page
+- Scenario comparison mode (select two scenarios, side-by-side effects/risks with divergence highlighting)
+- 30 empirical papers (literature.json) with smart two-tier display: linked papers shown inline when scenario selected, remaining papers behind collapsible toggle
+- Paper count badges on scenario cards indicating literature support
+- Cross-knob interaction mapping: colored pill chips with tooltip explanations, pulsing ring indicators on related knobs in the diagram
+- 41 scenario-to-paper linkages across all 5 knobs (cross-knob references resolve correctly)
+- 18 scenarios with explicit cross-knob interaction data
 - Google Scholar links for each paper (opens in new tab)
 - Literature-calibrated ratings where empirical evidence suggested miscalibration
 - Responsive design (works on mobile and desktop)
@@ -95,62 +101,81 @@ npm run lint         # ESLint check
 
 **Current state:** 50 scenarios across 5 knobs, 19 literature entries, deployed and working on mobile + desktop.
 
+### 2026-02-25 — Literature Integration + Cross-Knob Interaction Mapping
+**What was done:**
+- Added 11 new empirical papers to `literature.json` (now 30 total): Maryland global budgets (Hogan 2017), CMS bundled payments (Dummit 2016), VBID copay adherence (Chernew 2008), Medicare Advantage risk adjustment (Brown 2014), Singapore MSAs (Hsiao 1995), tobacco price elasticity (Chaloupka 2002), NICE cost-effectiveness thresholds (Dakin 2015), primary care contribution (Starfield 2005), Kaiser vertical integration (Enthoven 2004), Cochrane shared decision-making (Stacey 2017), Cochrane nurse substitution (Laurant 2018)
+- Added `literature_ids` and `interactions` optional fields to the Scenario type in `knobUtils.ts`
+- Linked 41 scenario-to-paper references across all 5 knob pages, including 15 matches identified through systematic audit of existing papers against unlinked scenarios
+- Added cross-knob interaction data to 18 scenarios with explanations of how knobs influence each other
+- Built cross-knob interaction UI: colored pill chips (each knob's own color) with hover tooltip explanations, linking to target knob pages. Pulsing ring indicators on related knobs in the diagram
+- Redesigned Empirical Evidence section: two-tier display with linked papers shown inline when a scenario is selected, remaining knob papers behind a collapsible toggle. Cross-knob paper references resolve correctly (linked papers pull from full paper set, not just knob-filtered set)
+- Added paper count badges (BookOpen icon + "N papers") on scenario cards
+- Enlarged tooltip component: fixed-width (22rem/28rem), left-anchored, larger text for legibility
+- Cleaned up information density: literature defaults to collapsed, interactions are compact pills rather than full text sections
+
+**Current state:** 50 scenarios, 30 papers, 41 paper linkages, 18 cross-knob interaction mappings. All features verified across all 5 knob pages.
+
 ---
 
 ## Critique of Current Site
 
 **Strengths:**
-- Diagram-to-scenario interaction is intuitive: click knob → pick scenario → effects light up
+- Diagram-to-scenario interaction is intuitive: click knob → pick scenario → effects light up, related knobs pulse
+- Cross-knob interactions make the framework's interconnections visible rather than just described in text
+- Literature is now directly tied to scenarios — clicking a scenario surfaces its supporting evidence
+- Scenario comparison mode enables the core pedagogical move of contrasting policy trade-offs
 - Scenario writing quality is strong: trade-offs named, mechanisms explained, ratings justified
-- Literature section adds credibility and pedagogical depth
 - Mobile layout holds up well
 
-**Weaknesses to address:**
-1. **Diagram is static/passive** — On knob pages, the other 4 knobs are visible but only navigate. No visual feedback showing how the selected scenario relates to other knobs, even though descriptions frequently reference cross-knob interactions.
-2. **No scenario comparison** — Single-selection model prevents side-by-side comparison. For teaching trade-offs (FFS vs. Capitation, Global Budget vs. DRG), comparison is the core pedagogical move.
-3. **Literature is hidden by default** — Collapsible toggle means most users may never open it. The papers are the strongest differentiator and should be more visible.
-4. **No narrative arc** — The site is a reference tool, not a guided learning experience. No suggested path, no "start here", no way to pose a policy question and explore across knobs.
-5. **Outcome metrics are underutilized** — Can click a metric for its definition, but can't filter by it ("show me all scenarios with High efficiency"). Metrics feel like labels, not analytical tools.
-6. **No visual distinction between effect levels** — "Medium" and "Medium-High" look identical in scenario cards; you have to read the parenthetical. Progress bars in the diagram help, but cards themselves could use color coding.
+**Remaining weaknesses:**
+1. **No narrative arc** — The site is a reference tool, not a guided learning experience. No suggested path, no "start here", no way to pose a policy question and explore across knobs.
+2. **Outcome metrics are underutilized** — Can click a metric for its definition, but can't filter by it ("show me all scenarios with High efficiency"). Metrics feel like labels, not analytical tools.
+3. **15 scenarios lack literature support** — salary/budget, reference pricing, general taxation, insurance premiums, external aid, SHI, CBHI, public integrated, PPP, not-for-profit, decentralized district, licensure, accreditation, clinical standards (regulation), malpractice, certificate of need, pharma regulation, clinical guidelines (behavior), CME, health education, social marketing.
+4. **32 scenarios lack cross-knob interaction data** — interactions field only populated for scenarios where the mapping was most clear; remaining scenarios would benefit from the same treatment.
+5. **No visual distinction between effect levels on scenario cards** — "Medium" and "Medium-High" look identical; only the progress bars in the diagram differentiate them.
 
 ---
 
 ## Next Steps — Feature Roadmap
 
-### Work Blocks for Next Session (pick one or two)
+### Near-Term: Content Completeness & Polish
 
-**Option A: Literature Integration & Visibility**
-- Surface paper count badges on scenario cards linking to the literature section
-- Add inline literature citations in scenario risk/effect text where they exist
-- Default the literature section to expanded (or expanded on first visit)
-- Add ~10-15 new literature entries for the 12 newly added scenarios (Global Budgets → Maryland all-payer; HTA → NICE evaluations; Risk Adjustment → Medicare Advantage; Vertical Integration → Kaiser)
-- *Scope: data files + KnobPageLayout.tsx. ~1 session.*
+**Fill Literature Gaps**
+- Add ~10-15 papers for the 15 unlinked scenarios (malpractice/defensive medicine, public integrated systems, SHI fragmentation, CHW sustainability, CME effectiveness, etc.)
+- *Scope: data/literature.json only. ~1 session.*
 
-**Option B: Scenario Comparison Mode**
-- Add a "Compare" toggle allowing selection of 2 scenarios within a knob page
-- Render side-by-side panel showing both effects and risks
-- Highlight divergences (e.g., FFS has High access but Critical efficiency risk; Capitation inverts this)
-- *Scope: KnobPageLayout.tsx only. ~1 session. High pedagogical value.*
+**Complete Cross-Knob Interaction Data**
+- Add `interactions` field to remaining 32 scenarios
+- *Scope: 5 JSON data files only. ~1 session.*
 
-**Option C: Country Case Studies**
+**Visual Polish**
+- Color-coded effect level indicators on scenario cards (e.g., subtle background tint by level)
+- Animated transitions for scenario selection, panel expansion (Framer Motion or CSS)
+- Refine tooltip positioning edge cases on mobile
+- *Scope: KnobPageLayout.tsx, GaugeCard.tsx, globals.css. ~1 session.*
+
+### Medium-Term: New Features
+
+**Country Case Studies**
 - Add `/cases` page with 4-6 country profiles (Taiwan, UK, Germany, Thailand, Rwanda, USA)
 - Each case maps the country's knob configuration onto the diagram
 - Link to relevant literature entries by country field
 - *Scope: new page + new data file + reuse of ControlKnobsDiagram. ~1-2 sessions.*
 
-**Option D: Cross-Knob Interaction Mapping**
-- Add `interactions` field to scenarios listing which other knobs they affect
-- When a scenario is selected, highlight related knobs on the diagram
-- Add "Related Scenarios" section showing relevant scenarios from other knobs
-- *Scope: data files + ControlKnobsDiagram.tsx + KnobPageLayout.tsx. ~1 session. Addresses biggest conceptual gap.*
+**"Build Your System" Interactive Mode**
+- Select one scenario from each knob, see combined effect profile with conflicts/reinforcements highlighted
+- This is the pedagogical endgame — forces students to confront trade-offs across the full framework
+- *Scope: new page + new component + cross-knob conflict detection logic. ~2 sessions.*
 
-**Recommended starting point: Option B or D** — both address core pedagogical gaps and are technically scoped to a single session.
+**Search / Filter Across Scenarios**
+- Filter by outcome metric ("show me all scenarios with High efficiency") or search by keyword
+- Becomes more valuable as scenario count grows
+- *Scope: new component + KnobPageLayout.tsx. ~1 session.*
 
-### Medium Priority (future sessions)
-- **Search / Filter Across Scenarios** — Filter by outcome metric or search by keyword as scenario count grows
-- **Glossary / Definitions Panel** — Linkable glossary for health systems terminology (moral hazard, adverse selection, monopsony, etc.)
-- **"Build Your System" Interactive Mode** — Select one scenario from each knob, see combined effect profile with conflicts/reinforcements highlighted (pedagogical endgame)
-- **Animated Transitions** — Smooth transitions for scenario selection, literature toggle, page navigation (Framer Motion or CSS)
+**Glossary / Definitions Panel**
+- Linkable glossary for health systems terminology (moral hazard, adverse selection, monopsony, etc.)
+- Could surface inline via tooltips on technical terms in scenario descriptions
+- *Scope: new data file + component. ~1 session.*
 
 ### Lower Priority
 - **PDF Export** — Export selected configuration as PDF for assignments/presentations

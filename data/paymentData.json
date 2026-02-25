@@ -12,6 +12,11 @@
       "systemic_risks": {
         "efficiency": "Critical Warning: Drives volume over value. Providers are financially incentivized to over-treat, order unnecessary tests, and perform procedures of marginal benefit — the primary driver of healthcare cost inflation.",
         "quality": "Warning: No financial reward for outcomes or coordination. Incentivizes fragmented, episodic care rather than holistic patient management."
+      },
+      "literature_ids": ["gruber_owings_1996"],
+      "interactions": {
+        "Behavior": "FFS incentives directly shape provider behavior — supplier-induced demand is the primary behavioral distortion, requiring clinical guidelines or peer review to counteract",
+        "Regulation": "Without regulatory oversight (utilization review, coding audits), FFS volume incentives are unchecked. Rate-setting can constrain per-unit prices but not volume"
       }
     },
     {
@@ -25,7 +30,8 @@
       "systemic_risks": {
         "quality": "Warning: Financial incentive to under-treat. Providers may skimp on necessary services, avoid complex patients, or restrict referrals to specialists to stay within budget.",
         "access": "Warning: Risk selection. Providers may prefer to enroll healthier patients and avoid those with chronic or complex conditions."
-      }
+      },
+      "literature_ids": ["brown_2014"]
     },
     {
       "id": "salary_budget",
@@ -51,6 +57,11 @@
       "systemic_risks": {
         "quality": "Warning: Incentive to discharge patients prematurely or skimp on in-hospital services to stay under the case payment, potentially leading to higher readmission rates.",
         "access": "Critical Warning: Upcoding is pervasive — hospitals systematically reclassify patients to higher-paying diagnosis codes, with an estimated $330–$425M in excess annual reimbursement. Response is strongest among for-profit hospitals. Complex cases may also be avoided when they exceed the standard payment amount."
+      },
+      "literature_ids": ["cutler_1995", "dafny_2005"],
+      "interactions": {
+        "Regulation": "DRG systems require robust coding audits and classification rules to prevent upcoding. Without regulatory enforcement, efficiency gains are captured by gaming rather than genuine care improvement",
+        "Organization": "DRG incentives interact with hospital ownership — for-profit hospitals show the strongest upcoding response. Organizational governance determines whether DRG savings translate to reinvestment or profit extraction"
       }
     },
     {
@@ -64,6 +75,11 @@
       "systemic_risks": {
         "access": "Warning: Fixed budgets create incentives to limit services as the budget period progresses. Wait times may increase, particularly for elective procedures, as providers ration within the cap.",
         "quality": "Warning: If budget levels are set too low or fail to keep pace with population needs, providers may underinvest in staffing, equipment, and new technologies. Innovation adoption may slow."
+      },
+      "literature_ids": ["hogan_2017"],
+      "interactions": {
+        "Regulation": "Global budgets require regulatory infrastructure to set and enforce budget levels, adjust for population changes, and monitor quality. Maryland's all-payer system demonstrates the regulatory complexity required",
+        "Organization": "Budget constraints force organizational adaptation — hospitals must shift from volume-maximizing to population health management, requiring new care coordination structures"
       }
     },
     {
@@ -77,6 +93,11 @@
       "systemic_risks": {
         "quality": "Warning: Providers may cut corners on post-acute care or rehabilitation to stay within the bundle price, shifting costs to patients or downstream providers.",
         "access": "Warning: Complex patients with multiple comorbidities may be avoided because their episodes are more expensive and less predictable than the bundled price assumes."
+      },
+      "literature_ids": ["dummit_2016"],
+      "interactions": {
+        "Organization": "Bundled payments require inter-provider coordination across settings (hospital, post-acute, rehab). Without integrated organizational structures, savings are limited to the most easily controlled segment",
+        "Behavior": "Episode accountability changes provider behavior around discharge planning and post-acute referral patterns — the primary mechanism through which BPCI achieved savings"
       }
     }
   ],
@@ -91,7 +112,8 @@
       },
       "systemic_risks": {
         "efficiency": "Warning: Moral hazard. Without any price signal, patients may over-utilize services, including low-value care, driving up system costs and straining capacity."
-      }
+      },
+      "literature_ids": ["manning_1987"]
     },
     {
       "id": "copayments",
@@ -103,7 +125,8 @@
       "systemic_risks": {
         "access": "Warning: Even small co-payments can deter low-income patients from seeking necessary care, particularly for chronic disease management and preventive services.",
         "health_status": "Warning: Patients may delay or skip needed care to avoid co-payments, worsening outcomes for manageable conditions."
-      }
+      },
+      "literature_ids": ["manning_1987"]
     },
     {
       "id": "deductibles",
@@ -115,7 +138,8 @@
       "systemic_risks": {
         "access": "Critical Warning: High deductibles function as a barrier to initial care-seeking. Patients may avoid or delay care — including preventive and diagnostic services — particularly in the early stages of potentially serious illness.",
         "risk_protection": "Warning: Deductibles shift significant financial risk back to individuals, especially those with unpredictable healthcare needs."
-      }
+      },
+      "literature_ids": ["manning_1987"]
     },
     {
       "id": "reference_pricing",
@@ -141,6 +165,11 @@
       "systemic_risks": {
         "efficiency": "Warning: Determining the 'value' of each service requires robust evidence infrastructure and continuous updating. Classification errors can misdirect utilization.",
         "access": "Warning: Complex tiered cost-sharing structures may confuse patients, particularly those with low health literacy, reducing the intended behavioral signal."
+      },
+      "literature_ids": ["chernew_2008", "manning_1987"],
+      "interactions": {
+        "Regulation": "VBID requires HTA infrastructure to classify services by clinical value — the evidence base for tiering comes from the same systematic evaluation used by agencies like NICE",
+        "Behavior": "VBID's mechanism is fundamentally behavioral: it uses price signals to steer patient utilization toward high-value care, correcting the blunt demand reduction identified in the RAND experiment"
       }
     }
   ]

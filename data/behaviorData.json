@@ -38,7 +38,8 @@
       "systemic_risks": {
         "quality": "Warning: Peer review is only as effective as the data systems and professional culture supporting it. In settings with weak data infrastructure or hierarchical medical culture, reviews may be superficial or biased.",
         "customer_satisfaction": "Warning: Providers under audit pressure may become more conservative, avoiding innovative treatments or complex cases to maintain favorable performance metrics."
-      }
+      },
+      "literature_ids": ["dranove_2003"]
     },
     {
       "id": "pay_for_performance",
@@ -51,6 +52,11 @@
       "systemic_risks": {
         "quality": "Warning: Providers may 'teach to the test' — focusing on measured metrics at the expense of unmeasured aspects of care. Campbell et al. (2009) found quality gains plateaued within 2 years and unincentivized quality declined. Gaming, up-coding, and patient selection to improve scores are well-documented responses.",
         "access": "Warning: Providers may avoid caring for complex, high-risk patients whose outcomes are harder to optimize, worsening access for the sickest and most vulnerable populations."
+      },
+      "literature_ids": ["campbell_2009", "jha_2012"],
+      "interactions": {
+        "Payment": "P4P is fundamentally a Payment mechanism applied to behavioral goals — its effectiveness depends on the size and structure of financial incentives relative to the base payment model",
+        "Regulation": "P4P requires regulatory infrastructure for quality measurement, data collection, and auditing. Without robust measurement, the incentive structure rewards gaming rather than genuine improvement"
       }
     },
     {
@@ -64,6 +70,11 @@
       "systemic_risks": {
         "efficiency": "Warning: SDM consultations require more time per patient encounter. In high-volume settings, the additional time investment may reduce throughput and create longer wait times.",
         "access": "Warning: Decision aids may not be available in all languages or at appropriate literacy levels. Patients with cognitive impairments, low health literacy, or cultural barriers to questioning physicians may not benefit equally."
+      },
+      "literature_ids": ["stacey_2017"],
+      "interactions": {
+        "Organization": "SDM requires organizational infrastructure — dedicated consultation time, trained staff, and decision aid development. Its feasibility depends on how clinical workflows are organized",
+        "Regulation": "Some systems mandate SDM for preference-sensitive procedures (e.g., Washington State's informed consent law). Regulatory requirements can institutionalize SDM rather than leaving it to individual provider discretion"
       }
     }
   ],
@@ -92,7 +103,8 @@
       "systemic_risks": {
         "quality": "Warning: CHWs have limited training and may provide incorrect advice, miss serious conditions, or exceed their scope of practice without adequate supervision.",
         "efficiency": "Warning: Sustaining CHW programs requires ongoing supervision, supply chains, and compensation. Programs often collapse when external funding ends or government commitment wavers."
-      }
+      },
+      "literature_ids": ["patel_2010"]
     },
     {
       "id": "conditional_transfers",
@@ -105,6 +117,11 @@
       "systemic_risks": {
         "efficiency": "Warning: Administrative costs of verifying compliance, distributing payments, and preventing fraud can be substantial relative to the health impact achieved.",
         "risk_protection": "Warning: Benefits are contingent on behavior, which may exclude the most vulnerable populations — those facing the greatest barriers to compliance, such as the disabled, elderly, or those in crisis situations."
+      },
+      "literature_ids": ["gertler_2004", "rasella_2013"],
+      "interactions": {
+        "Financing": "CCTs are a financing instrument operated through behavioral conditionality — the cash transfer is a demand-side subsidy that channels public revenue directly to households contingent on health-seeking behavior",
+        "Organization": "CCT health gains depend on an accessible primary care platform — Rasella et al. (2013) found dose-dependent mortality reductions only when combined with adequate facility coverage"
       }
     },
     {

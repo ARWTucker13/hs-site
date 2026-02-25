@@ -64,6 +64,11 @@
       "systemic_risks": {
         "access": "Critical Warning: Overly restrictive scope-of-practice laws create artificial workforce shortages. In areas with few physicians, preventing NPs or midwives from practicing independently leaves populations without any care at all.",
         "efficiency": "Warning: When low-cost providers are legally prevented from delivering services they are competent to provide, the system forces patients to higher-cost providers for routine care — inflating costs without improving outcomes."
+      },
+      "literature_ids": ["laurant_2018", "aiken_2002"],
+      "interactions": {
+        "Organization": "Scope-of-practice rules determine the organizational workforce mix — expanding NP scope enables primary care models and task-shifting strategies that reshape who delivers care and where",
+        "Behavior": "Changing scope-of-practice alters professional roles and identities, requiring behavioral adaptation from both the newly empowered providers and the physicians whose traditional authority is redistributed"
       }
     }
   ],
@@ -79,7 +84,8 @@
       "systemic_risks": {
         "quality": "Warning: If rates are set too low, providers may reduce service quality, limit investment in new technology, or shift capacity away from price-controlled services.",
         "access": "Warning: Below-cost reimbursement rates may cause providers to exit certain markets or stop accepting regulated payers, reducing access for affected populations."
-      }
+      },
+      "literature_ids": ["hogan_2017", "cutler_1995"]
     },
     {
       "id": "certificate_of_need",
@@ -105,7 +111,8 @@
       "systemic_risks": {
         "efficiency": "Warning: Mandated benefits and community rating increase premium costs, potentially pricing healthy or young individuals out of the market and reducing the overall risk pool.",
         "risk_protection": "Warning: Overly prescriptive regulation may drive insurers out of the market, reducing competition and consumer choice in coverage options."
-      }
+      },
+      "literature_ids": ["brown_2014"]
     },
     {
       "id": "pharmaceutical_regulation",
@@ -131,6 +138,11 @@
       "systemic_risks": {
         "access": "Warning: Cost-effectiveness thresholds may exclude treatments that are clinically effective but expensive, creating a gap between what medicine can do and what the system will pay for. Rare disease treatments are especially vulnerable.",
         "customer_satisfaction": "Warning: Patients and clinicians may view HTA-driven coverage denials as rationing, particularly when treatments are available in other countries. Political pressure can undermine evidence-based decisions."
+      },
+      "literature_ids": ["dakin_2015"],
+      "interactions": {
+        "Payment": "HTA decisions directly determine what the payment system will reimburse — NICE's cost-effectiveness thresholds set the boundary of the benefits package that payment mechanisms must fund",
+        "Organization": "HTA coverage decisions shape organizational investment in technology, staffing, and service lines — hospitals and clinics adapt their offerings to what the system will pay for"
       }
     },
     {
@@ -144,6 +156,11 @@
       "systemic_risks": {
         "quality": "Warning: Blocking mergers may prevent the scale efficiencies and care coordination that integrated systems can achieve. The trade-off between competition and integration is not always clear.",
         "efficiency": "Warning: Antitrust enforcement in healthcare is technically complex. Defining relevant geographic and product markets, and measuring competitive effects, requires specialized expertise that regulatory agencies may lack."
+      },
+      "literature_ids": ["gaynor_2013", "bloom_2015"],
+      "interactions": {
+        "Organization": "Antitrust directly shapes organizational structure by determining which mergers and consolidations are permitted. The competition-integration trade-off is the central tension between these two knobs",
+        "Payment": "Under fixed-price regimes (like NHS tariffs), competition improves quality. Under negotiated prices, competition constrains prices. The interaction depends on how the Payment knob is configured"
       }
     }
   ]

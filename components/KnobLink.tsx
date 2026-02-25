@@ -6,6 +6,7 @@ interface KnobLinkProps {
   href: string;
   label: string;
   active?: boolean;
+  interacting?: boolean;
   color?: KnobColor;
 }
 
@@ -18,6 +19,7 @@ const C: Record<KnobColor, {
   dotHover: string;
   textActive: string;
   textHover: string;
+  interactingRing: string;
 }> = {
   green: {
     outerActive: "border-green-600 bg-green-100",
@@ -28,6 +30,7 @@ const C: Record<KnobColor, {
     dotHover: "group-hover:bg-green-600",
     textActive: "text-green-600",
     textHover: "group-hover:text-green-600",
+    interactingRing: "ring-green-400",
   },
   purple: {
     outerActive: "border-purple-600 bg-purple-100",
@@ -38,6 +41,7 @@ const C: Record<KnobColor, {
     dotHover: "group-hover:bg-purple-600",
     textActive: "text-purple-600",
     textHover: "group-hover:text-purple-600",
+    interactingRing: "ring-purple-400",
   },
   teal: {
     outerActive: "border-teal-600 bg-teal-100",
@@ -48,6 +52,7 @@ const C: Record<KnobColor, {
     dotHover: "group-hover:bg-teal-600",
     textActive: "text-teal-600",
     textHover: "group-hover:text-teal-600",
+    interactingRing: "ring-teal-400",
   },
   rose: {
     outerActive: "border-rose-600 bg-rose-100",
@@ -58,6 +63,7 @@ const C: Record<KnobColor, {
     dotHover: "group-hover:bg-rose-600",
     textActive: "text-rose-600",
     textHover: "group-hover:text-rose-600",
+    interactingRing: "ring-rose-400",
   },
   orange: {
     outerActive: "border-orange-600 bg-orange-100",
@@ -68,15 +74,17 @@ const C: Record<KnobColor, {
     dotHover: "group-hover:bg-orange-600",
     textActive: "text-orange-600",
     textHover: "group-hover:text-orange-600",
+    interactingRing: "ring-orange-400",
   },
 };
 
-export default function KnobLink({ href, label, active, color = "green" }: KnobLinkProps) {
+export default function KnobLink({ href, label, active, interacting, color = "green" }: KnobLinkProps) {
   const c = C[color];
+  const showInteracting = interacting && !active;
 
   return (
     <Link href={href} className="flex flex-col items-center gap-1 lg:flex-row lg:items-center lg:gap-4 group">
-      <div className="relative h-14 w-14 shrink-0">
+      <div className={`relative h-14 w-14 shrink-0 ${showInteracting ? `ring-2 ${c.interactingRing} ring-offset-1 rounded-full animate-[pulse_2s_ease-in-out_infinite]` : ""}`}>
         <div
           className={`absolute inset-0 rounded-full border-[3px] transition-colors ${
             active ? c.outerActive : `border-blue-600 bg-white ${c.outerHover}`
@@ -100,7 +108,7 @@ export default function KnobLink({ href, label, active, color = "green" }: KnobL
       </div>
       <span
         className={`font-blueprint text-[10px] text-center lg:text-xs lg:text-left font-bold uppercase tracking-wider transition-colors ${
-          active ? c.textActive : `text-blue-600 ${c.textHover}`
+          active ? c.textActive : showInteracting ? c.textActive : `text-blue-600 ${c.textHover}`
         }`}
       >
         {label}

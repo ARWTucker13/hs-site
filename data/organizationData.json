@@ -25,7 +25,8 @@
       "systemic_risks": {
         "access": "Critical Warning: Private providers concentrate in wealthy urban areas where patients can pay. Rural, low-income, and unprofitable patient populations are systematically underserved.",
         "efficiency": "Warning: Market fragmentation leads to duplicated infrastructure, administrative overhead from multiple billing systems, and inability to coordinate care across providers."
-      }
+      },
+      "literature_ids": ["gaynor_2013"]
     },
     {
       "id": "managed_competition",
@@ -38,6 +39,11 @@
       "systemic_risks": {
         "access": "Warning: Competing systems may restrict provider networks, limiting patient choice and creating barriers to out-of-network care.",
         "efficiency": "Warning: Regulatory overhead from maintaining competition rules, quality measurement systems, and risk adjustment can be substantial."
+      },
+      "literature_ids": ["gaynor_2013", "bloom_2015"],
+      "interactions": {
+        "Financing": "Managed competition requires risk adjustment to prevent cream-skimming — without it, competition rewards enrollment of healthy patients rather than efficient care delivery",
+        "Regulation": "The 'managed' part of managed competition is entirely regulatory: rules for quality reporting, risk adjustment, benefit standardization, and market entry define whether competition improves or degrades the system"
       }
     },
     {
@@ -64,6 +70,11 @@
       "systemic_risks": {
         "customer_satisfaction": "Warning: Patients may resent being unable to access specialists directly, perceiving the gatekeeper as a barrier rather than a coordinator — particularly for conditions they believe require specialist care.",
         "quality": "Warning: If primary care providers are under-resourced or poorly trained, the gatekeeping function becomes a bottleneck that delays appropriate specialist referrals and worsens outcomes for complex conditions."
+      },
+      "literature_ids": ["starfield_2005"],
+      "interactions": {
+        "Payment": "Gatekeeping effectiveness depends on how primary care is paid — capitation aligns with population management, while FFS incentivizes volume over coordination",
+        "Behavior": "The gatekeeper model changes both provider behavior (comprehensive first-contact care) and patient behavior (structured care-seeking through a defined entry point)"
       }
     },
     {
@@ -77,6 +88,11 @@
       "systemic_risks": {
         "access": "Warning: Integrated networks may create closed systems that limit patient choice and restrict access to out-of-network providers. In rural areas, a single dominant IDN may become a de facto monopoly.",
         "efficiency": "Warning: Large integrated systems can leverage market power to negotiate higher prices from payers, potentially increasing costs even as internal efficiency improves. The competition-integration trade-off is a central tension in organizational design."
+      },
+      "literature_ids": ["enthoven_2004"],
+      "interactions": {
+        "Payment": "Vertical integration enables payment models (capitation, bundled payments, global budgets) that require inter-provider coordination — Kaiser's salaried multispecialty groups internalize the incentive alignment that fragmented FFS systems cannot achieve",
+        "Behavior": "Integrated systems align provider behavior through shared governance, unified medical records, and organizational culture rather than external financial incentives alone"
       }
     }
   ],
@@ -92,7 +108,8 @@
       "systemic_risks": {
         "efficiency": "Warning: Autonomy without adequate oversight can lead to financial mismanagement, corruption, or mission drift away from serving vulnerable populations.",
         "access": "Warning: Autonomous hospitals may shift toward profitable services and patient populations, reducing availability of essential but low-revenue services."
-      }
+      },
+      "literature_ids": ["wagstaff_bales_2012"]
     },
     {
       "id": "private_for_profit",
@@ -105,7 +122,8 @@
       "systemic_risks": {
         "access": "Critical Warning: For-profit hospitals systematically avoid unprofitable patients, close money-losing service lines, and locate away from underserved communities. Uncompensated care is minimized.",
         "quality": "Warning: Pressure to maximize margins may lead to understaffing, shorter patient interactions, and preference for high-revenue procedures over medically optimal treatment."
-      }
+      },
+      "literature_ids": ["dafny_2005"]
     },
     {
       "id": "not_for_profit",
