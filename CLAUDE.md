@@ -79,39 +79,89 @@ npm run lint         # ESLint check
 - Responsive design (works on mobile and desktop)
 - Caveat text on overview page about context-specificity of outcomes
 
+## Session Log
+
+### 2026-02-23 — Literature Layer, Scenario Expansion, Typography
+**What was done:**
+- Added `data/literature.json` with 19 verified empirical papers (country, methodology, findings, macro takeaway)
+- Recalibrated 6 scenario ratings where empirical evidence showed miscalibration: FFS quality (Medium-High → Medium), DRG upcoding risk (Warning → Critical Warning), P4P quality (High → Medium-High), Peer Review quality (High → Medium-High), CCT health_status (Medium-High → High), Malpractice quality (Medium-High → Medium)
+- Built collapsible "Empirical Evidence" section into KnobPageLayout with Google Scholar links, methodology badges, and filtered matching
+- Added caveat text on overview page about context-specificity and path-dependence
+- Switched body typography to Source Serif 4 (overriding Tailwind v4's `--font-sans` theme variable)
+- Ran comprehensive gap audit across all 5 knobs against the Roberts/Hsiao framework
+- Added 12 new scenarios: Global Budgets, Bundled Payments, VBID, Risk Adjustment, Medical Savings Accounts, Earmarked/Sin Taxes, HTA/Cost-Effectiveness Thresholds, Antitrust, Scope-of-Practice, Primary Care Gatekeeping, Vertical Integration, Shared Decision-Making
+- Fixed Vercel deployment (reconnected to correct repo), confirmed mobile responsiveness
+- Created CLAUDE.md
+
+**Current state:** 50 scenarios across 5 knobs, 19 literature entries, deployed and working on mobile + desktop.
+
+---
+
+## Critique of Current Site
+
+**Strengths:**
+- Diagram-to-scenario interaction is intuitive: click knob → pick scenario → effects light up
+- Scenario writing quality is strong: trade-offs named, mechanisms explained, ratings justified
+- Literature section adds credibility and pedagogical depth
+- Mobile layout holds up well
+
+**Weaknesses to address:**
+1. **Diagram is static/passive** — On knob pages, the other 4 knobs are visible but only navigate. No visual feedback showing how the selected scenario relates to other knobs, even though descriptions frequently reference cross-knob interactions.
+2. **No scenario comparison** — Single-selection model prevents side-by-side comparison. For teaching trade-offs (FFS vs. Capitation, Global Budget vs. DRG), comparison is the core pedagogical move.
+3. **Literature is hidden by default** — Collapsible toggle means most users may never open it. The papers are the strongest differentiator and should be more visible.
+4. **No narrative arc** — The site is a reference tool, not a guided learning experience. No suggested path, no "start here", no way to pose a policy question and explore across knobs.
+5. **Outcome metrics are underutilized** — Can click a metric for its definition, but can't filter by it ("show me all scenarios with High efficiency"). Metrics feel like labels, not analytical tools.
+6. **No visual distinction between effect levels** — "Medium" and "Medium-High" look identical in scenario cards; you have to read the parenthetical. Progress bars in the diagram help, but cards themselves could use color coding.
+
+---
+
 ## Next Steps — Feature Roadmap
 
-### High Priority
-1. **Comparative Country Case Studies** — Add a `/cases` section with 4-6 country profiles (e.g., Taiwan, UK, Germany, Thailand, Rwanda, USA) showing how each country configures its knobs. Could reuse the diagram component to visualize each country's configuration. Link to relevant literature entries by country field.
+### Work Blocks for Next Session (pick one or two)
 
-2. **Cross-Knob Interaction Highlighting** — When a scenario is selected, visually indicate which other knobs it interacts with (many scenarios have cross-knob implications noted in their descriptions). Could use subtle connector lines or badge indicators on the diagram.
+**Option A: Literature Integration & Visibility**
+- Surface paper count badges on scenario cards linking to the literature section
+- Add inline literature citations in scenario risk/effect text where they exist
+- Default the literature section to expanded (or expanded on first visit)
+- Add ~10-15 new literature entries for the 12 newly added scenarios (Global Budgets → Maryland all-payer; HTA → NICE evaluations; Risk Adjustment → Medicare Advantage; Vertical Integration → Kaiser)
+- *Scope: data files + KnobPageLayout.tsx. ~1 session.*
 
-3. **Scenario Comparison Mode** — Allow users to select 2 scenarios side-by-side within a knob page to compare their intended effects and risks. Useful for teaching trade-offs (e.g., FFS vs. Capitation, Global Budget vs. DRG).
+**Option B: Scenario Comparison Mode**
+- Add a "Compare" toggle allowing selection of 2 scenarios within a knob page
+- Render side-by-side panel showing both effects and risks
+- Highlight divergences (e.g., FFS has High access but Critical efficiency risk; Capitation inverts this)
+- *Scope: KnobPageLayout.tsx only. ~1 session. High pedagogical value.*
 
-4. **Search / Filter Across Scenarios** — As the scenario count grows, add a search bar or filter by outcome metric (e.g., "show me all scenarios with High efficiency").
+**Option C: Country Case Studies**
+- Add `/cases` page with 4-6 country profiles (Taiwan, UK, Germany, Thailand, Rwanda, USA)
+- Each case maps the country's knob configuration onto the diagram
+- Link to relevant literature entries by country field
+- *Scope: new page + new data file + reuse of ControlKnobsDiagram. ~1-2 sessions.*
 
-### Medium Priority
-5. **Literature Expansion** — Add more empirical papers, particularly for the newly added scenarios (Global Budgets → Maryland all-payer; HTA → NICE evaluations; Risk Adjustment → Medicare Advantage studies; Vertical Integration → Kaiser evidence). Target 30-40 papers total.
+**Option D: Cross-Knob Interaction Mapping**
+- Add `interactions` field to scenarios listing which other knobs they affect
+- When a scenario is selected, highlight related knobs on the diagram
+- Add "Related Scenarios" section showing relevant scenarios from other knobs
+- *Scope: data files + ControlKnobsDiagram.tsx + KnobPageLayout.tsx. ~1 session. Addresses biggest conceptual gap.*
 
-6. **Glossary / Definitions Panel** — A persistent or linkable glossary for health systems terminology (moral hazard, adverse selection, monopsony, Pigouvian tax, etc.) that could be referenced from scenario descriptions.
+**Recommended starting point: Option B or D** — both address core pedagogical gaps and are technically scoped to a single session.
 
-7. **"Build Your System" Interactive Mode** — Let users select one scenario from each knob and see the combined effect profile, highlighting where choices conflict or reinforce each other. This is the pedagogical endgame of the framework.
-
-8. **Animated Transitions** — Add smooth transitions when selecting scenarios, toggling the literature panel, and navigating between knob pages. Framer Motion or CSS transitions.
+### Medium Priority (future sessions)
+- **Search / Filter Across Scenarios** — Filter by outcome metric or search by keyword as scenario count grows
+- **Glossary / Definitions Panel** — Linkable glossary for health systems terminology (moral hazard, adverse selection, monopsony, etc.)
+- **"Build Your System" Interactive Mode** — Select one scenario from each knob, see combined effect profile with conflicts/reinforcements highlighted (pedagogical endgame)
+- **Animated Transitions** — Smooth transitions for scenario selection, literature toggle, page navigation (Framer Motion or CSS)
 
 ### Lower Priority
-9. **PDF Export** — Allow users to export a selected configuration (scenarios + effects + literature) as a PDF summary for assignments or presentations.
-
-10. **Instructor Mode** — Pre-built "lesson" configurations that walk through specific policy design questions (e.g., "Why did Vietnam's hospital autonomization fail?" using the Wagstaff & Bales paper + Organization + Payment knobs).
-
-11. **Dark Mode** — Respect system preference, adapt the dot-grid background and color scheme.
-
-12. **Accessibility Audit** — Ensure full WCAG 2.1 AA compliance: keyboard navigation through all interactive elements, screen reader labels for the SVG diagram, sufficient color contrast on all rating levels.
+- **PDF Export** — Export selected configuration as PDF for assignments/presentations
+- **Instructor Mode** — Pre-built "lesson" configurations walking through specific policy questions
+- **Dark Mode** — System preference, adapted dot-grid and color scheme
+- **Accessibility Audit** — WCAG 2.1 AA: keyboard nav, screen reader labels for SVG, color contrast
 
 ## Content Expansion Opportunities
-- The audit identified additional scenarios that could be added in future passes: Blended/Mixed Payment Systems, Coinsurance, Reinsurance/Catastrophic Risk Pools, Purchaser-Provider Split, Social Franchising, Quality Transparency/Public Reporting, Academic Detailing, Patient Navigators, Health Literacy Interventions.
-- Environmental and public health regulation (upstream determinants) could be a new regulation subcategory.
-- The reference PDF `getting-health-reform-right.pdf` is in the project root for cross-referencing framework concepts.
+- Additional scenarios from the audit: Blended/Mixed Payment Systems, Coinsurance, Reinsurance/Catastrophic Risk Pools, Purchaser-Provider Split, Social Franchising, Quality Transparency/Public Reporting, Academic Detailing, Patient Navigators, Health Literacy Interventions
+- Environmental and public health regulation (upstream determinants) as a new regulation subcategory
+- The reference PDF `getting-health-reform-right.pdf` is in the project root for cross-referencing framework concepts
 
 ## Style Guidelines
 - Body text: Source Serif 4 (serif). Headings/labels: Space Mono (monospace).
