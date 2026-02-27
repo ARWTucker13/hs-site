@@ -19,6 +19,7 @@ interface ControlKnobsDiagramProps {
   onMetricClick?: (metricKey: string) => void;
   activeMetric?: string | null;
   interactingKnobs?: string[];
+  scenarioKey?: number;
 }
 
 const KNOBS: { href: string; label: string; key: string; color: KnobColor }[] = [
@@ -60,6 +61,7 @@ export default function ControlKnobsDiagram({
   onMetricClick,
   activeMetric,
   interactingKnobs,
+  scenarioKey,
 }: ControlKnobsDiagramProps) {
   const hasScenario = activeScenario != null;
   const hasSecondScenario = secondScenario != null;
@@ -86,11 +88,11 @@ export default function ControlKnobsDiagram({
 
       <div className="flex flex-col gap-4 lg:grid lg:grid-cols-[auto_60px_1fr_60px_1fr] lg:gap-0 lg:items-stretch">
         {/* Column 1: Control Knobs panel */}
-        <div className="border-2 border-blue-600 bg-white p-3 sm:p-5 flex flex-col">
+        <div className="border-2 border-blue-600 bg-white p-4 sm:p-6 flex flex-col lg:min-w-[155px]">
           <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-5 uppercase tracking-wider hidden lg:block">
             Control Knobs
           </h2>
-          <div className="flex flex-row flex-wrap justify-center gap-3 lg:flex-col lg:gap-5 overflow-x-auto">
+          <div className="flex flex-row flex-wrap justify-center gap-3 lg:flex-col lg:gap-5">
             {KNOBS.map((knob) => (
               <KnobLink
                 key={knob.key}
@@ -116,12 +118,12 @@ export default function ControlKnobsDiagram({
         </div>
 
         {/* Column 2: Intermediate Performance Measures panel */}
-        <div className="border-2 border-blue-600 bg-white p-3 sm:p-5 flex flex-col">
+        <div className="border-2 border-blue-600 bg-white p-4 sm:p-6 flex flex-col">
           <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-5 uppercase tracking-wider text-center">
             Intermediate<br />Performance Measures
           </h2>
           <div className="flex flex-col gap-3 flex-1">
-            {INTERMEDIATE_METRICS.map((m) => (
+            {INTERMEDIATE_METRICS.map((m, idx) => (
               <GaugeCard
                 key={m.key}
                 label={m.label}
@@ -136,6 +138,8 @@ export default function ControlKnobsDiagram({
                 } : {})}
                 onClick={onMetricClick ? () => onMetricClick(m.key) : undefined}
                 selected={activeMetric === m.key}
+                scenarioKey={scenarioKey}
+                gaugeIndex={idx}
               />
             ))}
           </div>
@@ -153,12 +157,12 @@ export default function ControlKnobsDiagram({
         </div>
 
         {/* Column 3: Performance Goals panel */}
-        <div className="border-2 border-blue-600 bg-white p-3 sm:p-5 flex flex-col">
+        <div className="border-2 border-blue-600 bg-white p-4 sm:p-6 flex flex-col">
           <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-5 uppercase tracking-wider text-center">
             Performance Goals
           </h2>
           <div className="flex flex-col gap-3 flex-1">
-            {GOAL_METRICS.map((m) => (
+            {GOAL_METRICS.map((m, idx) => (
               <GaugeCard
                 key={m.key}
                 label={m.label}
@@ -173,6 +177,8 @@ export default function ControlKnobsDiagram({
                 } : {})}
                 onClick={onMetricClick ? () => onMetricClick(m.key) : undefined}
                 selected={activeMetric === m.key}
+                scenarioKey={scenarioKey}
+                gaugeIndex={idx + 3}
               />
             ))}
           </div>

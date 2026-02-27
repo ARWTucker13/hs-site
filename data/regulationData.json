@@ -12,6 +12,10 @@
       "systemic_risks": {
         "access": "Warning: Stringent licensure requirements can restrict the supply of providers, particularly in rural and underserved areas where training programs are scarce.",
         "efficiency": "Warning: Licensing processes can be slow, creating bottlenecks in workforce entry and limiting the system's ability to respond to surges in demand."
+      },
+      "interactions": {
+        "Organization": "Licensure requirements directly constrain the organizational workforce mix — the number and type of licensed providers determine what services organizations can offer and where they can operate",
+        "Behavior": "Licensure examinations and requirements shape provider training and competency, establishing the baseline clinical knowledge from which all other behavioral interventions (CME, guidelines, peer review) operate"
       }
     },
     {
@@ -25,6 +29,11 @@
       "systemic_risks": {
         "efficiency": "Warning: Accreditation preparation and compliance consume significant administrative resources. Smaller facilities may struggle with the documentation burden.",
         "access": "Warning: Facilities that cannot meet or afford accreditation standards may close, reducing access in areas where they are the only available provider."
+      },
+      "literature_ids": ["flodgren_2011"],
+      "interactions": {
+        "Organization": "Accreditation directly shapes organizational processes — facilities must restructure governance, documentation, and clinical workflows to meet accreditation standards, driving organizational development regardless of whether patient outcomes improve",
+        "Payment": "Tying accreditation status to reimbursement eligibility creates a financial enforcement mechanism — facilities that lose accreditation lose revenue, aligning Payment incentives with Regulatory quality standards"
       }
     },
     {
@@ -38,6 +47,11 @@
       "systemic_risks": {
         "quality": "Warning: Guidelines may become outdated or may not account for individual patient complexity. Rigid adherence can lead to 'cookbook medicine' that ignores clinical judgment.",
         "customer_satisfaction": "Warning: Patients may perceive standardized care as impersonal or feel their preferences are not considered when providers follow protocols rigidly."
+      },
+      "literature_ids": ["grimshaw_2004"],
+      "interactions": {
+        "Payment": "Clinical standards can be tied to payment through pay-for-performance programs — reimbursement conditional on guideline adherence converts voluntary standards into financially enforced requirements",
+        "Behavior": "Regulatory clinical standards only change practice if providers adopt them — Grimshaw et al. (2004) showed that passive dissemination is ineffective, requiring active behavioral implementation strategies"
       }
     },
     {
@@ -51,6 +65,11 @@
       "systemic_risks": {
         "efficiency": "Critical Warning: Defensive medicine. Fear of lawsuits drives providers to order excessive tests, imaging, and consultations — not because they are clinically necessary, but to create a legal paper trail. This is a major driver of unnecessary healthcare spending.",
         "access": "Warning: High malpractice premiums drive providers away from high-risk specialties (obstetrics, surgery) and away from high-risk patient populations, reducing access to essential services."
+      },
+      "literature_ids": ["kessler_mcclellan_1996"],
+      "interactions": {
+        "Behavior": "Malpractice liability directly shapes provider behavior through fear of litigation — defensive medicine is a behavioral response to legal risk that increases test ordering and procedure rates regardless of clinical necessity",
+        "Payment": "Defensive medicine interacts with fee-for-service payment: when providers are paid per service, the liability-driven incentive to over-test aligns with the financial incentive to over-bill, compounding the efficiency loss"
       }
     },
     {
@@ -85,7 +104,11 @@
         "quality": "Warning: If rates are set too low, providers may reduce service quality, limit investment in new technology, or shift capacity away from price-controlled services.",
         "access": "Warning: Below-cost reimbursement rates may cause providers to exit certain markets or stop accepting regulated payers, reducing access for affected populations."
       },
-      "literature_ids": ["hogan_2017", "cutler_1995"]
+      "literature_ids": ["hogan_2017", "cutler_1995"],
+      "interactions": {
+        "Payment": "Rate setting directly constrains the Payment knob — administered prices override market-negotiated or cost-based payment levels, determining what providers receive regardless of their own cost structures",
+        "Organization": "Below-cost rate setting can force organizational restructuring — providers may merge, close service lines, or exit markets when regulated prices do not cover operating costs"
+      }
     },
     {
       "id": "certificate_of_need",
@@ -98,6 +121,11 @@
       "systemic_risks": {
         "efficiency": "Warning: Incumbent providers may use certificate-of-need processes to block competition, protecting market power at the expense of innovation and consumer choice.",
         "access": "Warning: Bureaucratic approval processes can delay needed capacity expansion, leaving communities with inadequate services during periods of population growth."
+      },
+      "literature_ids": ["conover_sloan_1998"],
+      "interactions": {
+        "Organization": "CON directly controls organizational entry and expansion — it determines which facilities exist, their size, and their service capacity, making it the most direct regulatory lever over organizational structure",
+        "Financing": "CON regulation attempts to constrain capital investment to match financing capacity, preventing overbuilding that would increase system costs — though evidence suggests it may protect incumbent market power rather than control costs"
       }
     },
     {
@@ -112,7 +140,11 @@
         "efficiency": "Warning: Mandated benefits and community rating increase premium costs, potentially pricing healthy or young individuals out of the market and reducing the overall risk pool.",
         "risk_protection": "Warning: Overly prescriptive regulation may drive insurers out of the market, reducing competition and consumer choice in coverage options."
       },
-      "literature_ids": ["brown_2014"]
+      "literature_ids": ["brown_2014"],
+      "interactions": {
+        "Financing": "Insurance regulation shapes the risk pooling architecture — community rating, guaranteed issue, and mandated benefits determine the depth and breadth of financial protection that the financing mechanism delivers",
+        "Organization": "Minimum loss ratio requirements and network adequacy standards constrain how insurers organize their provider networks and administrative operations"
+      }
     },
     {
       "id": "pharmaceutical_regulation",
@@ -125,6 +157,11 @@
       "systemic_risks": {
         "access": "Warning: Lengthy approval processes can delay patient access to life-saving treatments. Price controls may reduce pharmaceutical company investment in research for treatments targeting smaller patient populations.",
         "quality": "Warning: Rigid formularies may limit physician prescribing flexibility and prevent patients from accessing the most appropriate treatment for their specific condition."
+      },
+      "literature_ids": ["danzon_chao_2000"],
+      "interactions": {
+        "Payment": "Pharmaceutical regulation sets the prices that the payment system reimburses for drugs — formulary management and reference pricing determine which medications providers can prescribe within the payment structure",
+        "Behavior": "Drug marketing regulation (limits on direct-to-consumer advertising, detailing rules) directly shapes both prescriber behavior and patient demand, with countries that restrict marketing showing different prescribing patterns"
       }
     },
     {

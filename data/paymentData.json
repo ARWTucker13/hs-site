@@ -31,7 +31,11 @@
         "quality": "Warning: Financial incentive to under-treat. Providers may skimp on necessary services, avoid complex patients, or restrict referrals to specialists to stay within budget.",
         "access": "Warning: Risk selection. Providers may prefer to enroll healthier patients and avoid those with chronic or complex conditions."
       },
-      "literature_ids": ["brown_2014"]
+      "literature_ids": ["brown_2014"],
+      "interactions": {
+        "Financing": "Capitation aligns with risk-pooled financing — the per-enrollee payment mirrors the insurance logic of spreading risk, but requires risk adjustment when enrollee populations vary in health status",
+        "Organization": "Capitation incentivizes providers to build integrated care structures that manage total cost per patient — the payment model drives organizational design toward coordinated, preventive care delivery"
+      }
     },
     {
       "id": "salary_budget",
@@ -44,6 +48,10 @@
       "systemic_risks": {
         "efficiency": "Warning: No incentive for productivity. Providers may see fewer patients, maintain long wait times, or operate below capacity.",
         "customer_satisfaction": "Warning: Patient responsiveness suffers. Without volume-linked revenue, providers have weak incentives to accommodate patient preferences or reduce waiting times."
+      },
+      "interactions": {
+        "Organization": "Salary payment is the natural complement to public integrated systems and academic medical centers — organizational mission and professional norms replace financial incentives as the drivers of provider effort",
+        "Behavior": "Without volume-based financial incentives, provider behavior is shaped primarily by professional norms, peer culture, and intrinsic motivation — making the Behavior knob (guidelines, peer review, CME) especially important under salary payment"
       }
     },
     {
@@ -113,7 +121,11 @@
       "systemic_risks": {
         "efficiency": "Warning: Moral hazard. Without any price signal, patients may over-utilize services, including low-value care, driving up system costs and straining capacity."
       },
-      "literature_ids": ["manning_1987"]
+      "literature_ids": ["manning_1987"],
+      "interactions": {
+        "Financing": "No cost sharing maximizes the financial burden on the pooled revenue source — whether taxes or premiums must cover all utilization, making the financing mechanism's capacity to generate revenue the binding constraint",
+        "Behavior": "Removing all price signals at point of service means patient behavior is shaped entirely by non-financial factors — information, convenience, provider recommendations — amplifying the importance of behavioral interventions to prevent moral hazard"
+      }
     },
     {
       "id": "copayments",
@@ -126,7 +138,11 @@
         "access": "Warning: Even small co-payments can deter low-income patients from seeking necessary care, particularly for chronic disease management and preventive services.",
         "health_status": "Warning: Patients may delay or skip needed care to avoid co-payments, worsening outcomes for manageable conditions."
       },
-      "literature_ids": ["manning_1987"]
+      "literature_ids": ["manning_1987"],
+      "interactions": {
+        "Behavior": "Co-payments create a modest price signal that shapes patient care-seeking behavior, but the RAND HIE showed patients reduce high-value and low-value care equally — the behavioral response is blunt rather than clinically targeted",
+        "Financing": "Co-payment revenue offsets a portion of the financing burden, creating a secondary revenue stream at point of service that supplements the primary pooling mechanism"
+      }
     },
     {
       "id": "deductibles",
@@ -139,7 +155,11 @@
         "access": "Critical Warning: High deductibles function as a barrier to initial care-seeking. Patients may avoid or delay care — including preventive and diagnostic services — particularly in the early stages of potentially serious illness.",
         "risk_protection": "Warning: Deductibles shift significant financial risk back to individuals, especially those with unpredictable healthcare needs."
       },
-      "literature_ids": ["manning_1987"]
+      "literature_ids": ["manning_1987"],
+      "interactions": {
+        "Behavior": "Deductibles create the strongest cost-consciousness among demand-side mechanisms, concentrating the behavioral effect at the start of illness episodes when patients are deciding whether to seek care at all",
+        "Financing": "High-deductible plans shift financial risk back to individuals, reducing the effective depth of the risk pool — the financing architecture provides coverage only above the deductible threshold"
+      }
     },
     {
       "id": "reference_pricing",
@@ -152,6 +172,11 @@
       "systemic_risks": {
         "access": "Warning: Patients in areas with limited provider options may have no affordable choice below the reference price, effectively creating a financial barrier.",
         "quality": "Warning: Aggressive price competition may drive providers to cut costs at the expense of service quality or patient experience."
+      },
+      "literature_ids": ["robinson_brown_2013"],
+      "interactions": {
+        "Behavior": "Reference pricing activates patient price-shopping behavior by making cost differences salient and financially consequential — the mechanism depends on patients responding to price signals when choosing providers",
+        "Regulation": "Effective reference pricing requires price transparency regulation so patients can compare provider costs before seeking care, and quality reporting to ensure price competition does not degrade care standards"
       }
     },
     {

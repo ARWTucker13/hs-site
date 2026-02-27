@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { AlertTriangle, BookOpen, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
 import Tooltip from "@/components/Tooltip";
@@ -63,6 +63,16 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
   const [showLiterature, setShowLiterature] = useState(false);
   const [compareMode, setCompareMode] = useState(false);
   const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [pageLoaded, setPageLoaded] = useState(false);
+
+  // Track scenario selection changes to trigger entrance animations via key remounts
+  const [scenarioKey, setScenarioKey] = useState(0);
+
+  useEffect(() => {
+    // Trigger stagger-fade-in after mount
+    const t = setTimeout(() => setPageLoaded(true), 50);
+    return () => clearTimeout(t);
+  }, []);
 
   const allScenarios = config.sections.flatMap((s) => s.scenarios);
   const activeScenario = allScenarios.find((s) => s.id === activeId) ?? null;
@@ -110,9 +120,11 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
         return [prev[0], id];
       });
       setActiveMetric(null);
+      setScenarioKey((k) => k + 1);
     } else {
       setActiveId(activeId === id ? null : id);
       setActiveMetric(null);
+      setScenarioKey((k) => k + 1);
     }
   };
 
@@ -203,6 +215,7 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
         onMetricClick={compareMode ? undefined : handleMetricClick}
         activeMetric={activeMetric}
         interactingKnobs={interactingKnobs.length > 0 ? interactingKnobs : undefined}
+        scenarioKey={scenarioKey}
       />
 
       {/* Description & Detail Panel */}
@@ -210,7 +223,7 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
         {compareMode ? (
           compareScenarioA && compareScenarioB ? (
             /* Full comparison view */
-            <div>
+            <div key={`compare-${compareIds.join("-")}`} className="animate-fade-slide-up">
               <h2 className="font-blueprint text-lg font-bold text-blue-600 mb-5 uppercase tracking-wider">
                 Scenario Comparison
               </h2>
@@ -394,7 +407,7 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
           )
         ) : (
           /* Normal mode panel */
-          <>
+          <div key={activeId ?? activeMetric ?? "default"} className={activeScenario || metric ? "animate-fade-slide-up" : ""}>
             <h2 className="font-blueprint text-sm font-bold text-blue-600 mb-3 uppercase tracking-wider">
               {metric
                 ? metric.name
@@ -414,14 +427,15 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
               <>
                 {activeInteractions && Object.keys(activeInteractions).length > 0 && (
                   <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <span className="font-blueprint text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                      Interacts with
+                    <span className="font-blueprint text-[10px] font-bold text-slate-400 uppercase tracking-wider" title="This scenario has policy interactions with other control knobs. Hover each for details.">
+                      Interacts with:
                     </span>
-                    {Object.entries(activeInteractions).map(([knobDisplayName, explanation]) => (
+                    {Object.entries(activeInteractions).map(([knobDisplayName, explanation], idx) => (
                       <Tooltip key={knobDisplayName} text={explanation}>
                         <Link
                           href={`/knobs/${KNOB_KEY_MAP[knobDisplayName] ?? knobDisplayName.toLowerCase()}`}
-                          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-xs font-semibold transition-colors hover:opacity-80 ${KNOB_PILL[knobDisplayName] ?? "bg-slate-100 text-slate-700 border-slate-300"}`}
+                          className={`animate-pill-enter inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-xs font-semibold transition-colors hover:opacity-80 ${KNOB_PILL[knobDisplayName] ?? "bg-slate-100 text-slate-700 border-slate-300"}`}
+                          style={{ animationDelay: `${idx * 60}ms` }}
                         >
                           {knobDisplayName}
                         </Link>
@@ -479,7 +493,7 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
                 </div>
               </>
             )}
-          </>
+          </div>
         )}
       </div>
 
@@ -487,7 +501,7 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
       <div className="mt-4 flex justify-end">
         <button
           onClick={toggleCompareMode}
-          className={`font-blueprint text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-sm transition-colors ${
+          className={`font-blueprint text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-sm transition-all duration-200 ${
             compareMode
               ? "bg-blue-600 text-white hover:bg-blue-700"
               : "border border-blue-600 text-blue-600 hover:bg-blue-50"
@@ -498,7 +512,9 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
       </div>
 
       {/* Scenario Sections */}
-      {config.sections.map((section) => (
+      {(() => {
+        let globalIdx = 0;
+        return config.sections.map((section) => (
         <div
           key={section.title}
           className={`mt-6 border-2 ${cc.border} bg-white p-4 sm:p-6`}
@@ -522,12 +538,15 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
               const isActiveNormal =
                 !compareMode && activeId === scenario.id;
               const isSelectedCompare = compareIndex >= 0;
+              const cardIdx = globalIdx++;
+              const staggerClass = pageLoaded ? "" : `animate-fade-in stagger-delay-${Math.min(cardIdx + 1, 12)}`;
 
               return (
                 <button
                   key={scenario.id}
                   onClick={() => handleScenarioClick(scenario.id)}
-                  className={`relative text-left px-4 py-3 rounded-sm transition-colors ${
+                  style={!pageLoaded ? { opacity: 0 } : undefined}
+                  className={`scenario-card relative text-left px-4 py-3 rounded-sm ${staggerClass} ${
                     isActiveNormal
                       ? `border-2 ${cc.border} ${cc.bg}`
                       : isSelectedCompare
@@ -575,7 +594,8 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
             })}
           </div>
         </div>
-      ))}
+        ));
+      })()}
 
       {/* Empirical Evidence Section */}
       {(matchingPapers.length > 0 || activeScenarioLitIds.length > 0) && (() => {
@@ -627,7 +647,7 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
 
             {/* Linked papers for selected scenario — always shown */}
             {linkedPapers.length > 0 && (
-              <div className="mt-4 space-y-3">
+              <div key={activeId ?? "none"} className="mt-4 space-y-3 animate-fade-slide-up">
                 {linkedPapers.map((paper) => renderPaper(paper, true))}
               </div>
             )}
@@ -656,11 +676,13 @@ export default function KnobPageLayout({ config }: KnobPageLayoutProps) {
                     </>
                   )}
                 </button>
-                {showLiterature && (
-                  <div className="mt-3 space-y-3">
-                    {otherPapers.map((paper) => renderPaper(paper))}
+                <div className={`collapsible-section ${showLiterature ? "is-open" : ""}`}>
+                  <div className="collapsible-inner">
+                    <div className="mt-3 space-y-3">
+                      {otherPapers.map((paper) => renderPaper(paper))}
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             )}
           </div>

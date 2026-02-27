@@ -12,6 +12,11 @@
       "systemic_risks": {
         "quality": "Warning: Guidelines may lag behind emerging evidence or fail to account for patient heterogeneity. Providers may apply guidelines mechanically without exercising clinical judgment for complex cases.",
         "customer_satisfaction": "Warning: Patients may perceive guideline-driven care as inflexible or feel their individual preferences and values are not adequately considered."
+      },
+      "literature_ids": ["grimshaw_2004"],
+      "interactions": {
+        "Regulation": "Clinical guidelines overlap with regulatory clinical standards — the distinction is enforcement: behavioral guidelines rely on voluntary adoption while regulatory standards carry compliance requirements and sanctions",
+        "Payment": "Guidelines become most powerful when tied to payment — P4P programs that reward guideline adherence convert voluntary behavioral recommendations into financially incentivized requirements"
       }
     },
     {
@@ -25,6 +30,11 @@
       "systemic_risks": {
         "efficiency": "Warning: Time spent in education is time away from patient care. Poorly designed CME programs may be of low clinical relevance or serve primarily as marketing vehicles for pharmaceutical companies.",
         "quality": "Warning: Evidence that CME changes actual clinical practice is mixed. Passive learning formats (lectures, conferences) show limited impact on provider behavior compared to active, practice-based approaches."
+      },
+      "literature_ids": ["forsetlund_2009"],
+      "interactions": {
+        "Regulation": "CME requirements are typically enforced through licensure renewal — the Regulation knob (licensure) creates the mandatory framework that ensures providers engage with the Behavior knob (education) on an ongoing basis",
+        "Organization": "Organizational context determines CME effectiveness — practice-based, interactive CME integrated into clinical workflows produces stronger behavior change than external conferences disconnected from the workplace"
       }
     },
     {
@@ -39,7 +49,11 @@
         "quality": "Warning: Peer review is only as effective as the data systems and professional culture supporting it. In settings with weak data infrastructure or hierarchical medical culture, reviews may be superficial or biased.",
         "customer_satisfaction": "Warning: Providers under audit pressure may become more conservative, avoiding innovative treatments or complex cases to maintain favorable performance metrics."
       },
-      "literature_ids": ["dranove_2003"]
+      "literature_ids": ["dranove_2003", "ivers_2012"],
+      "interactions": {
+        "Regulation": "Peer review and clinical audit overlap with regulatory quality oversight — when mandated by regulation (e.g., hospital accreditation requirements), peer review shifts from a voluntary professional norm to an enforced accountability mechanism",
+        "Organization": "Audit effectiveness depends on organizational data infrastructure and professional culture — hierarchical organizations with weak data systems produce superficial reviews, while team-based organizations with robust EHR data enable meaningful performance feedback"
+      }
     },
     {
       "id": "pay_for_performance",
@@ -90,6 +104,11 @@
       "systemic_risks": {
         "access": "Warning: Health education assumes literacy and media access. Marginalized populations — the very groups with the highest health burdens — are often the hardest to reach through standard communication channels.",
         "efficiency": "Warning: Mass campaigns are expensive and their impact on actual behavior change is often modest and short-lived without sustained reinforcement."
+      },
+      "literature_ids": ["snyder_2004"],
+      "interactions": {
+        "Organization": "Health education campaign effectiveness depends on organizational delivery infrastructure — campaigns that direct patients to seek care require accessible facilities and providers to be available when demand increases",
+        "Financing": "Mass media campaigns require sustained public funding, and their cost-effectiveness depends on whether the modest population-level behavior changes translate into reduced future healthcare expenditure"
       }
     },
     {
@@ -104,7 +123,11 @@
         "quality": "Warning: CHWs have limited training and may provide incorrect advice, miss serious conditions, or exceed their scope of practice without adequate supervision.",
         "efficiency": "Warning: Sustaining CHW programs requires ongoing supervision, supply chains, and compensation. Programs often collapse when external funding ends or government commitment wavers."
       },
-      "literature_ids": ["patel_2010"]
+      "literature_ids": ["patel_2010"],
+      "interactions": {
+        "Organization": "CHW effectiveness depends on organizational integration — supervision, supply chains, referral pathways, and compensation structures require organizational support from the formal health system",
+        "Regulation": "CHW programs raise scope-of-practice questions: defining what CHWs can and cannot do, setting training standards, and establishing supervision requirements are regulatory decisions that determine program safety and effectiveness"
+      }
     },
     {
       "id": "conditional_transfers",
@@ -135,6 +158,11 @@
       "systemic_risks": {
         "customer_satisfaction": "Warning: Nudges raise ethical concerns about manipulation and paternalism. Patients may resent being 'steered' if they become aware of the behavioral architecture.",
         "quality": "Warning: Nudges work best for simple, one-time decisions. Complex health behaviors requiring sustained effort (diet change, exercise, medication adherence) are harder to influence through choice architecture alone."
+      },
+      "literature_ids": ["johnson_goldstein_2003"],
+      "interactions": {
+        "Regulation": "Nudges often require regulatory implementation — opt-out organ donation, calorie labeling mandates, and default insurance enrollment are all regulatory interventions that operate through behavioral mechanisms rather than direct mandates",
+        "Organization": "Choice architecture must be embedded in organizational design — default options in electronic health records, clinic workflow design, and facility layout all create behavioral nudges that require organizational implementation"
       }
     }
   ]

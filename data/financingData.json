@@ -12,6 +12,11 @@
       "systemic_risks": {
         "quality": "Warning: Health budgets compete with defense, education, and infrastructure for allocation. Political cycles can cause unpredictable funding swings.",
         "efficiency": "Warning: Tax revenue allocation is politically driven rather than need-driven. Bureaucratic processes can be slow to respond to changing health priorities."
+      },
+      "literature_ids": ["lu_hsiao_2003"],
+      "interactions": {
+        "Organization": "Tax financing enables centralized organizational planning — governments that fund through general revenue can direct facility placement, workforce distribution, and service priorities through budget allocation",
+        "Regulation": "Tax-funded systems require regulatory mechanisms to allocate the health budget across competing priorities and to ensure that political budget cycles do not destabilize service delivery"
       }
     },
     {
@@ -25,6 +30,11 @@
       "systemic_risks": {
         "access": "Warning: Revenue tied to employment or ability to pay premiums. Informal workers, unemployed, and low-income populations may be excluded from the revenue base.",
         "efficiency": "Warning: Premium collection infrastructure requires administrative investment. Multiple insurers multiply collection overhead."
+      },
+      "literature_ids": ["brown_2014"],
+      "interactions": {
+        "Regulation": "Premium-based financing requires insurance market regulation — community rating, guaranteed issue, and minimum benefit standards prevent insurers from exploiting information asymmetries to exclude high-risk enrollees",
+        "Organization": "Employment-based premiums tie coverage to organizational structures in the labor market, creating gaps for informal workers and requiring organizational mechanisms (exchanges, subsidies) to cover the non-employed"
       }
     },
     {
@@ -39,7 +49,11 @@
         "access": "Critical Warning: Revenue depends entirely on individual ability to pay. Those who cannot pay generate no revenue and receive no care.",
         "health_status": "Warning: Patients may delay or forgo care to avoid costs, reducing early intervention and worsening population health outcomes."
       },
-      "literature_ids": ["xu_2003", "manning_1987"]
+      "literature_ids": ["xu_2003", "manning_1987"],
+      "interactions": {
+        "Behavior": "Out-of-pocket costs create the strongest possible price signal at point of service, directly shaping patient care-seeking behavior — but patients lack the clinical knowledge to distinguish necessary from unnecessary care",
+        "Regulation": "Without regulatory protections (fee schedules, price transparency requirements), OOP-dependent systems expose patients to unconstrained provider pricing and catastrophic financial risk"
+      }
     },
     {
       "id": "external_aid",
@@ -51,6 +65,11 @@
       "systemic_risks": {
         "efficiency": "Warning: Donor priorities may not align with local health system needs. Parallel reporting requirements and project-based funding create administrative fragmentation.",
         "risk_protection": "Critical Warning: Fundamentally unsustainable as a primary revenue source. Funding can be redirected or withdrawn based on geopolitical shifts, leaving health systems without a stable financial foundation."
+      },
+      "literature_ids": ["lu_2010"],
+      "interactions": {
+        "Organization": "Donor funding often creates parallel organizational structures (vertical disease programs, separate supply chains) that fragment the domestic health system rather than strengthening it",
+        "Behavior": "Aid conditionality can shape both government and provider behavior — donor reporting requirements redirect administrative effort toward compliance rather than service delivery"
       }
     },
     {
@@ -86,7 +105,11 @@
         "access": "Critical Warning: Severe financial barriers. Only the wealthiest individuals can secure necessary procedures or lifelong anti-rejection medications.",
         "health_status": "Warning: High mortality for treatable chronic or end-stage diseases."
       },
-      "literature_ids": ["xu_2003", "manning_1987"]
+      "literature_ids": ["xu_2003", "manning_1987"],
+      "interactions": {
+        "Behavior": "Zero pooling means patients face the full cost of care, creating strong behavioral incentives to delay or forgo care — the price signal is maximally powerful but clinically indiscriminate",
+        "Payment": "Under OOP financing, provider payment is direct from patient, giving providers incentives to price-discriminate and charge what the market will bear rather than what the service costs"
+      }
     },
     {
       "id": "private_insurance",
@@ -101,7 +124,11 @@
         "access": "Warning: Market exclusion. Insurers are incentivized to exclude high-risk pools. Patients with end-stage renal disease may face uninsurable premiums or denial of coverage for transplant waitlists.",
         "risk_protection": "Warning: Variable. Dependent on premium tiers, deductibles, and lifetime maximums."
       },
-      "literature_ids": ["brown_2014"]
+      "literature_ids": ["brown_2014"],
+      "interactions": {
+        "Regulation": "Private insurance markets require regulation to prevent adverse selection, risk segmentation, and benefit exclusions — without guaranteed issue and community rating, voluntary markets unravel for high-risk populations",
+        "Payment": "Private insurers negotiate provider payment rates, creating market-driven price competition that can constrain costs but also generates administrative overhead from multiple fee schedules"
+      }
     },
     {
       "id": "social_health_insurance",
@@ -116,6 +143,12 @@
       "systemic_risks": {
         "efficiency": "Warning: Fragmentation. Multiple sickness funds can lead to duplicated administrative costs.",
         "access": "Warning: The 'Informal Sector' gap. Unemployed or informal workers are often left in underfunded safety nets."
+      },
+      "literature_ids": ["wagstaff_moreno_serra_2009"],
+      "interactions": {
+        "Organization": "SHI systems create organizational complexity through multiple sickness funds — each fund becomes an organizational entity with its own provider networks, administration, and benefit management",
+        "Regulation": "SHI requires regulatory infrastructure for fund oversight, benefit package definition, risk equalization across funds, and enforcement of mandatory enrollment to prevent adverse selection",
+        "Payment": "SHI funds negotiate or set provider payment rates, making the payment mechanism a direct product of financing structure — fund fragmentation can lead to inconsistent payment levels across providers"
       }
     },
     {
@@ -148,6 +181,11 @@
       },
       "systemic_risks": {
         "risk_protection": "Critical Warning: Shallow pooling. The fund is too small to absorb catastrophic shocks. It can cover primary care, but cannot finance complex interventions like organ procurement or complex surgeries."
+      },
+      "literature_ids": ["ekman_2004"],
+      "interactions": {
+        "Organization": "CBHI effectiveness depends on local organizational capacity — community governance structures, facility availability, and provider networks determine whether pooled funds translate into accessible care",
+        "Behavior": "Voluntary enrollment requires active community engagement and trust-building — adverse selection and low enrollment rates reflect behavioral barriers that financial design alone cannot overcome"
       }
     },
     {

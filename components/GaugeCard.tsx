@@ -14,6 +14,8 @@ interface GaugeCardProps {
   secondaryLabel?: string;
   onClick?: () => void;
   selected?: boolean;
+  scenarioKey?: number;
+  gaugeIndex?: number;
 }
 
 const SEGMENT_COUNT = 20;
@@ -39,6 +41,7 @@ export default function GaugeCard({
   secondaryLabel,
   onClick,
   selected,
+  gaugeIndex = 0,
 }: GaugeCardProps) {
   const effectLevel = parseEffectLevel(activeEffect);
   const riskLevel = parseRiskLevel(riskWarning);
@@ -82,6 +85,10 @@ export default function GaugeCard({
 
   const hasAnyRisk = !!riskWarning || !!secondRiskWarning;
 
+  // Timing: indicator snaps first, segments fill one-by-one like an old-school loading bar
+  const indicatorDelay = gaugeIndex * 30; // ms — indicator leads
+  const segmentBaseDelay = indicatorDelay + 350; // ms — segments start well after indicator settles
+
   const content = (
     <>
       {/* Top row: icon + label + warning triangle */}
@@ -105,11 +112,12 @@ export default function GaugeCard({
               <div className="flex gap-[2px]">
                 {Array.from({ length: SEGMENT_COUNT }, (_, i) => (
                   <div
-                    key={i}
+                    key={`a-${i}`}
                     className="flex-1 h-2.5 rounded-[1px]"
                     style={{
                       backgroundColor: i < primary.filledSegments ? primaryColor : "#e2e8f0",
-                      transition: "background-color 0.3s ease-out",
+                      transition: "background-color 0.35s ease-out",
+                      transitionDelay: `${segmentBaseDelay + i * 45}ms`,
                     }}
                   />
                 ))}
@@ -131,6 +139,7 @@ export default function GaugeCard({
                     borderRadius: "1px",
                     zIndex: 10,
                     transition: "left 0.3s ease-out",
+                    transitionDelay: `${indicatorDelay}ms`,
                     animation: "indicatorPulse 2s ease-in-out infinite",
                   }}
                 />
@@ -144,11 +153,12 @@ export default function GaugeCard({
               <div className="flex gap-[2px]">
                 {Array.from({ length: SEGMENT_COUNT }, (_, i) => (
                   <div
-                    key={i}
+                    key={`b-${i}`}
                     className="flex-1 h-2.5 rounded-[1px]"
                     style={{
                       backgroundColor: i < secondary.filledSegments ? secondColor : "#e2e8f0",
-                      transition: "background-color 0.3s ease-out",
+                      transition: "background-color 0.35s ease-out",
+                      transitionDelay: `${segmentBaseDelay + 60 + i * 45}ms`,
                     }}
                   />
                 ))}
@@ -170,6 +180,7 @@ export default function GaugeCard({
                     borderRadius: "1px",
                     zIndex: 10,
                     transition: "left 0.3s ease-out",
+                    transitionDelay: `${indicatorDelay + 50}ms`,
                     animation: "indicatorPulse 2s ease-in-out infinite",
                   }}
                 />
@@ -180,22 +191,7 @@ export default function GaugeCard({
       ) : (
         /* Single bar mode */
         <div className="relative w-full">
-          <div className="flex gap-[2px]">
-            {Array.from({ length: SEGMENT_COUNT }, (_, i) => (
-              <div
-                key={i}
-                className="flex-1 h-3 rounded-[1px]"
-                style={{
-                  backgroundColor: i < primary.filledSegments ? primaryColor : "#e2e8f0",
-                  transition: "background-color 0.3s ease-out",
-                }}
-              />
-            ))}
-          </div>
-          <div
-            className="absolute top-0 bottom-0 bg-slate-400"
-            style={{ left: "50%", width: "1px" }}
-          />
+          {/* Indicator needle — moves FIRST */}
           {isActive && (
             <div
               style={{
@@ -208,17 +204,36 @@ export default function GaugeCard({
                 transform: "translateX(-1.5px)",
                 borderRadius: "1px",
                 zIndex: 10,
-                transition: "left 0.3s ease-out",
+                transition: "left 0.3s ease-out, background-color 0.2s ease-out",
+                transitionDelay: `${indicatorDelay}ms`,
                 animation: "indicatorPulse 2s ease-in-out infinite",
               }}
             />
           )}
+          {/* Segments — step up/down AFTER indicator, one at a time */}
+          <div className="flex gap-[2px]">
+            {Array.from({ length: SEGMENT_COUNT }, (_, i) => (
+              <div
+                key={`seg-${i}`}
+                className="flex-1 h-3 rounded-[1px]"
+                style={{
+                  backgroundColor: i < primary.filledSegments ? primaryColor : "#e2e8f0",
+                  transition: "background-color 0.35s ease-out",
+                  transitionDelay: `${segmentBaseDelay + i * 45}ms`,
+                }}
+              />
+            ))}
+          </div>
+          <div
+            className="absolute top-0 bottom-0 bg-slate-400"
+            style={{ left: "50%", width: "1px" }}
+          />
         </div>
       )}
     </>
   );
 
-  const className = `relative flex flex-1 flex-col justify-between gap-3 border-2 px-5 py-4 rounded-sm transition-colors duration-300 ${borderBg}${onClick ? " cursor-pointer" : ""}`;
+  const className = `relative flex flex-1 flex-col justify-between gap-3.5 border-2 px-6 py-5 rounded-sm transition-all duration-300 ease-out ${borderBg}${onClick ? " cursor-pointer" : ""}`;
 
   if (onClick) {
     return (

@@ -24,3 +24,93 @@ body {
   0%, 100% { opacity: 0.9; }
   50% { opacity: 0.3; }
 }
+
+/* --- Animation utilities --- */
+
+/* Fade-slide-up entrance for panels */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger fade-in for scenario cards on page load */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Pill chip entrance */
+@keyframes pillEnter {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-slide-up {
+  animation: fadeSlideUp 300ms ease-out both;
+}
+
+.animate-fade-in {
+  animation: fadeIn 350ms ease-out both;
+}
+
+.animate-pill-enter {
+  animation: pillEnter 250ms ease-out both;
+}
+
+/* Stagger delay utility classes for scenario cards */
+.stagger-delay-1 { animation-delay: 30ms; }
+.stagger-delay-2 { animation-delay: 60ms; }
+.stagger-delay-3 { animation-delay: 90ms; }
+.stagger-delay-4 { animation-delay: 120ms; }
+.stagger-delay-5 { animation-delay: 150ms; }
+.stagger-delay-6 { animation-delay: 180ms; }
+.stagger-delay-7 { animation-delay: 210ms; }
+.stagger-delay-8 { animation-delay: 240ms; }
+.stagger-delay-9 { animation-delay: 270ms; }
+.stagger-delay-10 { animation-delay: 300ms; }
+.stagger-delay-11 { animation-delay: 330ms; }
+.stagger-delay-12 { animation-delay: 360ms; }
+
+/* Collapsible section transition wrapper */
+.collapsible-section {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 300ms ease-in-out, opacity 250ms ease-in-out;
+}
+.collapsible-section.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.collapsible-section > .collapsible-inner {
+  overflow: hidden;
+}
+
+/* Scenario card hover lift */
+.scenario-card {
+  transition: transform 250ms ease-out, box-shadow 250ms ease-out, border-color 200ms ease-out, background-color 200ms ease-out;
+}
+.scenario-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.scenario-card:active {
+  transform: translateY(0px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* Gauge segment stagger animation */
+@keyframes segmentFill {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+.gauge-segment-animate {
+  animation: segmentFill 200ms ease-out both;
+}

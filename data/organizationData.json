@@ -12,6 +12,11 @@
       "systemic_risks": {
         "customer_satisfaction": "Warning: Bureaucratic management often leads to long wait times, limited provider choice, and slow adoption of patient-centered innovations.",
         "quality": "Warning: Without competitive pressure, public facilities may underinvest in staff training, equipment modernization, and service quality improvements."
+      },
+      "interactions": {
+        "Financing": "Public integrated systems are typically funded through general taxation, creating a direct link between government revenue capacity and health system resources — the financing and organizational structures are unified under state control",
+        "Payment": "Providers in public integrated systems are typically salaried, removing volume-based incentives but also weakening productivity incentives — the payment mechanism is an intrinsic feature of the organizational form",
+        "Regulation": "Government ownership blurs the line between regulator and provider, creating conflicts of interest — the state must simultaneously operate and oversee the system, which can weaken accountability"
       }
     },
     {
@@ -26,7 +31,11 @@
         "access": "Critical Warning: Private providers concentrate in wealthy urban areas where patients can pay. Rural, low-income, and unprofitable patient populations are systematically underserved.",
         "efficiency": "Warning: Market fragmentation leads to duplicated infrastructure, administrative overhead from multiple billing systems, and inability to coordinate care across providers."
       },
-      "literature_ids": ["gaynor_2013"]
+      "literature_ids": ["gaynor_2013"],
+      "interactions": {
+        "Regulation": "Private competitive markets require antitrust regulation to prevent consolidation and price-fixing, as well as quality oversight to protect patients from information asymmetry — market failures necessitate regulatory correction",
+        "Payment": "Market competition interacts with the payment mechanism: under negotiated prices, competition constrains costs; under cost-based reimbursement, competition may drive a cost-quality arms race that inflates spending"
+      }
     },
     {
       "id": "managed_competition",
@@ -57,6 +66,11 @@
       "systemic_risks": {
         "efficiency": "Warning: Complex contracting and oversight requirements can create high transaction costs. Misaligned incentives between public and private partners may lead to disputes and service disruption.",
         "access": "Warning: Private partners may prioritize profitable services over essential but low-margin care, shifting the burden of unprofitable services back to the public sector."
+      },
+      "interactions": {
+        "Regulation": "PPPs require sophisticated contract regulation — performance standards, monitoring mechanisms, and dispute resolution procedures must be specified in advance, demanding regulatory capacity that many governments lack",
+        "Payment": "The payment structure embedded in PPP contracts determines whether private partners are incentivized toward efficiency or revenue maximization — cost-plus contracts invite cost inflation while fixed-price contracts risk quality cutting",
+        "Financing": "PPPs can leverage private capital to fund infrastructure that public budgets cannot afford, but long-term payment obligations create implicit public debt that constrains future financing flexibility"
       }
     },
     {
@@ -109,7 +123,11 @@
         "efficiency": "Warning: Autonomy without adequate oversight can lead to financial mismanagement, corruption, or mission drift away from serving vulnerable populations.",
         "access": "Warning: Autonomous hospitals may shift toward profitable services and patient populations, reducing availability of essential but low-revenue services."
       },
-      "literature_ids": ["wagstaff_bales_2012"]
+      "literature_ids": ["wagstaff_bales_2012"],
+      "interactions": {
+        "Payment": "Autonomous public hospitals' behavior depends critically on their payment mechanism — Vietnam's experience showed that autonomy under fee-for-service led to revenue-maximizing behavior rather than efficiency gains",
+        "Regulation": "Hospital autonomy without regulatory guardrails leads to mission drift. Wagstaff & Bales (2012) found autonomous hospitals increased care intensity and out-of-pocket costs, highlighting the need for regulatory oversight to accompany operational freedom"
+      }
     },
     {
       "id": "private_for_profit",
@@ -123,7 +141,11 @@
         "access": "Critical Warning: For-profit hospitals systematically avoid unprofitable patients, close money-losing service lines, and locate away from underserved communities. Uncompensated care is minimized.",
         "quality": "Warning: Pressure to maximize margins may lead to understaffing, shorter patient interactions, and preference for high-revenue procedures over medically optimal treatment."
       },
-      "literature_ids": ["dafny_2005"]
+      "literature_ids": ["dafny_2005", "devereaux_2002"],
+      "interactions": {
+        "Payment": "For-profit hospitals respond most aggressively to payment incentives — Dafny (2005) found the strongest DRG upcoding response among for-profit institutions, demonstrating how ownership structure amplifies payment mechanism distortions",
+        "Regulation": "For-profit hospitals require regulatory oversight to prevent patient selection, uncompensated care avoidance, and quality cutting under margin pressure — the profit motive creates systematic incentives that only regulation can counteract"
+      }
     },
     {
       "id": "not_for_profit",
@@ -136,6 +158,11 @@
       "systemic_risks": {
         "efficiency": "Warning: Without profit discipline, non-profit hospitals may tolerate operational inefficiency, accumulate excessive reserves, or expand beyond community needs.",
         "customer_satisfaction": "Warning: Non-profit governance can be insular and unresponsive to patient preferences, particularly when boards lack community representation."
+      },
+      "literature_ids": ["devereaux_2002"],
+      "interactions": {
+        "Financing": "Not-for-profit status confers tax exemptions that function as implicit public financing — in exchange, community benefit obligations direct resources toward underserved populations, though compliance varies widely",
+        "Regulation": "Non-profit hospitals operate under regulatory requirements for community benefit and charitable mission that for-profit institutions do not face, creating a distinct accountability framework tied to organizational form"
       }
     },
     {
@@ -149,6 +176,11 @@
       "systemic_risks": {
         "quality": "Warning: District-level capacity varies enormously. Poorly resourced or poorly managed districts may deliver substandard care, creating geographic inequity.",
         "efficiency": "Warning: Decentralization can fragment procurement, weaken bargaining power, and duplicate administrative functions across districts."
+      },
+      "literature_ids": ["bossert_1998"],
+      "interactions": {
+        "Financing": "Decentralization requires fiscal decentralization — local health systems need predictable revenue sources (local taxes, central transfers) that match their delegated responsibilities, and formula-based allocation to prevent geographic inequity",
+        "Regulation": "Central regulatory oversight must be maintained even as operations are decentralized — Bossert's 'decision space' framework shows that decentralization without retained central authority over equity-critical functions produces geographic inequity"
       }
     }
   ]
