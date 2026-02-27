@@ -138,6 +138,19 @@ npm run lint         # ESLint check
 
 **Current state:** 50 scenarios, 45 papers, all 50 scenarios with cross-knob interactions. Animations polished. Site deployed to healthsystems.vercel.app.
 
+**Also this session (outside HS Site):**
+- Built PPTX master template (`templates/build_template.py`) with 11 slide layouts — iterated through multiple rounds of fixes (dark slide text, reference fonts, divider bars, serif/mono switching)
+- Built Quarto theme (`templates/quarto-theme.scss`, `templates/_quarto.yml`, `templates/sample-lab.qmd`) — user confirmed "love the format and style"
+- Established house style palette: Terracotta #b8513d, Sage #6b7f5e, Dusty Gold #b89b5e, Slate Blue #4a6d82
+
+**Agreed sequencing for next sessions:**
+1. **HS Site country case studies** — Austin researching sources (WHO, OECD, GBD, etc.) over the weekend. Need structured data schema, 2-3 hand-crafted gold-standard cases, then automated pipeline. Revisit next week.
+2. **GENED 1063** — Austin adding course lecture notes to TeachingDecks repo. Goal: build section slide decks (not full lectures) as foundation for interactive multimedia packages. FPH quiz styling waits until this format is established.
+3. **Econometrics (GHP 525 / PHS 2000B)** — Most ready to start once materials loaded. Austin pulling syllabi, lecture notes, textbooks, current problem sets. Will adapt week-by-week using Quarto labs + PPTX slides.
+4. **FPH Python quiz** — Wait until GENED 1063 interactive format is established, then apply that pattern.
+
+Austin plans to add materials to the repo on Sunday; building resumes from there.
+
 ---
 
 ## Critique of Current Site
