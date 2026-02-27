@@ -115,6 +115,29 @@ npm run lint         # ESLint check
 
 **Current state:** 50 scenarios, 30 papers, 41 paper linkages, 18 cross-knob interaction mappings. All features verified across all 5 knob pages.
 
+### 2026-02-27 — Animations, Cross-Knob Interactions Completion, Literature Expansion
+**What was done:**
+- Added CSS-only entrance animations: staggered fade-slide-up for detail panels, fade-in with stagger delays for scenario cards, pill entrance animation for interaction chips
+- Built gauge "indicator leads, segments follow" animation: needle snaps to position first, then segments fill one-by-one with old-school loading bar timing (45ms stagger, 350ms base delay, 0.35s per-segment transition)
+- Added `indicatorPulse` keyframe animation for subtle needle glow
+- Collapsible literature section using CSS grid height transition (no JS measurement)
+- Scenario card hover lift effect
+- Cross-knob interaction indicators on knob dials: subtle colored glow (8px, 30% opacity), chain-link badge (Link2 icon, 14px), "Linked" label below knob name
+- Knob dials resized from 56px to 48px with proportionally scaled inner rings to fit badge without overflow
+- All three diagram panels (knobs, intermediate, goals) padding increased for better spacing
+- GaugeCard padding increased (px-6 py-5) for more room
+- Control Knobs panel given `lg:min-w-[155px]` and removed `overflow-x-auto` that caused scrollbar issues
+- 15 new empirical papers added to literature.json (45 total): covers Thai UCS, Ethiopia HEP, Kerala decentralization, Argentina hospital autonomy, India Ayushman Bharat, and more
+- All 50 scenarios now have cross-knob interaction data (was 18)
+- 3 scenarios still without dedicated literature papers: licensure, public_integrated, public_private_partnership
+
+**Iterative refinements during session:**
+- Gauge animation went through multiple rounds: initial simultaneous fill → reduced latency → indicator-leads pattern → slower old-school loading bar feel
+- Cross-knob interaction indicators went through: pulsing opacity → aggressive glow → subtle glow + badge + label → removed badge (overflow) → re-added badge with smaller dials and more panel room
+- Dark slide and reference slide fixes in PPTX template (separate from HS Site)
+
+**Current state:** 50 scenarios, 45 papers, all 50 scenarios with cross-knob interactions. Animations polished. Site deployed to healthsystems.vercel.app.
+
 ---
 
 ## Critique of Current Site
@@ -130,9 +153,10 @@ npm run lint         # ESLint check
 **Remaining weaknesses:**
 1. **No narrative arc** — The site is a reference tool, not a guided learning experience. No suggested path, no "start here", no way to pose a policy question and explore across knobs.
 2. **Outcome metrics are underutilized** — Can click a metric for its definition, but can't filter by it ("show me all scenarios with High efficiency"). Metrics feel like labels, not analytical tools.
-3. **15 scenarios lack literature support** — salary/budget, reference pricing, general taxation, insurance premiums, external aid, SHI, CBHI, public integrated, PPP, not-for-profit, decentralized district, licensure, accreditation, clinical standards (regulation), malpractice, certificate of need, pharma regulation, clinical guidelines (behavior), CME, health education, social marketing.
-4. **32 scenarios lack cross-knob interaction data** — interactions field only populated for scenarios where the mapping was most clear; remaining scenarios would benefit from the same treatment.
+3. **3 scenarios still lack dedicated literature** — licensure, public_integrated, public_private_partnership. (Down from 15; most gaps filled in 2026-02-27 session.)
+4. ~~32 scenarios lack cross-knob interaction data~~ **RESOLVED** — All 50 scenarios now have interaction data.
 5. **No visual distinction between effect levels on scenario cards** — "Medium" and "Medium-High" look identical; only the progress bars in the diagram differentiate them.
+6. **No country case studies** — Next major content addition. Need structured data schema and vetted source pipeline before scaling.
 
 ---
 
@@ -140,27 +164,26 @@ npm run lint         # ESLint check
 
 ### Near-Term: Content Completeness & Polish
 
-**Fill Literature Gaps**
-- Add ~10-15 papers for the 15 unlinked scenarios (malpractice/defensive medicine, public integrated systems, SHI fragmentation, CHW sustainability, CME effectiveness, etc.)
-- *Scope: data/literature.json only. ~1 session.*
+**Fill Remaining Literature Gaps** *(mostly done)*
+- 3 scenarios still need papers: licensure, public_integrated, public_private_partnership
+- *Scope: data/literature.json only. Minor task.*
 
-**Complete Cross-Knob Interaction Data**
-- Add `interactions` field to remaining 32 scenarios
-- *Scope: 5 JSON data files only. ~1 session.*
+**~~Complete Cross-Knob Interaction Data~~** *(done — all 50 scenarios)*
 
-**Visual Polish**
-- Color-coded effect level indicators on scenario cards (e.g., subtle background tint by level)
-- Animated transitions for scenario selection, panel expansion (Framer Motion or CSS)
+**~~Visual Polish / Animations~~** *(done — entrance animations, gauge loading bar, interaction indicators)*
+
+**Remaining polish:**
+- Color-coded effect level indicators on scenario cards (subtle background tint by level)
 - Refine tooltip positioning edge cases on mobile
-- *Scope: KnobPageLayout.tsx, GaugeCard.tsx, globals.css. ~1 session.*
 
 ### Medium-Term: New Features
 
-**Country Case Studies**
+**Country Case Studies** *(next priority)*
 - Add `/cases` page with 4-6 country profiles (Taiwan, UK, Germany, Thailand, Rwanda, USA)
 - Each case maps the country's knob configuration onto the diagram
 - Link to relevant literature entries by country field
-- *Scope: new page + new data file + reuse of ControlKnobsDiagram. ~1-2 sessions.*
+- **Approach:** Design a structured data schema first, hand-craft 2-3 gold-standard cases, then build an automated pipeline to generate additional cases from vetted sources (WHO, OECD, GBD, etc.)
+- *Scope: new page + new data file + data pipeline + reuse of ControlKnobsDiagram. ~2-3 sessions.*
 
 **"Build Your System" Interactive Mode**
 - Select one scenario from each knob, see combined effect profile with conflicts/reinforcements highlighted
